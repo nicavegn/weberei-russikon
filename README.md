@@ -1,5 +1,13 @@
 # Alte Weberei Russikon, Website
 
+> **Projektkontext und Übergabe:** Eine ausführliche Übergabe für neue
+> Arbeitssitzungen liegt in der Datei `CLAUDE.md` im übergeordneten Projektordner
+> `weberei-russikon/` (nicht Teil dieses Git-Repos). Sie erklärt Ziel, Struktur,
+> Stilregeln, den interaktiven Plan, das Hosting und die offenen Punkte.
+> Dieses Repo enthält nur den Ordner `webseite/`. Die Rohmaterialien (Fotos,
+> Word-Dokument, Grundriss-Scans) liegen im Nachbarordner `unterlagen/` und sind
+> ebenfalls nicht im Repo. Live: https://nicavegn.github.io/weberei-russikon/
+
 Konzept-Prototyp für die Website des Areals der ehemaligen Weberei Russikon
 (Madetswilerstrasse 27/29, 8332 Russikon). Die Seite stellt das Areal vor,
 erzählt seine Geschichte und zeigt die verfügbaren Gewerbeflächen in einem
