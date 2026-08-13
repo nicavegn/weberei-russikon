@@ -1,0 +1,29 @@
+# =====================================================================
+# Schutz für den Ordner api/
+# ---------------------------------------------------------------------
+# Erreichbar sollen nur die beiden Endpunkte sein. Alles andere, also
+# die Zugangsdaten in konfig.php, die Bibliotheken unter lib/ und ein
+# allfälliges Fehlerprotokoll, bleibt aussen vor.
+#
+# Gilt für Apache, wie ihn Hostpoint, Cyon und Infomaniak einsetzen.
+# Auf nginx muss die gleiche Regel in der Serverkonfiguration stehen,
+# siehe HOSTING.md.
+# =====================================================================
+
+<FilesMatch "^(konfig|konfig\.beispiel)\.php$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(log|json|md)$">
+    Require all denied
+</FilesMatch>
+
+# Unterordner lib/ enthält nur eingebundene Bibliotheken.
+# Der Teil (.*/)? muss optional sein: liegt die Website auf der Wurzel der
+# Domain, lautet der Pfad schlicht /api/lib/..., ohne Ordner davor.
+# Zusätzlich liegt in lib/ eine eigene .htaccess, falls RedirectMatch auf
+# dem Server nicht erlaubt ist.
+RedirectMatch 404 ^/(.*/)?api/lib/
+
+# Verzeichnisauflistung abschalten
+Options -Indexes

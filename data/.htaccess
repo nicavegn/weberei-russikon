@@ -1,0 +1,18 @@
+# =====================================================================
+# Schutz für den Ordner data/
+# ---------------------------------------------------------------------
+# flaechen.js und flaechen.json sind öffentliche Daten und dürfen
+# ausgeliefert werden. Die Sicherungen und Zwischendateien nicht.
+# =====================================================================
+
+# Der Teil (.*/)? muss optional sein: liegt die Website auf der Wurzel der
+# Domain, lautet der Pfad schlicht /data/sicherungen/..., ohne Ordner davor.
+# Beim Anlegen des Ordners schreibt api/lib/daten.php zusätzlich eine
+# eigene .htaccess hinein.
+RedirectMatch 404 ^/(.*/)?data/sicherungen/
+
+<FilesMatch "\.tmp">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes

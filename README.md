@@ -3,53 +3,200 @@
 > **Projektkontext und Übergabe:** Eine ausführliche Übergabe für neue
 > Arbeitssitzungen liegt in der Datei `CLAUDE.md` im übergeordneten Projektordner
 > `weberei-russikon/` (nicht Teil dieses Git-Repos). Sie erklärt Ziel, Struktur,
-> Stilregeln, den interaktiven Plan, das Hosting und die offenen Punkte.
+> Stilregeln, das Hosting und die offenen Punkte.
 > Dieses Repo enthält nur den Ordner `webseite/`. Die Rohmaterialien (Fotos,
-> Word-Dokument, Grundriss-Scans) liegen im Nachbarordner `unterlagen/` und sind
-> ebenfalls nicht im Repo. Live: https://nicavegn.github.io/weberei-russikon/
+> Word-Dokument, Grundriss-PDF) liegen im Nachbarordner `unterlagen/` und sind
+> ebenfalls nicht im Repo.
+>
+> Für die Inbetriebnahme auf einem eigenen Hoster siehe **[HOSTING.md](HOSTING.md)**.
 
-Konzept-Prototyp für die Website des Areals der ehemaligen Weberei Russikon
-(Madetswilerstrasse 27/29, 8332 Russikon). Die Seite stellt das Areal vor,
-erzählt seine Geschichte und zeigt die verfügbaren Gewerbeflächen in einem
-interaktiven Gebäudeplan.
+Website für das Areal der ehemaligen Weberei Russikon (Madetswilerstrasse 27/29,
+8332 Russikon). Die Seite stellt das Areal vor, erzählt seine Geschichte und
+zeigt die Grundrisse mit einer Flächenliste.
 
-Stand: lauffähiger Prototyp mit echten Fotos und Geschichtstexten. Der
-Gebäudeplan ist eine schematische Darstellung auf Basis der vorliegenden Pläne,
-Flächenaufteilung und Status sind noch Platzhalter.
+## Aufbau der Vermietungsseite
+
+Erst der Plan, dann die Liste. Erst sieht man, wo eine Fläche liegt, dann was
+sie kostet.
+
+1. **Grundrisse.** Pillen für den Gebäudeteil, daneben eine zweite Reihe für das
+   Geschoss, sofern der Teil mehr als eines hat. Darunter der Grundriss als Bild
+   des Originalplans. Er ist nicht anklickbar, ein Klick öffnet ihn nur in
+   voller Grösse.
+2. **Flächen.** Je Mieteinheit eine Karte mit der Einheit-Nr. als Marke
+   (dieselbe Nummer steht im Grundriss), Bezeichnung, Fläche, Mietzins, Nutzung,
+   Hinweis und den Einzelräumen zum Aufklappen. Je Karte ein Anfrage-Knopf, der
+   die Fläche im Formular vorwählt, einen Nachrichtenentwurf ausfüllt und
+   dorthin springt.
+
+**Es gibt nur eine Bedienung.** Die Pillen oben steuern beides: den gezeigten
+Grundriss und die Liste darunter. Diese zeigt genau den gewählten Gebäudeteil,
+gegliedert nach Geschoss, und das Geschoss des gezeigten Blattes steht zuoberst.
+Eigene Filter über der Liste gibt es bewusst nicht, so können Plan und Liste
+nicht auseinanderlaufen. Geblieben ist ein einziges Häkchen, das die vermieteten
+Flächen dazuschaltet; ohne es stehen nur die verfügbaren da.
+
+Wer eine Fläche im Plan sieht, merkt sich also deren **Nummer** und findet sie
+in der Liste darunter wieder. Deshalb müssen Plan und Liste dieselben Kennungen
+tragen.
 
 ## Projektziel
 
-Hochwertiger, klickbarer Prototyp für eine Präsentation. Look im Stil alter
-Baupläne und Vintage-Plakate (Papierton, Tusche, Backstein-Akzent), kombiniert
-mit moderner, intuitiver Interaktion. Eigene Marke, kein SOLIDA-Branding.
+Hochwertiger Auftritt im Look alter Baupläne und Vintage-Plakate (Papierton,
+Tusche, Backstein-Akzent). Eigene Marke, kein SOLIDA-Branding.
 
 ## Starten
 
-Es ist kein Server und kein Build-Prozess nötig. Die Datei `index.html` einfach
-im Browser öffnen (Doppelklick). Alle Schriften und Bilder sind lokal
-eingebunden, die Seite läuft auch ohne Internet.
+**Nur die öffentlichen Seiten:** `index.html` im Browser öffnen. Alle Schriften,
+Bilder und Daten sind lokal eingebunden, es läuft auch ohne Internet.
+
+**Mit Admin-Bereich und Formular:** Dafür braucht es PHP 8.
+
+```bash
+php -S localhost:8124 -t .
+```
+
+Danach `http://localhost:8124/admin/einrichten.php` aufrufen und die Zugangsdaten
+festlegen. Der Mailversand funktioniert lokal nicht, gescheiterte Anfragen landen
+zur Kontrolle in `api/anfragen-nicht-zugestellt.log`.
 
 ## Struktur
 
 ```
 webseite/
-├── index.html            Startseite (Hero, Intro, Teaser, Call-to-Action)
+├── index.html            Startseite
 ├── geschichte.html       Geschichte als Zeitstrahl in fünf Kapiteln
-├── vermietung.html       Interaktiver Gebäudeplan mit Detail-Panel
+├── vermietung.html       Grundrisse, Flächenliste, Anfrageformular
 ├── README.md             dieses Dokument
+├── HOSTING.md            Inbetriebnahme auf einem Schweizer Hoster
+├── robots.txt            Disallow all, solange die Seite nicht öffentlich ist
+├── admin/
+│   ├── index.php         Anmeldung und Flächenverwaltung
+│   ├── einrichten.php    einmalige Ersteinrichtung, sperrt sich danach selbst
+│   ├── admin.css | admin.js
+├── api/
+│   ├── anfrage.php       nimmt das Anfrageformular entgegen und versendet es
+│   ├── konfig.beispiel.php   Vorlage, die echte konfig.php ist nicht im Repo
+│   ├── .htaccess         sperrt konfig.php, lib/ und Protokolle
+│   └── lib/
+│       ├── auth.php      Anmeldung, Sitzung, Zeitschloss, Token
+│       ├── daten.php     Einheiten lesen, prüfen, schreiben
+│       └── kompat.php    Rückfall, falls mbstring auf dem Server fehlt
 ├── css/
-│   ├── fonts.css         lokale Schriften (@font-face)
-│   ├── style.css         Design-System und gemeinsames Layout
-│   └── plan.css          Stile für den interaktiven Gebäudeplan
+│   ├── fonts.css | style.css (Design-System) | plan.css (Vermietungsseite)
 ├── js/
 │   ├── main.js           Navigation, Scroll-Effekte, Jahreszahl im Footer
-│   └── plan.js           Logik des Gebäudeplans (Status, Panel, Mailto)
+│   └── plan.js           Pillen, Grundriss, Flächenliste, Anfrage
 ├── data/
-│   └── flaechen.js       alle Flächendaten (einzige Pflegestelle)
+│   ├── flaechen.json     Quelle der Wahrheit, vom Admin geschrieben
+│   ├── flaechen.js       daraus erzeugt, wird von den Seiten geladen
+│   └── .htaccess         sperrt Sicherungen und Zwischendateien
 └── assets/
     ├── fonts/            Schriftdateien (woff2)
-    └── img/              Bilder (Fotos als jpg, Platzhalter als svg)
+    ├── img/              Fotos (jpg) und Signets (svg)
+    └── plaene/           die neun Grundrisse als PNG
 ```
+
+## Grundrisse
+
+Die neun Bilder in `assets/plaene/` sind die unveränderten Blätter der
+Gebäudeaufnahme, gerendert aus den PDF in
+`unterlagen/plaene/Pläne mit Bezeichnung/`. Dateinamen nach dem Muster
+`<gebaeudeteil>-<geschoss>.png`, also `websaal-eg.png`, `gebaeude27-ug.png` und
+so weiter. 3097 x 2190 Bildpunkte, je 110 bis 400 KB.
+
+**In dieser Fassung trägt jede Fläche im Plan ihre Einheit-Nr.**, etwa `29EG05`
+über «Raum 3.1». Genau diese Nummer ist die `id` in `data/flaechen.json` und
+steht auf der Website als Marke oben auf jeder Karte. So findet man eine Fläche
+vom Plan in die Liste und zurück. Bleibt beim Pflegen der Daten bitte so.
+
+**Neu erzeugen**, wenn aktualisierte Pläne vorliegen:
+
+```bash
+py unterlagen/werkzeuge/plaene_exportieren.py
+```
+
+Das Werkzeug rendert bei 2.6-facher Vergrösserung, schneidet den weissen
+Aussenrand weg und speichert als PNG mit reduzierter Palette. Bleiben die
+PDF-Dateinamen gleich, ist danach nichts weiter zu ändern. Die Pfade stehen in
+`data/flaechen.json` bei jedem Gebäudeteil unter `plaene`.
+
+**Eine Ausnahme vom «eins zu eins»:** Das Blatt Gebäude 29 EG schreibt die
+grosse Halle mit dem Namen des heutigen Mieters an. Mieternamen gehören nicht
+auf die Website, darum ersetzt das Werkzeug diesen einen Namen beim Rendern
+durch «Haupthalle», die Bezeichnung aus `flaechen.json`. Die PDF bleibt
+unberührt. Geregelt ist das in der Liste `ERSETZUNGEN` im Werkzeug; wer das
+Blatt unverändert will, leert die Liste und exportiert neu.
+
+## Flächendaten pflegen
+
+Normalfall ist der Admin-Bereich unter `/admin/`. Je Einheit eine Karte mit zwei
+Häkchen und den Textfeldern.
+
+**Die beiden Häkchen:**
+
+- **Verfügbar** an, die Fläche erscheint auf der Website und lässt sich anfragen.
+  Aus, sie gilt als vermietet.
+- **Räume einzeln mietbar** steuert, ob unter «X Räume» auf der Website
+  «einzeln mietbar» oder «nur zusammen mietbar» steht.
+
+**Den Status setzt der Admin nicht direkt**, er ergibt sich:
+
+| Häkchen «Verfügbar» | Feld «Frei ab»      | Status      |
+|---------------------|---------------------|-------------|
+| aus                 | egal                | `vermietet` |
+| an                  | leer oder Vergangenheit | `frei`  |
+| an                  | Datum in der Zukunft    | `bald`  |
+
+Beim Speichern passiert Folgendes:
+
+1. Alle Eingaben werden geprüft (Gebäudeteil, Geschoss, Zahlen, Datum, Preise).
+2. Eine Sicherung des bisherigen Standes wandert nach `data/sicherungen/`,
+   die letzten zehn bleiben erhalten.
+3. `data/flaechen.json` wird geschrieben, über eine temporäre Datei, damit bei
+   einem Abbruch nie ein Torso entsteht.
+4. `data/flaechen.js` wird daraus neu erzeugt.
+
+Die öffentlichen Seiten laden ausschliesslich `flaechen.js`. Bewusst als
+JS-Datei und nicht per `fetch` auf die JSON, damit die Seiten auch ohne Server
+und ohne PHP laufen.
+
+### Datenmodell
+
+`gebaeude` beschreibt die fünf Gebäudeteile samt Pfaden zu den Grundrissen.
+`einheiten` enthält, was am Stück vermietet wird.
+
+| Feld          | Bedeutung                                                       |
+|---------------|-----------------------------------------------------------------|
+| `id`          | eindeutige Kennung, entspricht der Einheit-Nr. der Raumliste, z.B. `27EG21` |
+| `gebaeude`    | `id` eines Eintrags aus `gebaeude`                              |
+| `geschoss`    | `"EG"` oder `"UG"`                                              |
+| `bezeichnung` | wie im Plan angeschrieben, z.B. `Raum 5.1 bis 5.5`              |
+| `flaeche`     | Grösse in Quadratmetern (Zahl)                                  |
+| `nutzung`     | Nutzungsart, z.B. «Büro, Gewerbe»                               |
+| `status`      | `"frei"` (grün), `"bald"` (gelb) oder `"vermietet"` (rot)        |
+| `frei_ab`     | Datum als `JJJJ-MM-TT`, nur bei Status `bald`                   |
+| `preis_min`   | CHF je m² und Jahr bei Übernahme im heutigen Zustand, oder `null` |
+| `preis_max`   | CHF je m² und Jahr ausgebaut und bezugsbereit, oder `null`      |
+| `fixmiete`    | fester Monatszins in CHF. Gesetzt, gilt er **anstelle** der m²-Preise |
+| `nebenkosten` | `"exkl."` oder `"inkl."`, erscheint hinter dem Mietzins          |
+| `teilbar`     | `true`, wenn die Räume auch einzeln zu haben sind               |
+| `hinweis`     | ein Satz für die Karte, z.B. «Nur zusammen mietbar.»            |
+| `raeume`      | Einzelräume der Einheit, je `bez` und `qm`                      |
+
+**Anzeige des Mietzinses** in dieser Reihenfolge: bei Status `vermietet` gar
+kein Betrag; sonst `fixmiete`, wenn gesetzt; sonst die Spanne `preis_min` bis
+`preis_max`; sind beide gleich oder nur einer gesetzt, nur dieser Wert; sonst
+«auf Anfrage».
+
+**Zu `raeume`:** Die Aufteilung stammt aus der Gebäudeaufnahme und wird im Admin
+nur angezeigt, nicht verändert. Ob die Räume einzeln zu haben sind, sagt allein
+`teilbar`, denn das ist nicht bei jeder Einheit gleich.
+
+**Nicht enthalten:** Allgemein-, Technik- und Erschliessungsflächen (rund
+801 m², etwa Trafo, Lift, Gänge, Luftschächte). Sie haben keine Mieteinheit und
+sind in den Mietzinsen der Hauptflächen inbegriffen. Die Summe aller Einheiten
+entspricht damit den Mietflächen der Raumliste, 8’755.50 m².
 
 ## Design-System
 
@@ -63,67 +210,39 @@ definiert und an einer Stelle anpassbar.
 - Titelschrift (Serif): Playfair Display, `--font-serif`
 - Lauftext (Sans-Serif): Source Sans 3, `--font-sans`
 
-## Flächendaten pflegen
+## Anfrageformular
 
-Alle Mietflächen liegen in `data/flaechen.js` in der Konstante `FLAECHEN`.
-Das ist die einzige Stelle, an der Status und Angaben gepflegt werden. Das
-JavaScript liest daraus und färbt den Plan, füllt das Panel und baut den
-Kontakt-Link. Bewusst eine JS-Datei (kein JSON), damit die Seite auch beim
-direkten Öffnen im Browser läuft (kein fetch, kein CORS-Problem).
+Das Formular sendet an `api/anfrage.php`. Wer in der Flächenliste auf «Anfragen»
+klickt, hat die Fläche bereits vorgewählt und einen Nachrichtenentwurf im Feld.
 
-Felder pro Fläche:
+Schutzmassnahmen: ein für Menschen unsichtbares Honigtopf-Feld, dreissig
+Sekunden Wartezeit zwischen zwei Anfragen derselben Herkunft, Längenprüfung
+aller Felder und eine strikte Abwehr von Zeilenumbrüchen in allen Werten, die in
+Kopfzeilen der Mail landen. Scheitert der Versand, wird die Anfrage in
+`api/anfragen-nicht-zugestellt.log` festgehalten, damit nichts verloren geht.
 
-| Feld          | Bedeutung                                                        |
-|---------------|------------------------------------------------------------------|
-| `nr`          | Flächennummer, muss mit `data-nr` des Polygons übereinstimmen    |
-| `name`        | Bezeichnung der Fläche                                           |
-| `geschoss`    | `"EG"` oder `"UG"`                                               |
-| `gebaeude`    | Gebäudeteil, z.B. "Gebäude 27" oder "Grosse Halle, 29.1"        |
-| `flaeche`     | Grösse in Quadratmetern (Zahl)                                   |
-| `nutzung`     | Nutzungsart, z.B. "Atelier / Werkstatt"                         |
-| `status`      | `"frei"` (grün), `"bald"` (gelb) oder `"vermietet"` (rot)        |
-| `beschreibung`| kurzer Beschreibungstext fürs Panel                            |
+In der Mail erscheint die Einheit ausgeschrieben, samt ihren Einzelräumen.
 
-Status ändern: in der betreffenden Fläche nur den Wert von `status` anpassen.
-Farbe im Plan und Abzeichen im Panel folgen automatisch. Bei `"vermietet"` wird
-der Anfrage-Button im Panel ausgegraut und der Mailto-Link entfernt.
+## Sicherheit
 
-### Plan und Geschosse
-
-Der Plan in `vermietung.html` zeigt Erdgeschoss und Untergeschoss untereinander
-(kein Umschalter). Jedes Geschoss ist ein Block `.plan-floor` mit einem eigenen
-Inline-SVG. Jede Fläche ist eine Gruppe:
-
-```html
-<g class="flaeche" data-nr="27a">
-  <rect class="flaeche__shape" x="60" y="70" width="180" height="75"/>
-  <text class="flaeche__nr" x="150" y="103" text-anchor="middle">27a</text>
-  <text class="flaeche__area" x="150" y="121" text-anchor="middle"></text>
-</g>
-```
-
-Schritte für eine neue Fläche:
-
-1. In `vermietung.html` eine solche Gruppe im passenden Geschoss-SVG ergänzen
-   und Position und Grösse des `rect` anpassen. Das `data-nr` muss eindeutig sein.
-2. Die Flächennummer als Text in `.flaeche__nr` setzen. Das Feld `.flaeche__area`
-   bleibt leer, die Quadratmeter werden aus den Daten gefüllt.
-3. In `data/flaechen.js` einen Eintrag mit derselben `nr` ergänzen.
-
-Technische, nicht vermietbare Räume (z.B. Luftschutzanlage, Lüftung) sind als
-`.tech-room` ohne `data-nr` eingezeichnet und nicht anklickbar.
-
-## Inhalte ersetzen
-
-- **Bilder:** Dateien in `assets/img/` durch echte Fotos ersetzen (gleiche
-  Dateinamen beibehalten oder die `src`-Pfade in den HTML-Dateien anpassen).
-  Die Fotos liegen web-optimiert vor (Originale im Nachbarordner `unterlagen/`).
-- **Historische Kapitelbilder:** `k1.svg` bis `k4.svg` sind noch Platzhalter,
-  da keine historischen Fotos vorliegen. Sie können durch echte oder
-  KI-generierte Bilder ersetzt werden.
-- **Geschichtstexte:** in `geschichte.html` je Kapitel den Text austauschen.
-- **Kontakt-Adresse:** der Platzhalter `vermietung@weberei-russikon.ch` steht in
-  `js/plan.js` (Konstante `KONTAKT_MAIL`).
+- Passwort nur als Hash in `api/konfig.php`, erzeugt mit `password_hash()`.
+  Diese Datei ist über `.gitignore` ausgeschlossen und gehört nie ins Repo.
+- Nach fünf Fehlversuchen **je Herkunft** ist die Anmeldung für diese Herkunft
+  fünfzehn Minuten gesperrt. Ein einzelner Besucher kann die Verwaltung damit
+  nicht für Sie sperren. Gegen verteiltes Durchprobieren gilt zusätzlich eine
+  Obergrenze von dreissig Fehlversuchen je Stunde über alle Herkünfte; erst die
+  sperrt für alle. Gezählt wird in `data/laufzeit/`, nicht im Systemtemp, denn
+  der wird auf günstigem Hosting geleert oder ist zwischen Kunden geteilt.
+- Sitzungscookie mit `HttpOnly` und `SameSite=Strict`, Verfall nach zwei
+  Stunden Untätigkeit, neue Sitzungskennung nach dem Anmelden.
+- Jede Änderung im Admin trägt ein Token gegen seitenübergreifende Anfragen.
+- `api/.htaccess` sperrt `konfig.php`, den Ordner `lib/` und Protokolldateien.
+  Zusätzlich liegt in `api/lib/` eine eigene `.htaccess`, und `daten.php` legt
+  beim ersten Speichern eine in `data/sicherungen/` an. Doppelt, weil eine
+  einzelne `RedirectMatch`-Regel je nach Installationstiefe danebengreifen kann.
+- Alle Werte, die in Kopfzeilen der Mail landen, werden geprüft, auch die
+  Kennung der Fläche. Sie erscheint im Betreff und muss dem Muster der
+  Kennungen aus `flaechen.json` entsprechen.
 
 ## Sprach- und Stilregeln
 
@@ -134,6 +253,11 @@ Technische, nicht vermietbare Räume (z.B. Luftschutzanlage, Lüftung) sind als
 
 ## Technik
 
-Statische Website aus HTML, CSS und Vanilla-JavaScript. Kein Framework, keine
-Abhängigkeiten, kein Build. Responsive für Laptop (Präsentation) und Mobile,
-Desktop hat Priorität.
+Statisches Frontend aus HTML, CSS und Vanilla-JavaScript, dazu ein schlankes
+PHP-Backend für Login und Formular. Kein Framework, keine Abhängigkeiten, kein
+Build, keine Datenbank. Responsive für Laptop und Mobile, Desktop hat Priorität.
+Die Flächenliste ist ein Kartenraster, das sich von drei Spalten auf eine
+verengt.
+
+Geprüft mit PHP 8.0 und PHP 8.3. Fehlt die Erweiterung mbstring, springt
+`api/lib/kompat.php` ein.

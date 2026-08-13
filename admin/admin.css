@@ -1,0 +1,323 @@
+/* =====================================================================
+   Admin-Bereich
+   ---------------------------------------------------------------------
+   Nüchterner als die öffentliche Seite, aber in derselben Palette. Es
+   geht um Übersicht und schnelles Ändern, nicht um Wirkung.
+   Grundfarben und Schriften kommen aus css/style.css.
+   ===================================================================== */
+
+.admin-body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* --- Schmale Seiten: Anmeldung und Einrichtung ---------------------- */
+.admin-schmal {
+  max-width: 26rem;
+  margin: clamp(2rem, 8vh, 5rem) auto;
+  padding: 0 1.2rem 3rem;
+}
+.admin-schmal h1 {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  margin: 0 0 0.2rem;
+}
+.admin-lead {
+  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+  margin-top: 0;
+}
+.admin-anmeldung { max-width: 22rem; }
+
+.admin-form { display: grid; gap: 0.9rem; margin-top: 1.6rem; }
+
+/* --- Kopfzeile der Verwaltung --------------------------------------- */
+.admin-kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1rem, 4vw, 2.5rem);
+  background-color: var(--color-paper-2);
+  border-bottom: 1px solid var(--color-line);
+}
+.admin-kopf h1 {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  margin: 0;
+}
+.admin-kopf p {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+.admin-kopf__rechts {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+.admin-kopf__rechts .btn { padding: 0.45em 1em; font-size: 0.85rem; }
+.admin-summe {
+  font-size: 0.9rem;
+  color: var(--color-ink-soft);
+  margin-right: 0.4rem;
+}
+.admin-summe strong {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--color-brick);
+}
+
+.admin-inhalt {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: clamp(1.2rem, 3vw, 2rem) clamp(1rem, 4vw, 2.5rem) 4rem;
+}
+
+/* --- Meldungen ------------------------------------------------------- */
+.hinweis {
+  border: 1px solid;
+  border-left-width: 4px;
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.4rem;
+  font-size: 0.94rem;
+}
+.hinweis p:first-child { margin-top: 0; }
+.hinweis p:last-child { margin-bottom: 0; }
+.hinweis ul { margin: 0; padding-left: 1.2rem; }
+.hinweis--gut {
+  border-color: var(--status-frei);
+  background-color: rgba(92, 138, 89, 0.12);
+  color: #33552f;
+}
+.hinweis--schlecht {
+  border-color: var(--status-vermietet);
+  background-color: rgba(178, 59, 50, 0.1);
+  color: #8a2a22;
+}
+
+/* --- Überschrift je Gebäudeteil und Geschoss ------------------------- */
+.admin-gruppe {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  margin: 1.8rem 0 0.7rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.admin-gruppe span {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-left: 0.6rem;
+}
+.karte__raeume {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 3px;
+  padding: 0.5em 0.7em;
+}
+
+/* --- Flächenkarten --------------------------------------------------- */
+.karten { display: grid; gap: 1.1rem; }
+.karte + .karte { margin-top: 0.9rem; }
+
+.karte {
+  border: 1px solid var(--color-line);
+  border-left: 4px solid var(--color-line);
+  border-radius: var(--radius);
+  background-color: var(--color-paper-2);
+  padding: 0.9rem 1.1rem 1.1rem;
+  margin: 0;
+}
+.karte[data-status="frei"]      { border-left-color: var(--status-frei); }
+.karte[data-status="bald"]      { border-left-color: var(--status-bald); }
+.karte[data-status="vermietet"] { border-left-color: var(--status-vermietet); }
+
+.karte legend {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 0 0.5rem;
+}
+.karte__nr {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+  background-color: var(--color-ink);
+  border-radius: 3px;
+  padding: 0.15em 0.5em;
+  margin-right: 0.5em;
+  vertical-align: 0.1em;
+}
+
+.raster {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+}
+.feld--klein { grid-column: span 1; }
+.feld { grid-column: span 2; display: flex; flex-direction: column; }
+.feld--breit { grid-column: 1 / -1; }
+
+.karte label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.25rem;
+}
+.karte input[type="text"],
+.karte input[type="date"],
+.karte select,
+.karte textarea,
+.admin-form input {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 3px;
+  padding: 0.5em 0.6em;
+  width: 100%;
+}
+.karte textarea { resize: vertical; }
+.karte input:focus,
+.karte select:focus,
+.karte textarea:focus,
+.admin-form input:focus {
+  outline: none;
+  border-color: var(--color-brick);
+  box-shadow: 0 0 0 3px rgba(160, 74, 48, 0.14);
+}
+
+/* --- Häkchen --------------------------------------------------------- */
+/* Der Selektor nennt .karte mit, sonst gewinnt die Regel für die
+   Feldbeschriftungen weiter oben und setzt den Text in Grossbuchstaben. */
+.kasten,
+.karte .kasten {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--color-ink-soft);
+  margin-bottom: 0;
+  cursor: pointer;
+}
+.kasten input {
+  width: auto;
+  accent-color: var(--color-brick);
+  margin: 0;
+}
+.kasten--gross,
+.karte .kasten--gross {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+}
+.kasten--gross input { width: 1.15em; height: 1.15em; }
+
+/* Die Schalterzeile sitzt oben in der Karte und trägt die wichtigste
+   Entscheidung: erscheint die Fläche auf der Website oder nicht. */
+.karte__schalter {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.6rem;
+  padding-bottom: 0.7rem;
+  margin-bottom: 0.1rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.karte[data-status="vermietet"] .karte__schalter + .feld,
+.karte[data-status="vermietet"] .raster .feld:not(.karte__schalter) { opacity: 0.72; }
+
+/* --- Legende über der Liste ------------------------------------------ */
+.admin-anleitung {
+  background-color: var(--color-paper-2);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem 1.1rem;
+  margin-bottom: 1.6rem;
+}
+.admin-anleitung .admin-lead { margin-bottom: 0.9rem; }
+.admin-legende {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.7rem 1.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+}
+.admin-legende strong {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+/* --- Aktionsleiste --------------------------------------------------- */
+.admin-aktionen {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+  padding: 0.9rem 0;
+  background: linear-gradient(to top, var(--color-paper) 70%, rgba(241, 235, 221, 0));
+}
+
+.admin-fuss {
+  margin-top: 1.6rem;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+.admin-fuss code {
+  background-color: var(--color-paper-2);
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  padding: 0.1em 0.35em;
+  font-size: 0.9em;
+}
+
+.feld-hinweis {
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+  margin: 0.3rem 0 0;
+}
+
+/* --- Responsive ------------------------------------------------------ */
+@media (max-width: 760px) {
+  .raster { grid-template-columns: repeat(2, 1fr); }
+  .feld, .feld--klein { grid-column: span 1; }
+  .feld--breit { grid-column: 1 / -1; }
+}
+@media (max-width: 460px) {
+  .raster { grid-template-columns: 1fr; }
+  .feld, .feld--klein, .feld--breit { grid-column: 1 / -1; }
+}

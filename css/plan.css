@@ -1,285 +1,432 @@
 /* =====================================================================
-   Interaktiver Gebäudeplan (Vermietungsseite)
-   Optik: alter technischer Plan (feine Linien, Schraffur, Plankopf).
-   Interaktion: moderne Statusfarben, Hover, Klick, Detail-Panel.
-   Erd- und Untergeschoss werden untereinander dargestellt.
+   Vermietungsseite
+   ---------------------------------------------------------------------
+   Aufbau: Pillen für Gebäudeteil und Geschoss, darunter der Grundriss
+   als Bild des Originalplans, dazu die Flächenliste als Dialog.
+   Der Plan ist bewusst nicht anklickbar. Wer eine Fläche sucht, merkt
+   sich deren Bezeichnung im Plan und findet sie in der Liste wieder.
    ===================================================================== */
 
-.miet-layout {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: clamp(1.2rem, 3vw, 2.2rem);
-  align-items: start;
-}
-
-/* --- Steuerleiste über dem Plan (Legende) -------------------------- */
-.plan-controls {
+/* --- Auswahl: Gebäudeteil und Geschoss ------------------------------ */
+.plan-wahl {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 1.2rem;
+  flex-direction: column;
+  gap: 0.7rem;
   margin-bottom: 1.2rem;
 }
+.pillen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.pillen[hidden] { display: none; }
 
-/* Legende */
-.legend { display: flex; flex-wrap: wrap; gap: 1rem; }
-.legend__item {
+.pille {
   display: inline-flex;
   align-items: center;
-  gap: 0.45em;
+  gap: 0.55em;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  padding: 0.5em 1.1em;
+  cursor: pointer;
+  transition: background-color var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+}
+.pille:hover { border-color: var(--color-ink-soft); }
+.pille:focus-visible { outline: 2px solid var(--color-brick); outline-offset: 2px; }
+.pille.is-aktiv {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-paper);
+}
+.pille__punkt {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background-color: var(--color-line);
+}
+.pille[data-zustand="frei"]      .pille__punkt { background-color: var(--status-frei); }
+.pille[data-zustand="bald"]      .pille__punkt { background-color: var(--status-bald); }
+.pille[data-zustand="vermietet"] .pille__punkt { background-color: var(--status-vermietet); }
+
+.pille__name { font-weight: 600; }
+.pille__info {
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+  letter-spacing: 0.02em;
+}
+.pille.is-aktiv .pille__info { color: rgba(241, 235, 221, 0.75); }
+
+.pille--klein { padding: 0.38em 0.9em; font-size: 0.85rem; }
+
+/* --- Hinweiszeile über dem Plan -------------------------------------- */
+.plan-info {
+  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+  max-width: 70ch;
+  margin: 0 0 1.1rem;
+}
+
+/* --- Planblatt -------------------------------------------------------- */
+.plan-blatt {
+  margin: 0;
+  background-color: #fff;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+.plan-blatt > a {
+  display: block;
+  background-color: #fff;
+  cursor: zoom-in;
+}
+.plan-blatt img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.plan-blatt figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  border-top: 1px solid var(--color-line);
+  background-color: var(--color-paper-2);
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
+/* =====================================================================
+   Flächenliste
+   ---------------------------------------------------------------------
+   Offen auf der Seite, nicht in einem Dialog: Wer die Seite öffnet, soll
+   ohne Klick sehen, was verfügbar ist. Je Mieteinheit eine Karte.
+   ===================================================================== */
+.liste-kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.liste-kopf h2 { margin: 0 0 0.3rem; }
+.liste-unter {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+  max-width: 62ch;
+}
+
+/* Schalter für die vermieteten Flächen */
+.schalter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
   font-size: 0.88rem;
   color: var(--color-ink-soft);
-}
-.legend__dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  border: 1.5px solid rgba(32, 48, 63, 0.4);
-}
-.legend__dot--frei      { background-color: var(--status-frei); }
-.legend__dot--bald      { background-color: var(--status-bald); }
-.legend__dot--vermietet { background-color: var(--status-vermietet); }
-
-/* --- Geschoss-Blöcke (gestapelt) ----------------------------------- */
-.plan-floor + .plan-floor { margin-top: 1.6rem; }
-.plan-floor__label {
-  display: flex;
-  align-items: baseline;
-  gap: 0.7rem;
-  margin-bottom: 0.6rem;
-}
-.plan-floor__label h2 {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  margin: 0;
-}
-.plan-floor__label span {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-soft);
-}
-
-/* --- Planblatt ------------------------------------------------------ */
-.plan-sheet {
-  position: relative;
-  background-color: #f6f1e6;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
-  padding: clamp(0.6rem, 1.5vw, 1.1rem);
-  overflow: hidden;
-}
-/* doppelter Planrahmen wie auf technischen Zeichnungen */
-.plan-sheet::before {
-  content: "";
-  position: absolute;
-  inset: 10px;
-  border: 1px solid var(--color-line);
-  pointer-events: none;
-}
-
-.plan-svg { width: 100%; height: auto; display: block; }
-
-/* Planlinien und Beschriftung */
-.plan-svg .building-outline {
-  fill: none;
-  stroke: var(--color-ink);
-  stroke-width: 2.5;
-}
-.plan-svg .grid-dot { fill: var(--color-ink-soft); opacity: 0.5; }
-.plan-svg .dim-line { stroke: var(--color-ink-soft); stroke-width: 0.8; }
-.plan-svg .plan-label {
-  font-family: var(--font-sans);
-  fill: var(--color-ink-soft);
-  font-size: 13px;
-}
-.plan-svg .build-name {
-  font-family: var(--font-serif);
-  fill: rgba(32, 48, 63, 0.4);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-/* technische, nicht vermietbare Räume (Luftschutz, Lüftung) */
-.plan-svg .tech-room { fill: url(#tech); stroke: var(--color-ink-soft); stroke-width: 1; }
-.plan-svg .tech-label {
-  font-family: var(--font-sans);
-  fill: var(--color-ink-soft);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-}
-
-/* --- Mietflächen (Polygone) ----------------------------------------- */
-.flaeche { cursor: pointer; }
-.flaeche__shape {
-  stroke: var(--color-ink);
-  stroke-width: 1.5;
-  transition: fill var(--t-med), stroke-width var(--t-fast), filter var(--t-fast);
-}
-/* Statusfüllungen, halbtransparent damit Raster und Papier durchscheinen */
-.flaeche[data-status="frei"]      .flaeche__shape { fill: rgba(92, 138, 89, 0.42); }
-.flaeche[data-status="bald"]      .flaeche__shape { fill: rgba(216, 161, 38, 0.45); }
-.flaeche[data-status="vermietet"] .flaeche__shape { fill: rgba(178, 59, 50, 0.40); }
-
-.flaeche__nr {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 15px;
-  fill: var(--color-ink);
-  pointer-events: none;
-}
-.flaeche__area {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  fill: var(--color-ink-soft);
-  pointer-events: none;
-}
-
-/* Hover- und Aktiv-Zustand */
-.flaeche:hover .flaeche__shape {
-  stroke-width: 3;
-  filter: brightness(0.95);
-}
-.flaeche.is-active .flaeche__shape {
-  stroke-width: 3.5;
-  stroke: var(--color-brick);
-}
-.flaeche:focus-visible { outline: none; }
-.flaeche:focus-visible .flaeche__shape {
-  stroke: var(--color-brick);
-  stroke-width: 3.5;
-}
-
-/* --- Plankopf (Titelblock unten) ------------------------------------ */
-.plan-titleblock {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr;
-  margin-top: 1rem;
-  border: 1.5px solid var(--color-ink);
-  border-radius: 2px;
-  font-size: 0.8rem;
-  overflow: hidden;
-}
-.plan-titleblock > div { padding: 0.55rem 0.8rem; }
-.plan-titleblock > div + div { border-left: 1px solid var(--color-line); }
-.plan-titleblock dt {
-  font-size: 0.66rem;
-  text-transform: uppercase;
-  letter-spacing: 0.13em;
-  color: var(--color-ink-soft);
-  margin-bottom: 0.15rem;
-}
-.plan-titleblock dd {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-weight: 600;
-  color: var(--color-ink);
-}
-
-/* --- Detail-Panel --------------------------------------------------- */
-.detail-panel {
-  position: sticky;
-  top: 90px;
   background-color: var(--color-paper-2);
   border: 1px solid var(--color-line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
-  overflow: hidden;
+  border-radius: 999px;
+  padding: 0.5em 1.1em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color var(--t-fast), color var(--t-fast);
 }
-.detail-panel__head {
-  padding: 1.1rem 1.3rem;
-  border-bottom: 1px solid var(--color-line);
-  background-color: var(--color-paper);
-}
-.detail-panel__nr {
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-brick);
-  font-weight: 700;
-}
-.detail-panel__name {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 1.4rem;
-  margin: 0.15rem 0 0;
-}
-.detail-panel__body { padding: 1.1rem 1.3rem 1.4rem; }
+.schalter:hover { border-color: var(--color-ink-soft); color: var(--color-ink); }
+.schalter input { accent-color: var(--color-brick); margin: 0; }
+.schalter:focus-within { outline: 2px solid var(--color-brick); outline-offset: 2px; }
 
-/* Statusabzeichen */
+/* --- Kartenraster ----------------------------------------------------- */
+.flaechen-raster {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  gap: 1rem;
+}
+
+/* Überschrift je Geschoss, läuft über die ganze Breite des Rasters */
+.liste-geschoss {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.2rem 0 -0.15rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.liste-geschoss:first-child { margin-top: 0; }
+.liste-geschoss__name {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.liste-geschoss__zahl {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-ink-soft);
+}
+.liste-leer {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 2rem 1.2rem;
+  text-align: center;
+  color: var(--color-ink-soft);
+  background-color: var(--color-paper-2);
+  border: 1px dashed var(--color-line);
+  border-radius: var(--radius);
+}
+
+.fkarte {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background-color: var(--color-paper-2);
+  border: 1px solid var(--color-line);
+  border-top: 3px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem 1.2rem;
+  transition: box-shadow var(--t-fast), transform var(--t-fast);
+}
+.fkarte[data-status="frei"]      { border-top-color: var(--status-frei); }
+.fkarte[data-status="bald"]      { border-top-color: var(--status-bald); }
+.fkarte[data-status="vermietet"] {
+  border-top-color: var(--status-vermietet);
+  background-color: transparent;
+  color: var(--color-ink-soft);
+}
+.fkarte:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
+
+.fkarte__kopf {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+/* Die Nummer steht so auch im Grundriss, darum als Marke gesetzt */
+.fkarte__nr {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-paper);
+  background-color: var(--color-ink);
+  border-radius: 3px;
+  padding: 0.2em 0.55em;
+  margin-bottom: 0.4rem;
+}
+.fkarte[data-status="vermietet"] .fkarte__nr { background-color: var(--color-ink-soft); }
+
+.fkarte__titel {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  line-height: 1.25;
+  margin: 0;
+}
+.fkarte__daten {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem 1rem;
+  margin: 0;
+  padding: 0.8rem 0;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+.fkarte__daten > div:last-child { grid-column: 1 / -1; }
+.fkarte__daten dt {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+.fkarte__daten dd { margin: 0.15rem 0 0; }
+.fkarte__wert {
+  display: block;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.fkarte__flaeche .fkarte__wert {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.fkarte__bezug {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.76rem;
+  color: var(--color-ink-soft);
+}
+
+.fkarte__hinweis {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  border-left: 2px solid var(--color-brick);
+  padding-left: 0.7em;
+}
+
+/* --- Räume der Einheit, aufklappbar ----------------------------------- */
+.fkarte__raeume { font-size: 0.85rem; }
+.fkarte__raeume summary {
+  cursor: pointer;
+  color: var(--color-brick);
+  font-weight: 600;
+}
+.fkarte__raeume summary:focus-visible { outline: 2px solid var(--color-brick); outline-offset: 2px; }
+.fkarte__raeume ul {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  border-top: 1px dotted var(--color-line);
+}
+.fkarte__raeume li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px dotted var(--color-line);
+  color: var(--color-ink-soft);
+}
+.fkarte__raumqm { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.fkarte__fuss { margin-top: auto; padding-top: 0.2rem; }
+.fkarte__fuss .btn { width: 100%; justify-content: center; }
+
+.liste-fuss {
+  margin: 1.4rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+  max-width: 80ch;
+}
+
+/* --- Statusabzeichen --------------------------------------------------- */
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.45em;
+  gap: 0.4em;
   font-weight: 600;
-  font-size: 0.85rem;
-  padding: 0.35em 0.8em;
+  font-size: 0.78rem;
+  padding: 0.28em 0.7em;
   border-radius: 999px;
   border: 1.5px solid;
-  margin-bottom: 1rem;
+  white-space: nowrap;
 }
 .status-badge::before {
   content: "";
-  width: 9px; height: 9px; border-radius: 50%;
+  width: 8px; height: 8px; border-radius: 50%;
   background-color: currentColor;
 }
 .status-badge--frei      { color: #3f6b3d;  border-color: var(--status-frei);      background-color: rgba(92,138,89,0.14); }
 .status-badge--bald      { color: #9a7016;  border-color: var(--status-bald);      background-color: rgba(216,161,38,0.16); }
 .status-badge--vermietet { color: #9a2d25;  border-color: var(--status-vermietet); background-color: rgba(178,59,50,0.12); }
 
-/* Eigenschaftsliste */
-.specs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem 1rem; margin: 0 0 1.3rem; }
-.specs > div { display: flex; flex-direction: column; }
-.specs dt {
+.btn--klein {
+  font-size: 0.82rem;
+  padding: 0.45em 1em;
+  background-color: var(--color-paper);
+  color: var(--color-brick);
+  border: 1px solid var(--color-brick);
+}
+.btn--klein:hover { background-color: var(--color-brick); color: var(--color-paper); }
+
+/* =====================================================================
+   Anfrageformular
+   ===================================================================== */
+.anfrage-box {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  background-color: var(--color-paper-2);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: clamp(1.4rem, 3.5vw, 2.6rem);
+}
+.anfrage-box h2 { margin-top: 0; }
+.anfrage-box__text p { color: var(--color-ink-soft); }
+
+.kontakt-liste { margin: 1.4rem 0 0; display: grid; gap: 0.9rem; }
+.kontakt-liste dt {
   font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.11em;
   color: var(--color-ink-soft);
 }
-.specs dd {
-  margin: 0.1rem 0 0;
+.kontakt-liste dd {
+  margin: 0.15rem 0 0;
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 1.05rem;
 }
-.detail-panel__desc { color: var(--color-ink-soft); font-size: 0.95rem; margin-bottom: 1.3rem; }
 
-/* Anfrage-Button im ausgegrauten Zustand (vermietete Flächen) */
-.btn.is-disabled {
-  background-color: #cbc3b2;
-  color: #7c7565;
-  border-color: transparent;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-.btn.is-disabled:hover { background-color: #cbc3b2; color: #7c7565; box-shadow: none; }
-.btn.is-disabled .arrow { display: none; }
-
-/* leerer Ausgangszustand */
-.detail-panel.is-empty .panel-detail { display: none; }
-.detail-panel:not(.is-empty) .panel-empty { display: none; }
-.panel-empty {
-  padding: 1.6rem 1.3rem 1.8rem;
+.anfrage-form { display: grid; gap: 0.9rem; }
+.feld-paar { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.feld { display: flex; flex-direction: column; }
+.feld label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--color-ink-soft);
+  margin-bottom: 0.3rem;
+}
+.feld label span { color: var(--color-brick); }
+.feld input,
+.feld select,
+.feld textarea {
+  font-family: var(--font-sans);
   font-size: 0.95rem;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 3px;
+  padding: 0.6em 0.75em;
 }
-.panel-empty__icon {
-  width: 46px; height: 46px;
-  margin-bottom: 0.7rem;
-  opacity: 0.5;
+.feld textarea { resize: vertical; min-height: 6em; }
+.feld input:focus,
+.feld select:focus,
+.feld textarea:focus {
+  outline: none;
+  border-color: var(--color-brick);
+  box-shadow: 0 0 0 3px rgba(160, 74, 48, 0.14);
 }
+.feld-hinweis { font-size: 0.8rem; color: var(--color-ink-soft); margin: 0; }
 
-/* --- Responsive ----------------------------------------------------- */
-@media (max-width: 920px) {
-  .miet-layout { grid-template-columns: 1fr; }
-  .detail-panel { position: static; }
+/* Honigtopf: für Menschen unsichtbar, für einfache Skripte sichtbar */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px; height: 1px;
+  overflow: hidden;
+}
+.form-meldung { margin: 0; font-size: 0.92rem; font-weight: 600; }
+.form-meldung:empty { display: none; }
+.form-meldung--gut      { color: #3f6b3d; }
+.form-meldung--schlecht { color: #9a2d25; }
+
+/* --- Responsive -------------------------------------------------------- */
+@media (max-width: 860px) {
+  .anfrage-box { grid-template-columns: 1fr; }
+  .liste-kopf { align-items: flex-start; }
 }
 @media (max-width: 540px) {
-  .plan-titleblock { grid-template-columns: 1fr; }
-  .plan-titleblock > div + div { border-left: 0; border-top: 1px solid var(--color-line); }
-  .specs { grid-template-columns: 1fr 1fr; }
+  .feld-paar { grid-template-columns: 1fr; }
+  .plan-blatt figcaption { flex-direction: column; align-items: flex-start; }
+  /* Ein schmaler Bildschirm trägt nur eine Karte nebeneinander */
+  .flaechen-raster { grid-template-columns: 1fr; }
+  .fkarte__kopf { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
 }

@@ -1,0 +1,16 @@
+# =====================================================================
+# Dieser Ordner enthält nur Bibliotheken, die von anfrage.php und vom
+# Admin-Bereich eingebunden werden. Direkt aufrufbar sein muss hier
+# nichts. Die Regel steht bewusst zusätzlich zu jener in api/.htaccess,
+# damit der Schutz auch dann greift, wenn RedirectMatch nicht erlaubt ist.
+# =====================================================================
+
+Require all denied
+
+# Für ältere Apache-Versionen (2.2), schadet unter 2.4 nicht
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+</IfModule>
+
+Options -Indexes

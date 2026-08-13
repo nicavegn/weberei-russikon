@@ -55,4 +55,20 @@
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
+
+  /* --- Verfügbare Fläche in der Kennzahlenleiste ---------------------- */
+  /* Die Startseite nennt dieselbe Zahl wie die Vermietungsseite. Sie wird
+     hier aus den Daten gerechnet, damit sie nicht veraltet, sobald im
+     Admin ein Status wechselt. Im HTML steht ein Näherungswert als
+     Rückfall für den Fall, dass kein JavaScript läuft.
+     Auf der Vermietungsseite setzt plan.js danach denselben Wert, das
+     stört nicht. Seiten ohne Flächendaten überspringen den Block. */
+  const flaecheEl = document.querySelector('[data-kpi="frei-flaeche"]');
+  if (flaecheEl && typeof WEBEREI_DATEN !== "undefined") {
+    const verfuegbar = (WEBEREI_DATEN.einheiten || []).filter(function (e) {
+      return e.status === "frei" || e.status === "bald";
+    });
+    const qm = Math.round(verfuegbar.reduce(function (s, e) { return s + e.flaeche; }, 0));
+    flaecheEl.textContent = String(qm).replace(/\B(?=(\d{3})+(?!\d))/g, "’");
+  }
 })();

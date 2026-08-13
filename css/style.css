@@ -390,6 +390,17 @@ p { margin: 0 0 1rem; }
   color: var(--color-brick);
   line-height: 1;
 }
+/* Kleines Wort vor der Zahl, etwa «ab». Steht bewusst voran, damit die
+   Einschränkung gelesen wird, bevor die Zahl als fester Wert wirkt. */
+.fact__vor {
+  font-family: var(--font-sans);
+  font-size: 0.5em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-soft);
+  margin-right: 0.35em;
+  vertical-align: 0.22em;
+}
 .fact__label {
   display: block;
   margin-top: 0.4rem;

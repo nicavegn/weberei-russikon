@@ -1,99 +1,788 @@
 /* =====================================================================
    Flächendaten der Alten Weberei Russikon
    ---------------------------------------------------------------------
-   Diese Datei ist die einzige Stelle, an der Flächen gepflegt werden.
-   Sie wird bewusst als JS-Datei (nicht JSON) eingebunden, damit die
-   Seite auch durch direktes Öffnen der HTML im Browser läuft, ohne
-   lokalen Server (kein fetch, kein CORS-Problem).
+   ACHTUNG: Diese Datei wird automatisch erzeugt. Nicht von Hand ändern.
+   Quelle ist data/flaechen.json, geschrieben vom Admin-Bereich.
+   Neu erzeugen: im Admin einmal speichern.
 
-   Struktur orientiert sich an den vorliegenden Plänen:
-   Gebäude 27 und Gebäude 29 (strassenseitig, Büros und Gewerbe) sowie
-   die grosse Sheddachhalle (Gebäude 29.1) mit Untergeschoss.
-
-   Pflege:
-   - "status" steuert Farbe im Plan und Abzeichen im Panel.
-     Erlaubte Werte: "frei" (grün), "bald" (gelb), "vermietet" (rot).
-     Bei "vermietet" wird der Anfrage-Button ausgegraut.
-   - "nr" muss mit dem Attribut data-nr des zugehörigen Polygons in
-     vermietung.html übereinstimmen.
-   - "geschoss" ist "EG" oder "UG".
-   - Flächen, m² und Status sind Platzhalter, bis die definitive Liste
-     vorliegt. Die Geometrie ist eine schematische Darstellung der Pläne.
+   Bewusst eine JS-Datei und kein fetch auf die JSON, damit die Seiten
+   auch ohne Server und ohne PHP laufen (kein CORS, keine Abhängigkeit).
    ===================================================================== */
 
-const FLAECHEN = [
-  /* --- Gebäude 27, Erdgeschoss -------------------------------------- */
-  {
-    nr: "27a", name: "Büro Nord", geschoss: "EG", gebaeude: "Gebäude 27",
-    flaeche: 48, nutzung: "Büro", status: "frei",
-    beschreibung: "Heller Büroraum an der Strassenseite mit Raumhöhe von rund vier Metern. Sofort bezugsbereit."
-  },
-  {
-    nr: "27b", name: "Büro Süd", geschoss: "EG", gebaeude: "Gebäude 27",
-    flaeche: 56, nutzung: "Büro", status: "vermietet",
-    beschreibung: "Bestehende Bürofläche im Erdgeschoss von Gebäude 27, bereits vermietet."
-  },
-  {
-    nr: "27c", name: "Atelier", geschoss: "EG", gebaeude: "Gebäude 27",
-    flaeche: 82, nutzung: "Atelier / Studio", status: "bald",
-    beschreibung: "Vielseitige Fläche mit Charakter, derzeit noch belegt. Wird in Kürze frei."
-  },
-  {
-    nr: "27d", name: "Werkstatt", geschoss: "EG", gebaeude: "Gebäude 27",
-    flaeche: 124, nutzung: "Werkstatt / Gewerbe", status: "frei",
-    beschreibung: "Robuste Gewerbefläche mit gutem Zugang von der Rampe. Geeignet für Werkstatt oder Produktion."
-  },
-
-  /* --- Gebäude 29, Erdgeschoss -------------------------------------- */
-  {
-    nr: "29a", name: "Gewerbe West", geschoss: "EG", gebaeude: "Gebäude 29",
-    flaeche: 70, nutzung: "Gewerbe", status: "frei",
-    beschreibung: "Gewerbefläche mit Fensterfront zur Strasse. Teilbar, vielfältig nutzbar."
-  },
-  {
-    nr: "29b", name: "Büro Ost", geschoss: "EG", gebaeude: "Gebäude 29",
-    flaeche: 64, nutzung: "Büro", status: "vermietet",
-    beschreibung: "Repräsentative Bürofläche im Gebäude 29, bereits vermietet."
-  },
-  {
-    nr: "29c", name: "Lager", geschoss: "EG", gebaeude: "Gebäude 29",
-    flaeche: 58, nutzung: "Lager", status: "bald",
-    beschreibung: "Trockene Lagerfläche im Erdgeschoss. Wird in Kürze frei."
-  },
-
-  /* --- Grosse Halle (Gebäude 29.1), Erdgeschoss --------------------- */
-  {
-    nr: "H1", name: "Grosse Halle West", geschoss: "EG", gebaeude: "Grosse Halle, 29.1",
-    flaeche: 340, nutzung: "Halle / Produktion", status: "frei",
-    beschreibung: "Grosszügiger Hallenteil unter dem Sheddach mit Gusssäulen und Nordlicht. Hohe Tragfähigkeit, vielseitig nutzbar."
-  },
-  {
-    nr: "H2", name: "Grosse Halle Ost", geschoss: "EG", gebaeude: "Grosse Halle, 29.1",
-    flaeche: 300, nutzung: "Halle / Lager", status: "vermietet",
-    beschreibung: "Östlicher Hallenteil der Sheddachhalle, bereits vermietet."
-  },
-  {
-    nr: "H3", name: "Hallenkopf", geschoss: "EG", gebaeude: "Grosse Halle, 29.1",
-    flaeche: 96, nutzung: "Atelier / Showroom", status: "frei",
-    beschreibung: "Abgetrennter Kopfbereich der Halle, geeignet als Atelier, Showroom oder Besprechungsfläche."
-  },
-
-  /* --- Untergeschoss (unter der grossen Halle) --------------------- */
-  {
-    nr: "U1", name: "Kellerlager West", geschoss: "UG", gebaeude: "Grosse Halle, 29.1",
-    flaeche: 128, nutzung: "Lager", status: "frei",
-    beschreibung: "Witterungsgeschütztes Lager im Untergeschoss, über Rampe und Treppe erschlossen."
-  },
-  {
-    nr: "U2", name: "Kellerlager Ost", geschoss: "UG", gebaeude: "Grosse Halle, 29.1",
-    flaeche: 118, nutzung: "Lager", status: "vermietet",
-    beschreibung: "Lagerfläche im Untergeschoss, bereits vermietet."
-  }
-];
-
-/* Lesbare Beschriftungen für Status (Plan-Legende und Panel) */
-const STATUS_LABELS = {
-  frei:      "frei",
-  bald:      "wird in Kürze frei",
-  vermietet: "vermietet"
+const WEBEREI_DATEN = {
+  "_hinweis": "Quelle der Wahrheit für die Flächenliste. Der Admin-Bereich schreibt diese Datei und erzeugt daraus flaechen.js für die öffentliche Seite. Eine Einheit ist das, was am Stück vermietet wird; raeume ist die Aufteilung aus der Gebäudeaufnahme. teilbar sagt, ob die Räume einer Einheit auch einzeln zu haben sind.",
+  "_stand": "2026-08-13",
+  "_grundlage": "Raumliste und Preisparameter der Eigentümerschaft (Raumliste_Weberei_Russikon), Flächen aus den Grundrissplänen der Gossweiler Ingenieure AG, Projekt rs.7726.1607, Aufnahme 03.06.2026, Plan 15.06.2026. Allgemein-, Technik- und Erschliessungsflächen sind nicht enthalten, sie sind in den Mietzinsen der Hauptflächen inbegriffen.",
+  "gebaeude": [
+    {
+      "id": "websaal",
+      "name": "Grosser Websaal",
+      "kurz": "Websaal",
+      "beschreibung": "Die Weberei-Halle unter dem Sheddach mit Gusssäulen und Nordlicht, dazu das Untergeschoss als Lager.",
+      "geschosse": [
+        "EG",
+        "UG"
+      ],
+      "plaene": {
+        "EG": "assets/plaene/websaal-eg.png",
+        "UG": "assets/plaene/websaal-ug.png"
+      }
+    },
+    {
+      "id": "gebaeude29",
+      "name": "Gebäude 29",
+      "kurz": "29",
+      "beschreibung": "Strassenseitiger Bau mit Büro- und Gewerberäumen, dahinter die grosse Produktionshalle.",
+      "geschosse": [
+        "EG",
+        "UG"
+      ],
+      "plaene": {
+        "EG": "assets/plaene/gebaeude29-eg.png",
+        "UG": "assets/plaene/gebaeude29-ug.png"
+      }
+    },
+    {
+      "id": "gebaeude27",
+      "name": "Gebäude 27",
+      "kurz": "27",
+      "beschreibung": "Backsteinbau an der Strasse mit zusammenhängenden Büro- und Gewerbeflächen über zwei Geschosse.",
+      "geschosse": [
+        "EG",
+        "UG"
+      ],
+      "plaene": {
+        "EG": "assets/plaene/gebaeude27-eg.png",
+        "UG": "assets/plaene/gebaeude27-ug.png"
+      }
+    },
+    {
+      "id": "roko",
+      "name": "ROKO",
+      "kurz": "ROKO",
+      "beschreibung": "Freistehende Halle im hinteren Arealteil, stützenarm und ebenerdig anfahrbar, mit Werkstatt im Untergeschoss.",
+      "geschosse": [
+        "EG",
+        "UG"
+      ],
+      "plaene": {
+        "EG": "assets/plaene/roko-eg.png",
+        "UG": "assets/plaene/roko-ug.png"
+      }
+    },
+    {
+      "id": "schopf",
+      "name": "Schopf",
+      "kurz": "Schopf",
+      "beschreibung": "Unbeheizte Halle für Lager und Einstellzwecke, ebenerdig befahrbar.",
+      "geschosse": [
+        "EG"
+      ],
+      "plaene": {
+        "EG": "assets/plaene/schopf-eg.png"
+      }
+    }
+  ],
+  "einheiten": [
+    {
+      "id": "WEG09",
+      "gebaeude": "websaal",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 1 bis 7",
+      "flaeche": 2148.76,
+      "nutzung": "Halle, Produktion, Lager",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 70,
+      "preis_max": 110,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Die Sheddachhalle mit sämtlichen Nebenräumen, wird als Ganzes vermietet.",
+      "raeume": [
+        {
+          "bez": "Raum 7, Websaal",
+          "qm": 1998.85
+        },
+        {
+          "bez": "Raum 6",
+          "qm": 31.28
+        },
+        {
+          "bez": "Raum 2",
+          "qm": 29.77
+        },
+        {
+          "bez": "Raum 3",
+          "qm": 26.81
+        },
+        {
+          "bez": "WC",
+          "qm": 12.68
+        },
+        {
+          "bez": "Raum 1",
+          "qm": 12.55
+        },
+        {
+          "bez": "Raum 4",
+          "qm": 12.35
+        },
+        {
+          "bez": "Raum 5",
+          "qm": 12.34
+        },
+        {
+          "bez": "WC",
+          "qm": 12.13
+        }
+      ]
+    },
+    {
+      "id": "WUG14",
+      "gebaeude": "websaal",
+      "geschoss": "UG",
+      "bezeichnung": "Bereich 4 und 5",
+      "flaeche": 888.55,
+      "nutzung": "Lager",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 55,
+      "preis_max": 75,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Bereich 4",
+          "qm": 666.48
+        },
+        {
+          "bez": "Bereich 5",
+          "qm": 222.07
+        }
+      ]
+    },
+    {
+      "id": "WUG10",
+      "gebaeude": "websaal",
+      "geschoss": "UG",
+      "bezeichnung": "Bereich 1 bis 3",
+      "flaeche": 428.37,
+      "nutzung": "Lager, Gewerbe",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": 1200,
+      "nebenkosten": "inkl.",
+      "teilbar": true,
+      "hinweis": "Auch einzeln mietbar, CHF 400.– je Bereich und Monat.",
+      "raeume": [
+        {
+          "bez": "Bereich 1",
+          "qm": 199.76
+        },
+        {
+          "bez": "Bereich 2",
+          "qm": 116.54
+        },
+        {
+          "bez": "Bereich 3",
+          "qm": 112.07
+        }
+      ]
+    },
+    {
+      "id": "WUG13",
+      "gebaeude": "websaal",
+      "geschoss": "UG",
+      "bezeichnung": "Schutzraum 1 und 2",
+      "flaeche": 148.26,
+      "nutzung": "Lager, Archiv",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": 700,
+      "nebenkosten": "inkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Schutzraum 1",
+          "qm": 38.37
+        },
+        {
+          "bez": "Schutzraum 2.1",
+          "qm": 37.68
+        },
+        {
+          "bez": "Schutzraum 2.2",
+          "qm": 37.26
+        },
+        {
+          "bez": "Schutzraum 2.3",
+          "qm": 23.18
+        },
+        {
+          "bez": "Nebenraum",
+          "qm": 11.77
+        }
+      ]
+    },
+    {
+      "id": "WUG11",
+      "gebaeude": "websaal",
+      "geschoss": "UG",
+      "bezeichnung": "Bunker",
+      "flaeche": 136.81,
+      "nutzung": "Lager",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "inkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Bunker",
+          "qm": 130.6
+        },
+        {
+          "bez": "Nebenraum",
+          "qm": 6.21
+        }
+      ]
+    },
+    {
+      "id": "WUG12",
+      "gebaeude": "websaal",
+      "geschoss": "UG",
+      "bezeichnung": "Archiv",
+      "flaeche": 33.31,
+      "nutzung": "Archiv",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Wird von der Weberei selbst genutzt.",
+      "raeume": [
+        {
+          "bez": "Archiv",
+          "qm": 33.31
+        }
+      ]
+    },
+    {
+      "id": "29EG01",
+      "gebaeude": "gebaeude29",
+      "geschoss": "EG",
+      "bezeichnung": "Haupthalle",
+      "flaeche": 2145.59,
+      "nutzung": "Halle, Produktion",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Haupthalle",
+          "qm": 2145.59
+        }
+      ]
+    },
+    {
+      "id": "29EG05",
+      "gebaeude": "gebaeude29",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 3.1 und 3.2",
+      "flaeche": 126.97,
+      "nutzung": "Büro",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 100,
+      "preis_max": 125,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Nur zusammen mietbar, auf Wunsch mit Raum 1 oder Raum 2.1.",
+      "raeume": [
+        {
+          "bez": "Raum 3.1",
+          "qm": 116.95
+        },
+        {
+          "bez": "Raum 3.2",
+          "qm": 10.02
+        }
+      ]
+    },
+    {
+      "id": "29EG04",
+      "gebaeude": "gebaeude29",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 2.2 und 2.3",
+      "flaeche": 121.49,
+      "nutzung": "Büro",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 100,
+      "preis_max": 125,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Nur zusammen mietbar, auf Wunsch mit Raum 1 oder Raum 2.1.",
+      "raeume": [
+        {
+          "bez": "Raum 2.2",
+          "qm": 97.79
+        },
+        {
+          "bez": "Raum 2.3",
+          "qm": 23.7
+        }
+      ]
+    },
+    {
+      "id": "29EG06",
+      "gebaeude": "gebaeude29",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 4.1 bis 4.3",
+      "flaeche": 101.39,
+      "nutzung": "Lager",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 65,
+      "preis_max": 85,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Lagerfläche mit Küchenzeile.",
+      "raeume": [
+        {
+          "bez": "Raum 4.1",
+          "qm": 63.88
+        },
+        {
+          "bez": "Raum 4.3",
+          "qm": 26.71
+        },
+        {
+          "bez": "Raum 4.2",
+          "qm": 10.8
+        }
+      ]
+    },
+    {
+      "id": "29EG03",
+      "gebaeude": "gebaeude29",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 2.1",
+      "flaeche": 28.81,
+      "nutzung": "Büro",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 100,
+      "preis_max": 125,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Einzeln mietbar oder zusammen mit Raum 1 und den Räumen 2.2 und 2.3.",
+      "raeume": [
+        {
+          "bez": "Raum 2.1",
+          "qm": 28.81
+        }
+      ]
+    },
+    {
+      "id": "29EG02",
+      "gebaeude": "gebaeude29",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 1",
+      "flaeche": 25.33,
+      "nutzung": "Büro",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 100,
+      "preis_max": 125,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Einzeln mietbar oder zusammen mit Raum 2.1.",
+      "raeume": [
+        {
+          "bez": "Raum 1",
+          "qm": 25.33
+        }
+      ]
+    },
+    {
+      "id": "29UG08",
+      "gebaeude": "gebaeude29",
+      "geschoss": "UG",
+      "bezeichnung": "Raum 2 bis 5",
+      "flaeche": 76.28,
+      "nutzung": "Atelier",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": 850,
+      "nebenkosten": "inkl.",
+      "teilbar": false,
+      "hinweis": "Nur zusammen mietbar.",
+      "raeume": [
+        {
+          "bez": "Raum 2",
+          "qm": 26.33
+        },
+        {
+          "bez": "Raum 4",
+          "qm": 18.8
+        },
+        {
+          "bez": "Raum 3",
+          "qm": 13.7
+        },
+        {
+          "bez": "Raum 5",
+          "qm": 11.02
+        },
+        {
+          "bez": "Nebenraum",
+          "qm": 6.43
+        }
+      ]
+    },
+    {
+      "id": "29UG07",
+      "gebaeude": "gebaeude29",
+      "geschoss": "UG",
+      "bezeichnung": "Raum 1",
+      "flaeche": 66.75,
+      "nutzung": "Atelier",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": 700,
+      "nebenkosten": "inkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Raum 1",
+          "qm": 66.75
+        }
+      ]
+    },
+    {
+      "id": "27EG19",
+      "gebaeude": "gebaeude27",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 2.1 bis 2.6",
+      "flaeche": 356.44,
+      "nutzung": "Büro, Gewerbe",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Raum 2.1",
+          "qm": 238.51
+        },
+        {
+          "bez": "Raum 2.6",
+          "qm": 42.13
+        },
+        {
+          "bez": "Raum 2.4",
+          "qm": 23.76
+        },
+        {
+          "bez": "Raum 2.2",
+          "qm": 18.77
+        },
+        {
+          "bez": "Raum 2.3",
+          "qm": 17.1
+        },
+        {
+          "bez": "Raum 2.5",
+          "qm": 16.17
+        }
+      ]
+    },
+    {
+      "id": "27EG21",
+      "gebaeude": "gebaeude27",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 5.1 bis 5.5",
+      "flaeche": 101.07,
+      "nutzung": "Büro",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 115,
+      "preis_max": 140,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Nur zusammen mietbar.",
+      "raeume": [
+        {
+          "bez": "Raum 5.2",
+          "qm": 31.79
+        },
+        {
+          "bez": "Raum 5.4",
+          "qm": 21.21
+        },
+        {
+          "bez": "Raum 5.5",
+          "qm": 21.05
+        },
+        {
+          "bez": "Raum 5.1",
+          "qm": 16.45
+        },
+        {
+          "bez": "Raum 5.3",
+          "qm": 10.57
+        }
+      ]
+    },
+    {
+      "id": "27EG20",
+      "gebaeude": "gebaeude27",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 3 und 4",
+      "flaeche": 95.73,
+      "nutzung": "Büro",
+      "status": "bald",
+      "frei_ab": "2027-02-01",
+      "preis_min": 115,
+      "preis_max": 140,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": true,
+      "hinweis": "Einzeln oder zusammen mietbar, eine frühere Übernahme ist möglich.",
+      "raeume": [
+        {
+          "bez": "Raum 4",
+          "qm": 58.57
+        },
+        {
+          "bez": "Raum 3",
+          "qm": 37.16
+        }
+      ]
+    },
+    {
+      "id": "27EG18",
+      "gebaeude": "gebaeude27",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 1.1 und 1.2",
+      "flaeche": 60.3,
+      "nutzung": "Büro, Gewerbe",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Raum 1.1",
+          "qm": 50.26
+        },
+        {
+          "bez": "Raum 1.2",
+          "qm": 10.04
+        }
+      ]
+    },
+    {
+      "id": "27UG23",
+      "gebaeude": "gebaeude27",
+      "geschoss": "UG",
+      "bezeichnung": "Raum 2.1 bis 2.3",
+      "flaeche": 254.21,
+      "nutzung": "Lager, Gewerbe",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Raum 2.1",
+          "qm": 218.94
+        },
+        {
+          "bez": "Raum 2.3",
+          "qm": 18.77
+        },
+        {
+          "bez": "Raum 2.2",
+          "qm": 16.5
+        }
+      ]
+    },
+    {
+      "id": "27UG22",
+      "gebaeude": "gebaeude27",
+      "geschoss": "UG",
+      "bezeichnung": "Raum 1.1 bis 1.3",
+      "flaeche": 181.52,
+      "nutzung": "Lager, Gewerbe",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Raum 1.2",
+          "qm": 152.23
+        },
+        {
+          "bez": "Raum 1.3",
+          "qm": 20.12
+        },
+        {
+          "bez": "Raum 1.1",
+          "qm": 9.17
+        }
+      ]
+    },
+    {
+      "id": "27UG24",
+      "gebaeude": "gebaeude27",
+      "geschoss": "UG",
+      "bezeichnung": "Raum 3.1 bis 3.3",
+      "flaeche": 104.96,
+      "nutzung": "Lager, Gewerbe",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Raum 3.2",
+          "qm": 54.24
+        },
+        {
+          "bez": "Raum 3.1",
+          "qm": 32.25
+        },
+        {
+          "bez": "Raum 3.3",
+          "qm": 18.47
+        }
+      ]
+    },
+    {
+      "id": "ROEG15",
+      "gebaeude": "roko",
+      "geschoss": "EG",
+      "bezeichnung": "Halle mit WC",
+      "flaeche": 630.69,
+      "nutzung": "Halle, Produktion, Lager",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 95,
+      "preis_max": 110,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Halle",
+          "qm": 623.4
+        },
+        {
+          "bez": "WC",
+          "qm": 7.29
+        }
+      ]
+    },
+    {
+      "id": "ROUG17",
+      "gebaeude": "roko",
+      "geschoss": "UG",
+      "bezeichnung": "Werkstatt",
+      "flaeche": 129.68,
+      "nutzung": "Werkstatt",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "inkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Werkstatt Ost",
+          "qm": 78.07
+        },
+        {
+          "bez": "Werkstatt West",
+          "qm": 51.61
+        }
+      ]
+    },
+    {
+      "id": "SCHEG16",
+      "gebaeude": "schopf",
+      "geschoss": "EG",
+      "bezeichnung": "Halle",
+      "flaeche": 364.23,
+      "nutzung": "Lager, Einstellhalle",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "",
+      "raeume": [
+        {
+          "bez": "Halle",
+          "qm": 364.23
+        }
+      ]
+    }
+  ]
 };

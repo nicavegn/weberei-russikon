@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Vermietung | Alte Weberei Russikon</title>
-  <meta name="description" content="Interaktiver Gebäudeplan der Alten Weberei Russikon: verfügbare Gewerbeflächen mit Status, Grösse und Nutzung.">
+  <meta name="description" content="Verfügbare Gewerbeflächen im Areal der ehemaligen Weberei Russikon: Hallen, Büros, Ateliers und Lager. Grundrisse und Flächenliste mit Mietzinsen.">
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/plan.css">
@@ -21,7 +21,7 @@
             <rect x="3" y="18" width="34" height="19" fill="#a04a30" stroke="#20303f" stroke-width="2"/>
             <path d="M3 18 L3 11 L11 18 Z M11 18 L11 11 L19 18 Z M19 18 L19 11 L27 18 Z M27 18 L27 11 L35 18 Z"
                   fill="#f1ebdd" stroke="#20303f" stroke-width="1.4" stroke-linejoin="round"/>
-            <line x1="14" y1="26" x2="14" y2="37" stroke="#20303f" stroke-width="2"/>
+          <line x1="14" y1="26" x2="14" y2="37" stroke="#20303f" stroke-width="2"/>
             <line x1="23" y1="26" x2="23" y2="37" stroke="#20303f" stroke-width="2"/>
           </svg>
           <span class="brand__text">
@@ -49,249 +49,157 @@
         <p class="eyebrow">Vermietung</p>
         <h1>Flächen im Areal</h1>
         <p class="lead">
-          Wählen Sie eine Fläche im Gebäudeplan, um Grösse, Geschoss, Nutzungsart
-          und Status zu sehen. Über den Kontakt-Button stellen Sie direkt eine Anfrage.
-          Erd- und Untergeschoss sind untereinander dargestellt.
-        </p>
-        <p class="lead" style="font-size:0.95rem; color:var(--color-ink-soft);">
-          <em>Hinweis: Der Plan ist eine schematische Darstellung auf Basis der
-          vorliegenden Pläne. Flächenaufteilung, Quadratmeter und Status sind
-          Platzhalter und werden durch die definitiven Angaben ersetzt.</em>
+          Das Areal umfasst fünf Gebäudeteile mit Hallen, Büros, Ateliers,
+          Werkstätten und Lagerflächen. Wählen Sie unten einen Gebäudeteil und
+          sehen Sie sich den Originalgrundriss an, darunter stehen die Flächen
+          mit Grösse, Nutzung und Mietzins. Jede Fläche trägt eine Nummer, die
+          in Plan und Liste dieselbe ist.
         </p>
       </div>
     </section>
 
-    <!-- ============================ Plan + Panel ============================ -->
-    <section class="section section--tight">
+    <section class="facts" aria-label="Eckdaten zur Vermietung">
+      <div class="fact">
+        <span class="fact__num" data-kpi="frei-flaeche"></span>
+        <span class="fact__label">m² verfügbar</span>
+      </div>
+      <div class="fact">
+        <span class="fact__num" data-kpi="frei-anzahl"></span>
+        <span class="fact__label">Flächen verfügbar</span>
+      </div>
+      <div class="fact">
+        <span class="fact__num" data-kpi="gebaeude"></span>
+        <span class="fact__label">Gebäudeteile</span>
+      </div>
+      <div class="fact">
+        <span class="fact__num" data-kpi="ab-preis"></span>
+        <span class="fact__label">Franken je m² und Jahr</span>
+      </div>
+    </section>
+
+    <!-- ============================ Grundrisse ============================ -->
+    <section class="section section--tight" id="plaene">
       <div class="container">
-        <div class="miet-layout">
 
-          <!-- Linke Spalte: Legende und Plan -->
+        <h2>Grundrisse</h2>
+        <div class="plan-wahl">
+          <div class="pillen pillen--gebaeude" role="group" aria-label="Gebäudeteil wählen" data-gebaeude-pillen></div>
+          <div class="pillen pillen--geschoss" role="group" aria-label="Geschoss wählen" data-geschoss-pillen></div>
+        </div>
+
+        <p class="plan-info" data-plan-info></p>
+
+        <figure class="plan-blatt">
+          <a data-plan-link href="#" target="_blank" rel="noopener" title="Grundriss in voller Grösse öffnen">
+            <img data-plan-bild alt="" decoding="async">
+          </a>
+          <figcaption>
+            <span>
+              Grundriss der Gebäudeaufnahme vom Juni 2026. Zum Vergrössern
+              anklicken. Die Nummer im Plan, etwa 29EG05, steht auch bei der
+              Fläche in der Liste darunter.
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================ Flächenliste ============================ -->
+    <section class="section section--tight" id="flaechen">
+      <div class="container">
+
+        <div class="liste-kopf">
           <div>
-            <div class="plan-controls">
-              <div class="legend">
-                <span class="legend__item"><span class="legend__dot legend__dot--frei"></span> frei</span>
-                <span class="legend__item"><span class="legend__dot legend__dot--bald"></span> wird in Kürze frei</span>
-                <span class="legend__item"><span class="legend__dot legend__dot--vermietet"></span> vermietet</span>
-              </div>
-            </div>
+            <h2 data-liste-titel>Flächen</h2>
+            <p class="liste-unter" data-liste-unter role="status"></p>
+          </div>
+          <label class="schalter">
+            <input type="checkbox" data-alle-zeigen>
+            <span>Vermietete Flächen mitzeigen</span>
+          </label>
+        </div>
 
-            <div class="plan-area">
+        <div class="flaechen-raster" data-liste-inhalt></div>
 
-              <!-- ---------- Erdgeschoss ---------- -->
-              <div class="plan-floor">
-                <div class="plan-floor__label">
-                  <h2>Erdgeschoss</h2>
-                  <span>Gebäude 27, 29 und grosse Halle</span>
-                </div>
-                <div class="plan-sheet">
-                  <svg class="plan-svg" viewBox="0 0 1000 480" role="group" aria-label="Grundriss Erdgeschoss">
-                    <!-- Sheddach über der grossen Halle -->
-                    <g fill="#e3dac4" stroke="#20303f" stroke-width="1.6">
-                      <path d="M470 95 L470 70 L537 95 Z"/>
-                      <path d="M537 95 L537 70 L604 95 Z"/>
-                      <path d="M604 95 L604 70 L671 95 Z"/>
-                      <path d="M671 95 L671 70 L738 95 Z"/>
-                      <path d="M738 95 L738 70 L805 95 Z"/>
-                      <path d="M805 95 L805 70 L872 95 Z"/>
-                      <path d="M872 95 L872 70 L940 95 Z"/>
-                    </g>
+        <p class="liste-fuss">
+          Mietzinse als Richtwert, exklusive Mehrwertsteuer. Wo ein fester
+          Monatszins genannt ist, gilt dieser anstelle des Quadratmeterpreises.
+          Die tiefere Zahl einer Spanne gilt für die Übernahme im heutigen
+          Zustand, die höhere für die ausgebaute, bezugsbereite Fläche.
+          Allgemein-, Technik- und Erschliessungsflächen sind in den Mietzinsen
+          enthalten und nicht separat aufgeführt.
+        </p>
+      </div>
+    </section>
 
-                    <!-- Gebäudebeschriftung -->
-                    <text class="build-name" x="60" y="60">Gebäude 27</text>
-                    <text class="build-name" x="60" y="270">Gebäude 29</text>
-                    <text class="build-name" x="470" y="60">Grosse Halle, Gebäude 29.1</text>
-
-                    <!-- Nordpfeil -->
-                    <g transform="translate(968 110)">
-                      <line class="dim-line" x1="0" y1="22" x2="0" y2="-14" stroke-width="1.5"/>
-                      <path d="M0 -20 L5 -8 L-5 -8 Z" fill="#20303f"/>
-                      <text class="plan-label" x="0" y="38" text-anchor="middle" font-weight="700">N</text>
-                    </g>
-
-                    <!-- Massstabsbalken -->
-                    <g transform="translate(60 462)">
-                      <rect x="0" y="-6" width="35" height="6" fill="#20303f"/>
-                      <rect x="35" y="-6" width="35" height="6" fill="none" stroke="#20303f" stroke-width="1"/>
-                      <rect x="70" y="-6" width="35" height="6" fill="#20303f"/>
-                      <text class="plan-label" x="0" y="12" font-size="11">0</text>
-                      <text class="plan-label" x="95" y="12" font-size="11">15 m</text>
-                    </g>
-
-                    <!-- Gebäude 27: Büros und Atelier -->
-                    <g class="flaeche" data-nr="27a">
-                      <rect class="flaeche__shape" x="60" y="70" width="180" height="75"/>
-                      <text class="flaeche__nr" x="150" y="103" text-anchor="middle">27a</text>
-                      <text class="flaeche__area" x="150" y="121" text-anchor="middle"></text>
-                    </g>
-                    <g class="flaeche" data-nr="27b">
-                      <rect class="flaeche__shape" x="240" y="70" width="180" height="75"/>
-                      <text class="flaeche__nr" x="330" y="103" text-anchor="middle">27b</text>
-                      <text class="flaeche__area" x="330" y="121" text-anchor="middle"></text>
-                    </g>
-                    <g class="flaeche" data-nr="27c">
-                      <rect class="flaeche__shape" x="60" y="145" width="180" height="75"/>
-                      <text class="flaeche__nr" x="150" y="178" text-anchor="middle">27c</text>
-                      <text class="flaeche__area" x="150" y="196" text-anchor="middle"></text>
-                    </g>
-                    <g class="flaeche" data-nr="27d">
-                      <rect class="flaeche__shape" x="240" y="145" width="180" height="75"/>
-                      <text class="flaeche__nr" x="330" y="178" text-anchor="middle">27d</text>
-                      <text class="flaeche__area" x="330" y="196" text-anchor="middle"></text>
-                    </g>
-
-                    <!-- Gebäude 29: Gewerbe, Büro, Lager -->
-                    <g class="flaeche" data-nr="29a">
-                      <rect class="flaeche__shape" x="60" y="280" width="160" height="150"/>
-                      <text class="flaeche__nr" x="140" y="350" text-anchor="middle">29a</text>
-                      <text class="flaeche__area" x="140" y="368" text-anchor="middle"></text>
-                    </g>
-                    <g class="flaeche" data-nr="29b">
-                      <rect class="flaeche__shape" x="220" y="280" width="110" height="150"/>
-                      <text class="flaeche__nr" x="275" y="350" text-anchor="middle">29b</text>
-                      <text class="flaeche__area" x="275" y="368" text-anchor="middle"></text>
-                    </g>
-                    <g class="flaeche" data-nr="29c">
-                      <rect class="flaeche__shape" x="330" y="280" width="90" height="150"/>
-                      <text class="flaeche__nr" x="375" y="350" text-anchor="middle">29c</text>
-                      <text class="flaeche__area" x="375" y="368" text-anchor="middle"></text>
-                    </g>
-
-                    <!-- Grosse Halle: Säulenraster (dekorativ) -->
-                    <g class="grid-dot">
-                      <circle cx="530" cy="200" r="3"/><circle cx="587" cy="200" r="3"/><circle cx="645" cy="200" r="3"/>
-                      <circle cx="530" cy="285" r="3"/><circle cx="587" cy="285" r="3"/><circle cx="645" cy="285" r="3"/>
-                      <circle cx="530" cy="370" r="3"/><circle cx="587" cy="370" r="3"/><circle cx="645" cy="370" r="3"/>
-                      <circle cx="762" cy="200" r="3"/><circle cx="822" cy="200" r="3"/><circle cx="882" cy="200" r="3"/>
-                      <circle cx="762" cy="285" r="3"/><circle cx="822" cy="285" r="3"/><circle cx="882" cy="285" r="3"/>
-                      <circle cx="762" cy="370" r="3"/><circle cx="822" cy="370" r="3"/><circle cx="882" cy="370" r="3"/>
-                    </g>
-
-                    <!-- Grosse Halle: Mietflächen -->
-                    <g class="flaeche" data-nr="H3">
-                      <rect class="flaeche__shape" x="470" y="95" width="470" height="70"/>
-                      <text class="flaeche__nr" x="705" y="127" text-anchor="middle">H3</text>
-                      <text class="flaeche__area" x="705" y="145" text-anchor="middle"></text>
-                    </g>
-                    <g class="flaeche" data-nr="H1">
-                      <rect class="flaeche__shape" x="470" y="165" width="235" height="265"/>
-                      <text class="flaeche__nr" x="587" y="295" text-anchor="middle">H1</text>
-                      <text class="flaeche__area" x="587" y="313" text-anchor="middle"></text>
-                    </g>
-                    <g class="flaeche" data-nr="H2">
-                      <rect class="flaeche__shape" x="705" y="165" width="235" height="265"/>
-                      <text class="flaeche__nr" x="822" y="295" text-anchor="middle">H2</text>
-                      <text class="flaeche__area" x="822" y="313" text-anchor="middle"></text>
-                    </g>
-
-                    <!-- Gebäudeumrisse -->
-                    <rect class="building-outline" x="60" y="70" width="360" height="150"/>
-                    <rect class="building-outline" x="60" y="280" width="360" height="150"/>
-                    <rect class="building-outline" x="470" y="95" width="470" height="335"/>
-                  </svg>
-                </div>
-              </div>
-
-              <!-- ---------- Untergeschoss ---------- -->
-              <div class="plan-floor">
-                <div class="plan-floor__label">
-                  <h2>Untergeschoss</h2>
-                  <span>unter der grossen Halle</span>
-                </div>
-                <div class="plan-sheet">
-                  <svg class="plan-svg" viewBox="0 0 1000 320" role="group" aria-label="Grundriss Untergeschoss">
-                    <defs>
-                      <pattern id="tech" width="9" height="9" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-                        <line x1="0" y1="0" x2="0" y2="9" stroke="#20303f" stroke-width="1" opacity="0.18"/>
-                      </pattern>
-                    </defs>
-
-                    <text class="build-name" x="470" y="30">Untergeschoss, Grosse Halle 29.1</text>
-
-                    <!-- Hinweis: nur unter der Halle, kein UG unter Gebäude 27 und 29 -->
-                    <text class="plan-label" x="60" y="160" opacity="0.7">Gebäude 27 und 29:</text>
-                    <text class="plan-label" x="60" y="178" opacity="0.7">kein Untergeschoss</text>
-
-                    <!-- technische, nicht vermietbare Räume -->
-                    <rect class="tech-room" x="500" y="80" width="250" height="120"/>
-                    <text class="tech-label" x="625" y="144" text-anchor="middle">Luftschutzanlage</text>
-                    <rect class="tech-room" x="765" y="80" width="150" height="55"/>
-                    <text class="tech-label" x="840" y="112" text-anchor="middle">Lüftung</text>
-                    <rect class="tech-room" x="765" y="145" width="150" height="55"/>
-                    <text class="tech-label" x="840" y="177" text-anchor="middle">Lüftung</text>
-
-                    <!-- Kellerlager (Mietflächen) -->
-                    <g class="flaeche" data-nr="U1">
-                      <rect class="flaeche__shape" x="500" y="210" width="200" height="70"/>
-                      <text class="flaeche__nr" x="600" y="240" text-anchor="middle">U1</text>
-                      <text class="flaeche__area" x="600" y="258" text-anchor="middle"></text>
-                    </g>
-                    <g class="flaeche" data-nr="U2">
-                      <rect class="flaeche__shape" x="710" y="210" width="205" height="70"/>
-                      <text class="flaeche__nr" x="812" y="240" text-anchor="middle">U2</text>
-                      <text class="flaeche__area" x="812" y="258" text-anchor="middle"></text>
-                    </g>
-
-                    <!-- Umriss UG -->
-                    <rect class="building-outline" x="470" y="40" width="470" height="250"/>
-                  </svg>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- Plankopf / Titelblock -->
-            <dl class="plan-titleblock">
-              <div>
-                <dt>Projekt</dt>
-                <dd>Alte Weberei Russikon</dd>
-              </div>
-              <div>
-                <dt>Plan</dt>
-                <dd>Grundriss, schematisch</dd>
-              </div>
-              <div>
-                <dt>Massstab</dt>
-                <dd>ohne Massstab (Platzhalter)</dd>
-              </div>
+    <!-- ============================ Anfrage ============================ -->
+    <section class="section section--tight" id="anfrage">
+      <div class="container">
+        <div class="anfrage-box">
+          <div class="anfrage-box__text">
+            <h2>Fläche anfragen</h2>
+            <p>
+              Nennen Sie uns die Bezeichnung der Fläche und kurz, wofür Sie sie
+              nutzen möchten. Wir melden uns innert weniger Tage und vereinbaren
+              gerne einen Besichtigungstermin.
+            </p>
+            <dl class="kontakt-liste">
+              <div><dt>Verwaltung</dt><dd>SOLIDA Treuhand &amp; Immobilien AG</dd></div>
+              <div><dt>Objekt</dt><dd>Madetswilerstrasse 27/29, 8332 Russikon</dd></div>
             </dl>
           </div>
 
-          <!-- Rechte Spalte: Detail-Panel -->
-          <aside class="detail-panel is-empty" id="detailPanel" aria-live="polite">
-            <div class="panel-empty">
-              <svg class="panel-empty__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-                <rect x="5" y="14" width="30" height="20" stroke="#20303f" stroke-width="2"/>
-                <path d="M5 14 L11 14 M5 14 L5 10 L11 14 M11 14 L11 10 L17 14 M17 14 L17 10 L23 14"
-                      stroke="#20303f" stroke-width="1.6"/>
-                <rect x="14" y="22" width="6" height="12" fill="#a04a30"/>
-              </svg>
-              <h3 style="font-size:1.15rem; margin-bottom:0.3rem;">Keine Fläche gewählt</h3>
-              <p>Wählen Sie eine Fläche im Plan, um die Details und den Kontakt-Button zu sehen.</p>
+          <form class="anfrage-form" method="post" action="api/anfrage.php" novalidate>
+            <input type="hidden" name="seite" value="vermietung">
+            <div class="hp" aria-hidden="true">
+              <label>Bitte leer lassen <input type="text" name="webseite" tabindex="-1" autocomplete="off"></label>
             </div>
 
-            <div class="panel-detail">
-              <div class="detail-panel__head">
-                <span class="detail-panel__nr" data-field="nr"></span>
-                <h2 class="detail-panel__name" data-field="name"></h2>
+            <div class="feld">
+              <label for="f-flaeche">Fläche</label>
+              <select id="f-flaeche" name="flaeche" data-formular-flaeche>
+                <option value="">Allgemeine Anfrage</option>
+              </select>
+            </div>
+
+            <div class="feld-paar">
+              <div class="feld">
+                <label for="f-name">Name <span aria-hidden="true">*</span></label>
+                <input type="text" id="f-name" name="name" required autocomplete="name">
               </div>
-              <div class="detail-panel__body">
-                <span class="status-badge" data-field="status"></span>
-                <dl class="specs">
-                  <div><dt>Fläche</dt><dd data-field="flaeche"></dd></div>
-                  <div><dt>Geschoss</dt><dd data-field="geschoss"></dd></div>
-                  <div><dt>Nutzungsart</dt><dd data-field="nutzung"></dd></div>
-                  <div><dt>Gebäude</dt><dd data-field="gebaeude"></dd></div>
-                </dl>
-                <p class="detail-panel__desc" data-field="beschreibung"></p>
-                <a class="btn btn--primary btn--block" data-field="mailto" href="#">
-                  <span class="btn__label">Anfrage senden</span>
-                  <span class="arrow" aria-hidden="true">&rarr;</span>
-                </a>
+              <div class="feld">
+                <label for="f-firma">Firma</label>
+                <input type="text" id="f-firma" name="firma" autocomplete="organization">
               </div>
             </div>
-          </aside>
 
+            <div class="feld-paar">
+              <div class="feld">
+                <label for="f-mail">E-Mail <span aria-hidden="true">*</span></label>
+                <input type="email" id="f-mail" name="email" required autocomplete="email">
+              </div>
+              <div class="feld">
+                <label for="f-tel">Telefon</label>
+                <input type="tel" id="f-tel" name="telefon" autocomplete="tel">
+              </div>
+            </div>
+
+            <div class="feld">
+              <label for="f-text">Ihre Nachricht <span aria-hidden="true">*</span></label>
+              <textarea id="f-text" name="nachricht" rows="5" required></textarea>
+            </div>
+
+            <p class="feld-hinweis">
+              Die Angaben werden ausschliesslich zur Bearbeitung Ihrer Anfrage
+              verwendet und nicht an Dritte weitergegeben.
+            </p>
+
+            <button type="submit" class="btn btn--primary">
+              <span class="btn__label">Anfrage senden</span> <span class="arrow" aria-hidden="true">&rarr;</span>
+            </button>
+
+            <p class="form-meldung" data-meldung role="status"></p>
+          </form>
         </div>
       </div>
     </section>
@@ -333,9 +241,8 @@
     </div>
   </footer>
 
-  <!-- Flächendaten zuerst, dann die Planlogik -->
   <script src="data/flaechen.js"></script>
-  <script src="js/plan.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/plan.js"></script>
 </body>
 </html>
