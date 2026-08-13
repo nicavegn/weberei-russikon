@@ -299,9 +299,31 @@
 
   let zeigeVermietete = false;
 
+  /* Mischt zwei Farben. Gebraucht für die vermieteten Flächen: sie tragen
+     dieselbe Planfarbe, aber zur Hälfte in den Papierton gemischt, damit sie
+     zurücktreten und die verfügbaren Flächen vorn sind. */
+  function mischen(hex, ziel, anteil) {
+    const a = hex.match(/^#(..)(..)(..)$/);
+    const b = ziel.match(/^#(..)(..)(..)$/);
+    if (!a || !b) { return hex; }
+    const teile = [1, 2, 3].map(function (i) {
+      const x = parseInt(a[i], 16), y = parseInt(b[i], 16);
+      return Math.round(x + (y - x) * anteil);
+    });
+    return "rgb(" + teile.join(", ") + ")";
+  }
+
   function baueKarte(e) {
     const karte = element("article", "fkarte");
     karte.setAttribute("data-status", e.status);
+
+    /* Die Karte trägt die Farbe, welche die Fläche im Grundriss hat. So
+       findet man vom Plan in die Liste, auch ohne die Nummer zu lesen. */
+    if (e.farbe) {
+      karte.style.backgroundColor = e.status === "vermietet"
+        ? mischen(e.farbe, "#f1ebdd", 0.55)
+        : e.farbe;
+    }
 
     /* Kopf: Nummer wie im Plan, Bezeichnung, Ort im Areal, Status.
        Die Nummer ist der Ankerpunkt zwischen Grundriss und Liste, sie steht

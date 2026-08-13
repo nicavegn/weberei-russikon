@@ -220,14 +220,22 @@ function einheit_pruefen(array $roh, array $gebaeude_ids, array $bestand): array
         $nebenkosten = 'exkl.';
     }
 
-    /* Die Raumaufteilung stammt aus der Gebäudeaufnahme und bleibt, wie sie
-       ist. Sie wird aus dem bestehenden Datensatz übernommen. */
+    /* Raumaufteilung und Farbe stammen aus dem Grundriss und bleiben, wie sie
+       sind. Beides wird aus dem bestehenden Datensatz übernommen. Die Farbe
+       liest unterlagen/werkzeuge/plan_farben_lesen.py aus den Plänen. */
     $raeume = [];
+    $farbe = null;
     foreach ($bestand as $alt) {
-        if (($alt['id'] ?? '') === $id && isset($alt['raeume']) && is_array($alt['raeume'])) {
-            $raeume = $alt['raeume'];
-            break;
+        if (($alt['id'] ?? '') !== $id) {
+            continue;
         }
+        if (isset($alt['raeume']) && is_array($alt['raeume'])) {
+            $raeume = $alt['raeume'];
+        }
+        if (isset($alt['farbe']) && preg_match('/^#[0-9a-fA-F]{6}$/', (string)$alt['farbe'])) {
+            $farbe = strtolower((string)$alt['farbe']);
+        }
+        break;
     }
 
     return [
@@ -245,6 +253,7 @@ function einheit_pruefen(array $roh, array $gebaeude_ids, array $bestand): array
         'nebenkosten' => $nebenkosten,
         'teilbar'     => !empty($roh['teilbar']),
         'hinweis'     => mb_substr(trim((string)($roh['hinweis'] ?? '')), 0, 200),
+        'farbe'       => $farbe,
         'raeume'      => $raeume,
     ];
 }

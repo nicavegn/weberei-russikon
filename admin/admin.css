@@ -150,6 +150,16 @@
   font-size: 1.05rem;
   padding: 0 0.5rem;
 }
+/* Farbe der Fläche im Grundriss, damit die Zuordnung auch hier sichtbar ist */
+.karte__farbe {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  margin-right: 0.4em;
+  vertical-align: -0.05em;
+}
 .karte__nr {
   display: inline-block;
   font-family: var(--font-sans);

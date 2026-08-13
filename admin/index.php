@@ -129,9 +129,9 @@ function anmeldeseite(?string $meldung, string $art): void
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Anmeldung | Alte Weberei Russikon</title>
-  <link rel="stylesheet" href="../css/fonts.css?v=3">
-  <link rel="stylesheet" href="../css/style.css?v=3">
-  <link rel="stylesheet" href="admin.css?v=3">
+  <link rel="stylesheet" href="../css/fonts.css?v=4">
+  <link rel="stylesheet" href="../css/style.css?v=4">
+  <link rel="stylesheet" href="admin.css?v=4">
 </head>
 <body class="admin-body">
   <main class="admin-schmal admin-anmeldung">
@@ -168,9 +168,9 @@ function anmeldeseite(?string $meldung, string $art): void
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Flächenverwaltung | Alte Weberei Russikon</title>
-  <link rel="stylesheet" href="../css/fonts.css?v=3">
-  <link rel="stylesheet" href="../css/style.css?v=3">
-  <link rel="stylesheet" href="admin.css?v=3">
+  <link rel="stylesheet" href="../css/fonts.css?v=4">
+  <link rel="stylesheet" href="../css/style.css?v=4">
+  <link rel="stylesheet" href="admin.css?v=4">
 </head>
 <body class="admin-body">
 
@@ -246,6 +246,10 @@ function anmeldeseite(?string $meldung, string $art): void
         <?php $verfuegbar = in_array($e['status'] ?? '', ['frei', 'bald'], true); ?>
         <fieldset class="karte" data-status="<?= h((string)($e['status'] ?? 'frei')) ?>">
           <legend>
+            <?php if (preg_match('/^#[0-9a-f]{6}$/i', (string)($e['farbe'] ?? ''))): ?>
+              <span class="karte__farbe" style="background-color: <?= h((string)$e['farbe']) ?>"
+                    title="Farbe dieser Fläche im Grundriss"></span>
+            <?php endif; ?>
             <span class="karte__nr"><?= h((string)($e['id'] ?? '')) ?></span>
             <?= h((string)($e['bezeichnung'] ?? 'Neue Fläche')) ?>
           </legend>
@@ -343,6 +347,6 @@ function anmeldeseite(?string $meldung, string $art): void
     </form>
   </main>
 
-  <script src="admin.js?v=3"></script>
+  <script src="admin.js?v=4"></script>
 </body>
 </html>

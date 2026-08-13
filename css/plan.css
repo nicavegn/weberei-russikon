@@ -201,11 +201,16 @@
   padding: 1.1rem 1.2rem 1.2rem;
   transition: box-shadow var(--t-fast), transform var(--t-fast);
 }
+/* Die Füllfarbe der Karte kommt aus dem Grundriss und wird von plan.js
+   gesetzt, sie steht je Einheit im Feld farbe. Der Farbton oben am Rand
+   bleibt dem Status vorbehalten, sonst wäre auf einen Blick nicht mehr zu
+   sehen, was verfügbar ist. Die Angabe hier ist der Rückfall, falls eine
+   Einheit keine Farbe hat. */
 .fkarte[data-status="frei"]      { border-top-color: var(--status-frei); }
 .fkarte[data-status="bald"]      { border-top-color: var(--status-bald); }
 .fkarte[data-status="vermietet"] {
   border-top-color: var(--status-vermietet);
-  background-color: transparent;
+  background-color: var(--color-paper);
   color: var(--color-ink-soft);
 }
 .fkarte:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }

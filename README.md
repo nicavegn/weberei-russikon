@@ -181,7 +181,8 @@ und ohne PHP laufen.
 | `fixmiete`    | fester Monatszins in CHF. Gesetzt, gilt er **anstelle** der m²-Preise |
 | `nebenkosten` | `"exkl."` oder `"inkl."`, erscheint hinter dem Mietzins          |
 | `teilbar`     | `true`, wenn die Räume auch einzeln zu haben sind               |
-| `hinweis`     | ein Satz für die Karte, z.B. «Nur zusammen mietbar.»            |
+| `hinweis`     | ein Satz für die Karte, z.B. «Auf Wunsch zusammen mit Raum 1.»  |
+| `farbe`       | Füllfarbe der Fläche im Grundriss als `#rrggbb`, siehe unten     |
 | `raeume`      | Einzelräume der Einheit, je `bez` und `qm`                      |
 
 **Anzeige des Mietzinses** in dieser Reihenfolge: bei Status `vermietet` gar
@@ -201,6 +202,30 @@ etwa «einzeln ab 12.3 m²». Ohne diesen Zusatz wirkt der Websaal wie 2149 m² 
 Stück. WC und Nebenräume bleiben bei dieser Zahl aussen vor, sie gehören zur
 Einheit, mietet aber niemand für sich allein. In der Raumliste stehen sie
 weiterhin.
+
+**Zu `farbe`:** Jede Karte in der Flächenliste ist in der Farbe eingefärbt, die
+ihre Fläche im Grundriss trägt. Damit findet man vom Plan in die Liste, ohne die
+Nummer lesen zu müssen. Der farbige Streifen oben an der Karte bleibt dem Status
+vorbehalten, grün, gelb oder rot. Vermietete Flächen zeigen dieselbe Planfarbe,
+zur Hälfte in den Papierton gemischt, damit sie zurücktreten.
+
+Die Werte liest `unterlagen/werkzeuge/plan_farben_lesen.py` aus den Plänen und
+trägt sie ein:
+
+```bash
+py unterlagen/werkzeuge/plan_farben_lesen.py --schreiben
+```
+
+Ohne `--schreiben` zeigt es nur, was es gemessen hat. Danach `flaechen.js` neu
+erzeugen. Nötig ist das nur, wenn ein neuer Plansatz die Einfärbung ändert. Der
+Admin-Bereich verändert die Farbe nicht, er reicht sie unverändert durch und
+zeigt sie als kleine Marke neben der Kennung.
+
+**Achtung bei mehrfarbigen Einheiten:** Die Pläne färben einzelne Räume, nicht
+immer die ganze Einheit. Im Websaal-UG etwa sind die drei Bereiche der Einheit
+WUG10 orange, gelb und grün. Die Karte nimmt darum die Farbe des grössten Raums,
+also das, was beim Blick auf den Plan ins Auge fällt. Betroffen sind WEG09,
+WUG14, WUG10, WUG13, 29UG08 und 27EG20.
 
 **Nicht enthalten:** Allgemein-, Technik- und Erschliessungsflächen (rund
 801 m², etwa Trafo, Lift, Gänge, Luftschächte). Sie haben keine Mieteinheit und

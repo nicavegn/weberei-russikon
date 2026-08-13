@@ -136,7 +136,8 @@ const WEBEREI_DATEN = {
           "bez": "WC",
           "qm": 12.13
         }
-      ]
+      ],
+      "farbe": "#ffe0e0"
     },
     {
       "id": "WUG14",
@@ -162,7 +163,8 @@ const WEBEREI_DATEN = {
           "bez": "Bereich 5",
           "qm": 222.07
         }
-      ]
+      ],
+      "farbe": "#ffe0ff"
     },
     {
       "id": "WUG10",
@@ -192,7 +194,8 @@ const WEBEREI_DATEN = {
           "bez": "Bereich 3",
           "qm": 112.07
         }
-      ]
+      ],
+      "farbe": "#fff0e0"
     },
     {
       "id": "WUG13",
@@ -230,7 +233,8 @@ const WEBEREI_DATEN = {
           "bez": "Nebenraum",
           "qm": 11.77
         }
-      ]
+      ],
+      "farbe": "#e0ffe0"
     },
     {
       "id": "WUG11",
@@ -256,7 +260,8 @@ const WEBEREI_DATEN = {
           "bez": "Nebenraum",
           "qm": 6.21
         }
-      ]
+      ],
+      "farbe": "#f0e0ff"
     },
     {
       "id": "WUG12",
@@ -278,7 +283,8 @@ const WEBEREI_DATEN = {
           "bez": "Archiv",
           "qm": 33.31
         }
-      ]
+      ],
+      "farbe": "#e0fff0"
     },
     {
       "id": "29EG01",
@@ -300,7 +306,8 @@ const WEBEREI_DATEN = {
           "bez": "Haupthalle",
           "qm": 2145.59
         }
-      ]
+      ],
+      "farbe": "#ffe0e0"
     },
     {
       "id": "29EG05",
@@ -326,7 +333,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 3.2",
           "qm": 10.02
         }
-      ]
+      ],
+      "farbe": "#e0fff0"
     },
     {
       "id": "29EG04",
@@ -352,7 +360,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 2.3",
           "qm": 23.7
         }
-      ]
+      ],
+      "farbe": "#e0f0ff"
     },
     {
       "id": "29EG06",
@@ -382,7 +391,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 4.2",
           "qm": 10.8
         }
-      ]
+      ],
+      "farbe": "#fff0e0"
     },
     {
       "id": "29EG03",
@@ -404,7 +414,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 2.1",
           "qm": 28.81
         }
-      ]
+      ],
+      "farbe": "#e0f0ff"
     },
     {
       "id": "29EG02",
@@ -426,7 +437,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 1",
           "qm": 25.33
         }
-      ]
+      ],
+      "farbe": "#e0e0ff"
     },
     {
       "id": "29UG08",
@@ -464,7 +476,8 @@ const WEBEREI_DATEN = {
           "bez": "Nebenraum",
           "qm": 6.43
         }
-      ]
+      ],
+      "farbe": "#e0fff0"
     },
     {
       "id": "29UG07",
@@ -486,7 +499,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 1",
           "qm": 66.75
         }
-      ]
+      ],
+      "farbe": "#ffffe0"
     },
     {
       "id": "27EG19",
@@ -528,7 +542,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 2.5",
           "qm": 16.17
         }
-      ]
+      ],
+      "farbe": "#fff0e0"
     },
     {
       "id": "27EG21",
@@ -566,7 +581,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 5.3",
           "qm": 10.57
         }
-      ]
+      ],
+      "farbe": "#f0e0ff"
     },
     {
       "id": "27EG20",
@@ -592,7 +608,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 3",
           "qm": 37.16
         }
-      ]
+      ],
+      "farbe": "#efffe0"
     },
     {
       "id": "27EG18",
@@ -618,7 +635,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 1.2",
           "qm": 10.04
         }
-      ]
+      ],
+      "farbe": "#e0fff0"
     },
     {
       "id": "27UG23",
@@ -648,7 +666,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 2.2",
           "qm": 16.5
         }
-      ]
+      ],
+      "farbe": "#e0fff0"
     },
     {
       "id": "27UG22",
@@ -678,7 +697,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 1.1",
           "qm": 9.17
         }
-      ]
+      ],
+      "farbe": "#fff0e0"
     },
     {
       "id": "27UG24",
@@ -708,7 +728,8 @@ const WEBEREI_DATEN = {
           "bez": "Raum 3.3",
           "qm": 18.47
         }
-      ]
+      ],
+      "farbe": "#e0e0ff"
     },
     {
       "id": "ROEG15",
@@ -734,7 +755,8 @@ const WEBEREI_DATEN = {
           "bez": "WC",
           "qm": 7.29
         }
-      ]
+      ],
+      "farbe": "#fff0e0"
     },
     {
       "id": "ROUG17",
@@ -760,7 +782,8 @@ const WEBEREI_DATEN = {
           "bez": "Werkstatt West",
           "qm": 51.61
         }
-      ]
+      ],
+      "farbe": "#fff0e0"
     },
     {
       "id": "SCHEG16",
@@ -782,7 +805,8 @@ const WEBEREI_DATEN = {
           "bez": "Halle",
           "qm": 364.23
         }
-      ]
+      ],
+      "farbe": "#fff0e0"
     }
   ]
 };
