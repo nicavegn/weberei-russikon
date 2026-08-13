@@ -225,11 +225,18 @@ Also `?v=2` auf `?v=3` setzen, in `index.html`, `geschichte.html`,
 `vermietung.html`, `admin/index.php` und `admin/einrichten.php`. Für den
 Browser ist das eine neue Datei, er holt sie frisch.
 
-**`data/flaechen.js` trägt bewusst keine Nummer.** Diese Datei schreibt der
-Admin-Bereich, und niemand soll nach dem Speichern von Hand irgendwo eine Zahl
-ändern müssen. Stattdessen sorgt eine Regel in `data/.htaccess` dafür, dass der
-Browser jedes Mal nachfragt, ob seine Kopie noch stimmt. Hat sich nichts
-geändert, antwortet der Server mit 304 und schickt nichts.
+**`data/flaechen.js` ist doppelt abgesichert.** Diese Datei schreibt der
+Admin-Bereich neu, sooft jemand speichert. Niemand soll danach von Hand eine
+Zahl ändern müssen, darum sorgt auf dem Hoster eine Regel in `data/.htaccess`
+dafür, dass der Browser jedes Mal nachfragt, ob seine Kopie noch stimmt. Hat
+sich nichts geändert, antwortet der Server mit 304 und schickt nichts. **Das
+ist der Mechanismus, der im Betrieb zählt.**
+
+Zusätzlich trägt auch dieser Verweis die Versionsnummer. Sie hilft überall
+dort, wo die `.htaccess` nicht gilt, namentlich auf der Vorschau über GitHub
+Pages: ohne sie halten Browser die Flächendaten dort bis zu zehn Minuten fest,
+und ein frisch aufgespielter Stand ist nicht zu sehen. Beim Hochzählen also
+diesen Verweis in `index.html` und `vermietung.html` nicht vergessen.
 
 ## Design-System
 
