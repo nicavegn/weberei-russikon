@@ -189,9 +189,18 @@ kein Betrag; sonst `fixmiete`, wenn gesetzt; sonst die Spanne `preis_min` bis
 `preis_max`; sind beide gleich oder nur einer gesetzt, nur dieser Wert; sonst
 «auf Anfrage».
 
-**Zu `raeume`:** Die Aufteilung stammt aus der Gebäudeaufnahme und wird im Admin
-nur angezeigt, nicht verändert. Ob die Räume einzeln zu haben sind, sagt allein
-`teilbar`, denn das ist nicht bei jeder Einheit gleich.
+**Zu `raeume` und `teilbar`:** Die Aufteilung stammt aus der Gebäudeaufnahme und
+wird im Admin nur angezeigt, nicht verändert. **Die Räume jeder Einheit sind
+immer auch einzeln mietbar**, so hat es die Eigentümerschaft bestätigt. `teilbar`
+steht darum überall auf `true` und ist bei neuen Einheiten so anzulegen. Das Feld
+bleibt trotzdem bestehen, falls einmal eine Fläche wirklich nur am Stück zu haben
+ist; im Admin ist es das Häkchen «Räume einzeln mietbar».
+
+Unter der Gesamtfläche nennt die Karte die kleinste einzeln mietbare Fläche,
+etwa «einzeln ab 12.3 m²». Ohne diesen Zusatz wirkt der Websaal wie 2149 m² am
+Stück. WC und Nebenräume bleiben bei dieser Zahl aussen vor, sie gehören zur
+Einheit, mietet aber niemand für sich allein. In der Raumliste stehen sie
+weiterhin.
 
 **Nicht enthalten:** Allgemein-, Technik- und Erschliessungsflächen (rund
 801 m², etwa Trafo, Lift, Gänge, Luftschächte). Sie haben keine Mieteinheit und

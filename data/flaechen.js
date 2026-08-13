@@ -10,7 +10,7 @@
    ===================================================================== */
 
 const WEBEREI_DATEN = {
-  "_hinweis": "Quelle der Wahrheit für die Flächenliste. Der Admin-Bereich schreibt diese Datei und erzeugt daraus flaechen.js für die öffentliche Seite. Eine Einheit ist das, was am Stück vermietet wird; raeume ist die Aufteilung aus der Gebäudeaufnahme. teilbar sagt, ob die Räume einer Einheit auch einzeln zu haben sind.",
+  "_hinweis": "Quelle der Wahrheit für die Flächenliste. Der Admin-Bereich schreibt diese Datei und erzeugt daraus flaechen.js für die öffentliche Seite. Eine Einheit ist das, was am Stück vermietet wird; raeume ist die Aufteilung aus der Gebäudeaufnahme. Die Räume einer Einheit sind immer auch einzeln mietbar, darum steht teilbar überall auf true.",
   "_stand": "2026-08-13",
   "_grundlage": "Raumliste und Preisparameter der Eigentümerschaft (Raumliste_Weberei_Russikon), Flächen aus den Grundrissplänen der Gossweiler Ingenieure AG, Projekt rs.7726.1607, Aufnahme 03.06.2026, Plan 15.06.2026. Allgemein-, Technik- und Erschliessungsflächen sind nicht enthalten, sie sind in den Mietzinsen der Hauptflächen inbegriffen.",
   "gebaeude": [
@@ -97,8 +97,8 @@ const WEBEREI_DATEN = {
       "preis_max": 110,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
-      "hinweis": "Die Sheddachhalle mit sämtlichen Nebenräumen, wird als Ganzes vermietet.",
+      "teilbar": true,
+      "hinweis": "Die Sheddachhalle mit ihren Nebenräumen und WC. Die Räume sind auch einzeln zu haben.",
       "raeume": [
         {
           "bez": "Raum 7, Websaal",
@@ -151,7 +151,7 @@ const WEBEREI_DATEN = {
       "preis_max": 75,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -178,7 +178,7 @@ const WEBEREI_DATEN = {
       "fixmiete": 1200,
       "nebenkosten": "inkl.",
       "teilbar": true,
-      "hinweis": "Auch einzeln mietbar, CHF 400.– je Bereich und Monat.",
+      "hinweis": "Je Bereich CHF 400.– im Monat, inklusive Nebenkosten.",
       "raeume": [
         {
           "bez": "Bereich 1",
@@ -207,7 +207,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": 700,
       "nebenkosten": "inkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -245,7 +245,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "inkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -271,7 +271,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "Wird von der Weberei selbst genutzt.",
       "raeume": [
         {
@@ -293,7 +293,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -315,8 +315,8 @@ const WEBEREI_DATEN = {
       "preis_max": 125,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
-      "hinweis": "Nur zusammen mietbar, auf Wunsch mit Raum 1 oder Raum 2.1.",
+      "teilbar": true,
+      "hinweis": "Auf Wunsch zusammen mit Raum 1 oder Raum 2.1.",
       "raeume": [
         {
           "bez": "Raum 3.1",
@@ -341,8 +341,8 @@ const WEBEREI_DATEN = {
       "preis_max": 125,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
-      "hinweis": "Nur zusammen mietbar, auf Wunsch mit Raum 1 oder Raum 2.1.",
+      "teilbar": true,
+      "hinweis": "Auf Wunsch zusammen mit Raum 1 oder Raum 2.1.",
       "raeume": [
         {
           "bez": "Raum 2.2",
@@ -367,7 +367,7 @@ const WEBEREI_DATEN = {
       "preis_max": 85,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "Lagerfläche mit Küchenzeile.",
       "raeume": [
         {
@@ -397,8 +397,8 @@ const WEBEREI_DATEN = {
       "preis_max": 125,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
-      "hinweis": "Einzeln mietbar oder zusammen mit Raum 1 und den Räumen 2.2 und 2.3.",
+      "teilbar": true,
+      "hinweis": "Auf Wunsch zusammen mit Raum 1 und den Räumen 2.2 und 2.3.",
       "raeume": [
         {
           "bez": "Raum 2.1",
@@ -419,8 +419,8 @@ const WEBEREI_DATEN = {
       "preis_max": 125,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
-      "hinweis": "Einzeln mietbar oder zusammen mit Raum 2.1.",
+      "teilbar": true,
+      "hinweis": "Auf Wunsch zusammen mit Raum 2.1.",
       "raeume": [
         {
           "bez": "Raum 1",
@@ -441,8 +441,8 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": 850,
       "nebenkosten": "inkl.",
-      "teilbar": false,
-      "hinweis": "Nur zusammen mietbar.",
+      "teilbar": true,
+      "hinweis": "",
       "raeume": [
         {
           "bez": "Raum 2",
@@ -479,7 +479,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": 700,
       "nebenkosten": "inkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -501,7 +501,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -543,8 +543,8 @@ const WEBEREI_DATEN = {
       "preis_max": 140,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
-      "hinweis": "Nur zusammen mietbar.",
+      "teilbar": true,
+      "hinweis": "",
       "raeume": [
         {
           "bez": "Raum 5.2",
@@ -582,7 +582,7 @@ const WEBEREI_DATEN = {
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": true,
-      "hinweis": "Einzeln oder zusammen mietbar, eine frühere Übernahme ist möglich.",
+      "hinweis": "Eine frühere Übernahme ist möglich.",
       "raeume": [
         {
           "bez": "Raum 4",
@@ -607,7 +607,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -633,7 +633,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -663,7 +663,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -693,7 +693,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -723,7 +723,7 @@ const WEBEREI_DATEN = {
       "preis_max": 110,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -749,7 +749,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "inkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {
@@ -775,7 +775,7 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": false,
+      "teilbar": true,
       "hinweis": "",
       "raeume": [
         {

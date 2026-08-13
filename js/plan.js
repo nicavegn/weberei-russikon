@@ -81,6 +81,24 @@
     return t[2].replace(/^0/, "") + "." + t[1].replace(/^0/, "") + "." + t[0];
   }
 
+  /* WC und Nebenräume gehören zur Einheit, sind aber nichts, was jemand
+     für sich allein mietet. Für die Angabe «einzeln ab» bleiben sie darum
+     aussen vor, sonst stünde bei der ROKO-Halle «ab 7 m²», und das ist die
+     Toilette. In der Raumliste erscheinen sie weiterhin. */
+  function istNebenraum(r) {
+    return /^(wc|nebenraum)\b/i.test(String(r.bez || "").trim());
+  }
+
+  /* Kleinste Fläche, die es einzeln gibt. Leer, wenn nach Abzug der
+     Nebenräume nur ein Raum bleibt, dann sagt die Gesamtfläche alles. */
+  function kleinsterRaumText(e) {
+    if (!e.teilbar || !e.raeume || e.raeume.length < 2) { return null; }
+    const eigene = e.raeume.filter(function (r) { return !istNebenraum(r); });
+    if (eigene.length < 2) { return null; }
+    const kleinste = Math.min.apply(null, eigene.map(function (r) { return r.qm; }));
+    return "einzeln ab " + flaecheText(kleinste);
+  }
+
   function statusText(e) {
     const ab = datumText(e.frei_ab);
     return (e.status === "bald" && ab) ? "frei ab " + ab : STATUS_TEXT[e.status];
@@ -310,9 +328,13 @@
     }
 
     /* Nur Zeilen mit Inhalt. Ein Platzhalterstrich sagt nichts und wäre
-       obendrein ein Gedankenstrich, den die Stilregeln ausschliessen. */
+       obendrein ein Gedankenstrich, den die Stilregeln ausschliessen.
+
+       Unter der Gesamtfläche steht die kleinste einzeln mietbare Fläche.
+       Ohne diesen Zusatz wirkt etwa der Websaal wie 2149 m² am Stück, dabei
+       ist dort schon ein Raum von 12 m² zu haben. */
     const preis = preisInfo(e);
-    eintrag("Fläche", flaecheText(e.flaeche), null, "fkarte__flaeche");
+    eintrag("Fläche", flaecheText(e.flaeche), kleinsterRaumText(e), "fkarte__flaeche");
     if (preis) { eintrag("Mietzins", preis.betrag, preis.bezug); }
     if (e.nutzung) { eintrag("Nutzung", e.nutzung); }
     karte.appendChild(daten);

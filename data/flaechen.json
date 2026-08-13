@@ -1,5 +1,5 @@
 {
-    "_hinweis": "Quelle der Wahrheit für die Flächenliste. Der Admin-Bereich schreibt diese Datei und erzeugt daraus flaechen.js für die öffentliche Seite. Eine Einheit ist das, was am Stück vermietet wird; raeume ist die Aufteilung aus der Gebäudeaufnahme. teilbar sagt, ob die Räume einer Einheit auch einzeln zu haben sind.",
+    "_hinweis": "Quelle der Wahrheit für die Flächenliste. Der Admin-Bereich schreibt diese Datei und erzeugt daraus flaechen.js für die öffentliche Seite. Eine Einheit ist das, was am Stück vermietet wird; raeume ist die Aufteilung aus der Gebäudeaufnahme. Die Räume einer Einheit sind immer auch einzeln mietbar, darum steht teilbar überall auf true.",
     "_stand": "2026-08-13",
     "_grundlage": "Raumliste und Preisparameter der Eigentümerschaft (Raumliste_Weberei_Russikon), Flächen aus den Grundrissplänen der Gossweiler Ingenieure AG, Projekt rs.7726.1607, Aufnahme 03.06.2026, Plan 15.06.2026. Allgemein-, Technik- und Erschliessungsflächen sind nicht enthalten, sie sind in den Mietzinsen der Hauptflächen inbegriffen.",
     "gebaeude": [
@@ -86,18 +86,45 @@
             "preis_max": 110,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
-            "hinweis": "Die Sheddachhalle mit sämtlichen Nebenräumen, wird als Ganzes vermietet.",
+            "teilbar": true,
+            "hinweis": "Die Sheddachhalle mit ihren Nebenräumen und WC. Die Räume sind auch einzeln zu haben.",
             "raeume": [
-                { "bez": "Raum 7, Websaal", "qm": 1998.85 },
-                { "bez": "Raum 6", "qm": 31.28 },
-                { "bez": "Raum 2", "qm": 29.77 },
-                { "bez": "Raum 3", "qm": 26.81 },
-                { "bez": "WC", "qm": 12.68 },
-                { "bez": "Raum 1", "qm": 12.55 },
-                { "bez": "Raum 4", "qm": 12.35 },
-                { "bez": "Raum 5", "qm": 12.34 },
-                { "bez": "WC", "qm": 12.13 }
+                {
+                    "bez": "Raum 7, Websaal",
+                    "qm": 1998.85
+                },
+                {
+                    "bez": "Raum 6",
+                    "qm": 31.28
+                },
+                {
+                    "bez": "Raum 2",
+                    "qm": 29.77
+                },
+                {
+                    "bez": "Raum 3",
+                    "qm": 26.81
+                },
+                {
+                    "bez": "WC",
+                    "qm": 12.68
+                },
+                {
+                    "bez": "Raum 1",
+                    "qm": 12.55
+                },
+                {
+                    "bez": "Raum 4",
+                    "qm": 12.35
+                },
+                {
+                    "bez": "Raum 5",
+                    "qm": 12.34
+                },
+                {
+                    "bez": "WC",
+                    "qm": 12.13
+                }
             ]
         },
         {
@@ -113,11 +140,17 @@
             "preis_max": 75,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Bereich 4", "qm": 666.48 },
-                { "bez": "Bereich 5", "qm": 222.07 }
+                {
+                    "bez": "Bereich 4",
+                    "qm": 666.48
+                },
+                {
+                    "bez": "Bereich 5",
+                    "qm": 222.07
+                }
             ]
         },
         {
@@ -134,11 +167,20 @@
             "fixmiete": 1200,
             "nebenkosten": "inkl.",
             "teilbar": true,
-            "hinweis": "Auch einzeln mietbar, CHF 400.– je Bereich und Monat.",
+            "hinweis": "Je Bereich CHF 400.– im Monat, inklusive Nebenkosten.",
             "raeume": [
-                { "bez": "Bereich 1", "qm": 199.76 },
-                { "bez": "Bereich 2", "qm": 116.54 },
-                { "bez": "Bereich 3", "qm": 112.07 }
+                {
+                    "bez": "Bereich 1",
+                    "qm": 199.76
+                },
+                {
+                    "bez": "Bereich 2",
+                    "qm": 116.54
+                },
+                {
+                    "bez": "Bereich 3",
+                    "qm": 112.07
+                }
             ]
         },
         {
@@ -154,14 +196,29 @@
             "preis_max": null,
             "fixmiete": 700,
             "nebenkosten": "inkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Schutzraum 1", "qm": 38.37 },
-                { "bez": "Schutzraum 2.1", "qm": 37.68 },
-                { "bez": "Schutzraum 2.2", "qm": 37.26 },
-                { "bez": "Schutzraum 2.3", "qm": 23.18 },
-                { "bez": "Nebenraum", "qm": 11.77 }
+                {
+                    "bez": "Schutzraum 1",
+                    "qm": 38.37
+                },
+                {
+                    "bez": "Schutzraum 2.1",
+                    "qm": 37.68
+                },
+                {
+                    "bez": "Schutzraum 2.2",
+                    "qm": 37.26
+                },
+                {
+                    "bez": "Schutzraum 2.3",
+                    "qm": 23.18
+                },
+                {
+                    "bez": "Nebenraum",
+                    "qm": 11.77
+                }
             ]
         },
         {
@@ -177,11 +234,17 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "inkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Bunker", "qm": 130.6 },
-                { "bez": "Nebenraum", "qm": 6.21 }
+                {
+                    "bez": "Bunker",
+                    "qm": 130.6
+                },
+                {
+                    "bez": "Nebenraum",
+                    "qm": 6.21
+                }
             ]
         },
         {
@@ -197,10 +260,13 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "Wird von der Weberei selbst genutzt.",
             "raeume": [
-                { "bez": "Archiv", "qm": 33.31 }
+                {
+                    "bez": "Archiv",
+                    "qm": 33.31
+                }
             ]
         },
         {
@@ -216,10 +282,13 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Haupthalle", "qm": 2145.59 }
+                {
+                    "bez": "Haupthalle",
+                    "qm": 2145.59
+                }
             ]
         },
         {
@@ -235,11 +304,17 @@
             "preis_max": 125,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
-            "hinweis": "Nur zusammen mietbar, auf Wunsch mit Raum 1 oder Raum 2.1.",
+            "teilbar": true,
+            "hinweis": "Auf Wunsch zusammen mit Raum 1 oder Raum 2.1.",
             "raeume": [
-                { "bez": "Raum 3.1", "qm": 116.95 },
-                { "bez": "Raum 3.2", "qm": 10.02 }
+                {
+                    "bez": "Raum 3.1",
+                    "qm": 116.95
+                },
+                {
+                    "bez": "Raum 3.2",
+                    "qm": 10.02
+                }
             ]
         },
         {
@@ -255,11 +330,17 @@
             "preis_max": 125,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
-            "hinweis": "Nur zusammen mietbar, auf Wunsch mit Raum 1 oder Raum 2.1.",
+            "teilbar": true,
+            "hinweis": "Auf Wunsch zusammen mit Raum 1 oder Raum 2.1.",
             "raeume": [
-                { "bez": "Raum 2.2", "qm": 97.79 },
-                { "bez": "Raum 2.3", "qm": 23.7 }
+                {
+                    "bez": "Raum 2.2",
+                    "qm": 97.79
+                },
+                {
+                    "bez": "Raum 2.3",
+                    "qm": 23.7
+                }
             ]
         },
         {
@@ -275,12 +356,21 @@
             "preis_max": 85,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "Lagerfläche mit Küchenzeile.",
             "raeume": [
-                { "bez": "Raum 4.1", "qm": 63.88 },
-                { "bez": "Raum 4.3", "qm": 26.71 },
-                { "bez": "Raum 4.2", "qm": 10.8 }
+                {
+                    "bez": "Raum 4.1",
+                    "qm": 63.88
+                },
+                {
+                    "bez": "Raum 4.3",
+                    "qm": 26.71
+                },
+                {
+                    "bez": "Raum 4.2",
+                    "qm": 10.8
+                }
             ]
         },
         {
@@ -296,10 +386,13 @@
             "preis_max": 125,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
-            "hinweis": "Einzeln mietbar oder zusammen mit Raum 1 und den Räumen 2.2 und 2.3.",
+            "teilbar": true,
+            "hinweis": "Auf Wunsch zusammen mit Raum 1 und den Räumen 2.2 und 2.3.",
             "raeume": [
-                { "bez": "Raum 2.1", "qm": 28.81 }
+                {
+                    "bez": "Raum 2.1",
+                    "qm": 28.81
+                }
             ]
         },
         {
@@ -315,10 +408,13 @@
             "preis_max": 125,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
-            "hinweis": "Einzeln mietbar oder zusammen mit Raum 2.1.",
+            "teilbar": true,
+            "hinweis": "Auf Wunsch zusammen mit Raum 2.1.",
             "raeume": [
-                { "bez": "Raum 1", "qm": 25.33 }
+                {
+                    "bez": "Raum 1",
+                    "qm": 25.33
+                }
             ]
         },
         {
@@ -334,14 +430,29 @@
             "preis_max": null,
             "fixmiete": 850,
             "nebenkosten": "inkl.",
-            "teilbar": false,
-            "hinweis": "Nur zusammen mietbar.",
+            "teilbar": true,
+            "hinweis": "",
             "raeume": [
-                { "bez": "Raum 2", "qm": 26.33 },
-                { "bez": "Raum 4", "qm": 18.8 },
-                { "bez": "Raum 3", "qm": 13.7 },
-                { "bez": "Raum 5", "qm": 11.02 },
-                { "bez": "Nebenraum", "qm": 6.43 }
+                {
+                    "bez": "Raum 2",
+                    "qm": 26.33
+                },
+                {
+                    "bez": "Raum 4",
+                    "qm": 18.8
+                },
+                {
+                    "bez": "Raum 3",
+                    "qm": 13.7
+                },
+                {
+                    "bez": "Raum 5",
+                    "qm": 11.02
+                },
+                {
+                    "bez": "Nebenraum",
+                    "qm": 6.43
+                }
             ]
         },
         {
@@ -357,10 +468,13 @@
             "preis_max": null,
             "fixmiete": 700,
             "nebenkosten": "inkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Raum 1", "qm": 66.75 }
+                {
+                    "bez": "Raum 1",
+                    "qm": 66.75
+                }
             ]
         },
         {
@@ -376,15 +490,33 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Raum 2.1", "qm": 238.51 },
-                { "bez": "Raum 2.6", "qm": 42.13 },
-                { "bez": "Raum 2.4", "qm": 23.76 },
-                { "bez": "Raum 2.2", "qm": 18.77 },
-                { "bez": "Raum 2.3", "qm": 17.1 },
-                { "bez": "Raum 2.5", "qm": 16.17 }
+                {
+                    "bez": "Raum 2.1",
+                    "qm": 238.51
+                },
+                {
+                    "bez": "Raum 2.6",
+                    "qm": 42.13
+                },
+                {
+                    "bez": "Raum 2.4",
+                    "qm": 23.76
+                },
+                {
+                    "bez": "Raum 2.2",
+                    "qm": 18.77
+                },
+                {
+                    "bez": "Raum 2.3",
+                    "qm": 17.1
+                },
+                {
+                    "bez": "Raum 2.5",
+                    "qm": 16.17
+                }
             ]
         },
         {
@@ -400,14 +532,29 @@
             "preis_max": 140,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
-            "hinweis": "Nur zusammen mietbar.",
+            "teilbar": true,
+            "hinweis": "",
             "raeume": [
-                { "bez": "Raum 5.2", "qm": 31.79 },
-                { "bez": "Raum 5.4", "qm": 21.21 },
-                { "bez": "Raum 5.5", "qm": 21.05 },
-                { "bez": "Raum 5.1", "qm": 16.45 },
-                { "bez": "Raum 5.3", "qm": 10.57 }
+                {
+                    "bez": "Raum 5.2",
+                    "qm": 31.79
+                },
+                {
+                    "bez": "Raum 5.4",
+                    "qm": 21.21
+                },
+                {
+                    "bez": "Raum 5.5",
+                    "qm": 21.05
+                },
+                {
+                    "bez": "Raum 5.1",
+                    "qm": 16.45
+                },
+                {
+                    "bez": "Raum 5.3",
+                    "qm": 10.57
+                }
             ]
         },
         {
@@ -424,10 +571,16 @@
             "fixmiete": null,
             "nebenkosten": "exkl.",
             "teilbar": true,
-            "hinweis": "Einzeln oder zusammen mietbar, eine frühere Übernahme ist möglich.",
+            "hinweis": "Eine frühere Übernahme ist möglich.",
             "raeume": [
-                { "bez": "Raum 4", "qm": 58.57 },
-                { "bez": "Raum 3", "qm": 37.16 }
+                {
+                    "bez": "Raum 4",
+                    "qm": 58.57
+                },
+                {
+                    "bez": "Raum 3",
+                    "qm": 37.16
+                }
             ]
         },
         {
@@ -443,11 +596,17 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Raum 1.1", "qm": 50.26 },
-                { "bez": "Raum 1.2", "qm": 10.04 }
+                {
+                    "bez": "Raum 1.1",
+                    "qm": 50.26
+                },
+                {
+                    "bez": "Raum 1.2",
+                    "qm": 10.04
+                }
             ]
         },
         {
@@ -463,12 +622,21 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Raum 2.1", "qm": 218.94 },
-                { "bez": "Raum 2.3", "qm": 18.77 },
-                { "bez": "Raum 2.2", "qm": 16.5 }
+                {
+                    "bez": "Raum 2.1",
+                    "qm": 218.94
+                },
+                {
+                    "bez": "Raum 2.3",
+                    "qm": 18.77
+                },
+                {
+                    "bez": "Raum 2.2",
+                    "qm": 16.5
+                }
             ]
         },
         {
@@ -484,12 +652,21 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Raum 1.2", "qm": 152.23 },
-                { "bez": "Raum 1.3", "qm": 20.12 },
-                { "bez": "Raum 1.1", "qm": 9.17 }
+                {
+                    "bez": "Raum 1.2",
+                    "qm": 152.23
+                },
+                {
+                    "bez": "Raum 1.3",
+                    "qm": 20.12
+                },
+                {
+                    "bez": "Raum 1.1",
+                    "qm": 9.17
+                }
             ]
         },
         {
@@ -505,12 +682,21 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Raum 3.2", "qm": 54.24 },
-                { "bez": "Raum 3.1", "qm": 32.25 },
-                { "bez": "Raum 3.3", "qm": 18.47 }
+                {
+                    "bez": "Raum 3.2",
+                    "qm": 54.24
+                },
+                {
+                    "bez": "Raum 3.1",
+                    "qm": 32.25
+                },
+                {
+                    "bez": "Raum 3.3",
+                    "qm": 18.47
+                }
             ]
         },
         {
@@ -526,11 +712,17 @@
             "preis_max": 110,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Halle", "qm": 623.4 },
-                { "bez": "WC", "qm": 7.29 }
+                {
+                    "bez": "Halle",
+                    "qm": 623.4
+                },
+                {
+                    "bez": "WC",
+                    "qm": 7.29
+                }
             ]
         },
         {
@@ -546,11 +738,17 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "inkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Werkstatt Ost", "qm": 78.07 },
-                { "bez": "Werkstatt West", "qm": 51.61 }
+                {
+                    "bez": "Werkstatt Ost",
+                    "qm": 78.07
+                },
+                {
+                    "bez": "Werkstatt West",
+                    "qm": 51.61
+                }
             ]
         },
         {
@@ -566,10 +764,13 @@
             "preis_max": null,
             "fixmiete": null,
             "nebenkosten": "exkl.",
-            "teilbar": false,
+            "teilbar": true,
             "hinweis": "",
             "raeume": [
-                { "bez": "Halle", "qm": 364.23 }
+                {
+                    "bez": "Halle",
+                    "qm": 364.23
+                }
             ]
         }
     ]
