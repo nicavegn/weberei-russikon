@@ -15,4 +15,15 @@ RedirectMatch 404 ^/(.*/)?data/sicherungen/
     Require all denied
 </FilesMatch>
 
+# flaechen.js ändert sich, sobald im Admin gespeichert wird. Anders als
+# Gestaltung und Skripte trägt die Datei darum keine Versionsnummer im
+# Verweis, sondern der Browser muss jedes Mal nachfragen, ob seine Kopie
+# noch stimmt. Das kostet fast nichts: hat sich nichts geändert, antwortet
+# der Server mit 304 und schickt die Datei gar nicht erst.
+<IfModule mod_headers.c>
+    <FilesMatch "^flaechen\.(js|json)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
 Options -Indexes

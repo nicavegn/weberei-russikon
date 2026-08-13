@@ -198,6 +198,30 @@ nur angezeigt, nicht verändert. Ob die Räume einzeln zu haben sind, sagt allei
 sind in den Mietzinsen der Hauptflächen inbegriffen. Die Summe aller Einheiten
 entspricht damit den Mietflächen der Raumliste, 8’755.50 m².
 
+## Zwischenspeicher der Browser
+
+Browser behalten Gestaltung und Skripte eine Weile und holen sie nach einer
+Änderung nicht von selbst neu. Wer die Seite schon einmal offen hatte, sähe
+sonst neuen Text mit altem Design.
+
+**Nach jeder Änderung an `css/` oder `js/` die Versionsnummer hochzählen.**
+Sie hängt in allen Seiten an den Verweisen:
+
+```html
+<link rel="stylesheet" href="css/style.css?v=2">
+<script src="js/plan.js?v=2"></script>
+```
+
+Also `?v=2` auf `?v=3` setzen, in `index.html`, `geschichte.html`,
+`vermietung.html`, `admin/index.php` und `admin/einrichten.php`. Für den
+Browser ist das eine neue Datei, er holt sie frisch.
+
+**`data/flaechen.js` trägt bewusst keine Nummer.** Diese Datei schreibt der
+Admin-Bereich, und niemand soll nach dem Speichern von Hand irgendwo eine Zahl
+ändern müssen. Stattdessen sorgt eine Regel in `data/.htaccess` dafür, dass der
+Browser jedes Mal nachfragt, ob seine Kopie noch stimmt. Hat sich nichts
+geändert, antwortet der Server mit 304 und schickt nichts.
+
 ## Design-System
 
 Farben und Typografie sind als CSS-Variablen in `css/style.css` unter `:root`
