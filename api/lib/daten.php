@@ -168,10 +168,12 @@ function betrag_lesen(string $roh, string $id, string $was, float $grenze): ?flo
  */
 function einheit_pruefen(array $roh, array $gebaeude_ids, array $bestand): array
 {
+    /* Der Punkt gehört seit dem 21.08.2026 dazu, die Räume heissen jetzt
+       27EG5.3 statt 27EG20. */
     $id = trim((string)($roh['id'] ?? ''));
-    if ($id === '' || !preg_match('/^[A-Za-z0-9\-]{1,24}$/', $id)) {
+    if ($id === '' || !preg_match('/^[A-Za-z0-9.\-]{1,26}$/', $id)) {
         throw new InvalidArgumentException(
-            'Ungültige Kennung. Erlaubt sind Buchstaben, Ziffern und Bindestriche.'
+            'Ungültige Kennung. Erlaubt sind Buchstaben, Ziffern, Punkte und Bindestriche.'
         );
     }
 
@@ -215,16 +217,22 @@ function einheit_pruefen(array $roh, array $gebaeude_ids, array $bestand): array
         );
     }
 
+    /* Drei Formen: Nebenkosten aussen vor, Nebenkosten enthalten, oder
+       enthalten mit Ausnahme der Heizkosten. Die dritte gilt für die beiden
+       Ateliers in Gebäude 29 UG. */
     $nebenkosten = (string)($roh['nebenkosten'] ?? 'exkl.');
-    if (!in_array($nebenkosten, ['inkl.', 'exkl.'], true)) {
+    if (!in_array($nebenkosten, ['inkl.', 'exkl.', 'inkl-ohne-heizung'], true)) {
         $nebenkosten = 'exkl.';
     }
 
-    /* Raumaufteilung und Farbe stammen aus dem Grundriss und bleiben, wie sie
-       sind. Beides wird aus dem bestehenden Datensatz übernommen. Die Farbe
-       liest unterlagen/werkzeuge/plan_farben_lesen.py aus den Plänen. */
+    /* Raumaufteilung, Farbe und Nummernspanne stammen aus dem Grundriss und
+       bleiben, wie sie sind. Alle drei werden aus dem bestehenden Datensatz
+       übernommen. Die Farben liest unterlagen/werkzeuge/plan_farben_lesen.py
+       aus den Plänen, die Aufteilung baut flaechen_aufbauen.py. Wer sie hier
+       änderte, brächte Plan und Liste auseinander. */
     $raeume = [];
     $farbe = null;
+    $marke = null;
     foreach ($bestand as $alt) {
         if (($alt['id'] ?? '') !== $id) {
             continue;
@@ -235,11 +243,15 @@ function einheit_pruefen(array $roh, array $gebaeude_ids, array $bestand): array
         if (isset($alt['farbe']) && preg_match('/^#[0-9a-fA-F]{6}$/', (string)$alt['farbe'])) {
             $farbe = strtolower((string)$alt['farbe']);
         }
+        if (!empty($alt['marke'])) {
+            $marke = mb_substr((string)$alt['marke'], 0, 60);
+        }
         break;
     }
 
     return [
         'id'          => $id,
+        'marke'       => $marke,
         'gebaeude'    => $gebaeude,
         'geschoss'    => $geschoss,
         'bezeichnung' => mb_substr(trim((string)($roh['bezeichnung'] ?? '')), 0, 80),

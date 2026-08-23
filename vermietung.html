@@ -6,9 +6,9 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Vermietung | Alte Weberei Russikon</title>
   <meta name="description" content="Verfügbare Gewerbeflächen im Areal der ehemaligen Weberei Russikon: Hallen, Büros, Ateliers und Lager. Grundrisse und Flächenliste mit Mietzinsen.">
-  <link rel="stylesheet" href="css/fonts.css?v=5">
-  <link rel="stylesheet" href="css/style.css?v=5">
-  <link rel="stylesheet" href="css/plan.css?v=5">
+  <link rel="stylesheet" href="css/fonts.css?v=6">
+  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/plan.css?v=6">
 </head>
 <body>
 
@@ -36,6 +36,7 @@
           <li><a href="index.html">Start</a></li>
           <li><a href="geschichte.html">Geschichte</a></li>
           <li><a href="vermietung.html" aria-current="page">Vermietung</a></li>
+          <li><a href="vermieter.html">Vermieter</a></li>
         </ul>
       </nav>
     </div>
@@ -158,6 +159,10 @@
                 <option value="">Allgemeine Anfrage</option>
               </select>
             </div>
+            <!-- Betrifft die Anfrage einen einzelnen Raum, steht seine Nummer
+                 hier. Das Auswahlfeld führt weiterhin die Mieteinheit, damit
+                 die Prüfung auf der Serverseite einfach bleibt. -->
+            <input type="hidden" name="raum" value="" data-formular-raum>
 
             <div class="feld-paar">
               <div class="feld">
@@ -220,6 +225,7 @@
             <li><a href="index.html">Start</a></li>
             <li><a href="geschichte.html">Geschichte</a></li>
             <li><a href="vermietung.html">Vermietung</a></li>
+            <li><a href="vermieter.html">Vermieter</a></li>
           </ul>
         </div>
         <div class="footer__col">
@@ -239,8 +245,8 @@
     </div>
   </footer>
 
-  <script src="data/flaechen.js?v=5"></script>
-  <script src="js/main.js?v=5"></script>
-  <script src="js/plan.js?v=5"></script>
+  <script src="data/flaechen.js?v=6"></script>
+  <script src="js/main.js?v=6"></script>
+  <script src="js/plan.js?v=6"></script>
 </body>
 </html>

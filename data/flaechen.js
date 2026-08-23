@@ -10,15 +10,19 @@
    ===================================================================== */
 
 const WEBEREI_DATEN = {
-  "_hinweis": "Quelle der Wahrheit für die Flächenliste. Der Admin-Bereich schreibt diese Datei und erzeugt daraus flaechen.js für die öffentliche Seite. Eine Einheit ist das, was am Stück vermietet wird; raeume ist die Aufteilung aus der Gebäudeaufnahme. Die Räume einer Einheit sind immer auch einzeln mietbar, darum steht teilbar überall auf true.",
-  "_stand": "2026-08-13",
-  "_grundlage": "Raumliste und Preisparameter der Eigentümerschaft (Raumliste_Weberei_Russikon), Flächen aus den Grundrissplänen der Gossweiler Ingenieure AG, Projekt rs.7726.1607, Aufnahme 03.06.2026, Plan 15.06.2026. Allgemein-, Technik- und Erschliessungsflächen sind nicht enthalten, sie sind in den Mietzinsen der Hauptflächen inbegriffen.",
+  "_hinweis": "Quelle der Wahrheit für die Flächen. Erzeugt von unterlagen/werkzeuge/flaechen_aufbauen.py, danach die Farben mit plan_farben_lesen.py nachziehen. Der Admin-Bereich schreibt diese Datei ebenfalls.",
+  "_stand": "21.08.2026",
+  "_grundlage": "Raumliste der Eigentümerschaft vom 21.08.2026, Grundrisse Gossweiler Ingenieure AG vom 23.06.2026, Blätter Websaal EG, Websaal UG und Gebäude 29 UG in der überarbeiteten Fassung vom 21.08.2026.",
   "gebaeude": [
     {
       "id": "websaal",
       "name": "Grosser Websaal",
       "kurz": "Websaal",
-      "beschreibung": "Die Weberei-Halle unter dem Sheddach mit Gusssäulen und Nordlicht, dazu das Untergeschoss als Lager.",
+      "beschreibung": "Die grosse Halle im hinteren Arealteil, dazu das Untergeschoss als Lager.",
+      "beschreibungen": {
+        "EG": "Die grosse Halle stammt aus den 1960er-Jahren. Auf der ganzen Fläche von rund 2000 m² stehen nur zwei Betonsäulen, die Halle ist also nahezu stützenfrei.",
+        "UG": "Das Untergeschoss mit rund 888 m² Hauptfläche. Der Zugang führt direkt von aussen oder über die Rampe mit dem Lift."
+      },
       "geschosse": [
         "EG",
         "UG"
@@ -33,6 +37,9 @@ const WEBEREI_DATEN = {
       "name": "Gebäude 29",
       "kurz": "29",
       "beschreibung": "Strassenseitiger Bau mit Büro- und Gewerberäumen, dahinter die grosse Produktionshalle.",
+      "beschreibungen": {
+        "UG": "Das Untergeschoss an der Strasse mit zwei Ateliers."
+      },
       "geschosse": [
         "EG",
         "UG"
@@ -60,7 +67,7 @@ const WEBEREI_DATEN = {
       "id": "roko",
       "name": "ROKO",
       "kurz": "ROKO",
-      "beschreibung": "Freistehende Halle im hinteren Arealteil, stützenarm und ebenerdig anfahrbar, mit Werkstatt im Untergeschoss.",
+      "beschreibung": "Freistehende Halle im hinteren Arealteil, stützenarm, mit Werkstatt im Untergeschoss. Sie ist nicht ebenerdig anfahrbar, der Zugang führt über die Rampe.",
       "geschosse": [
         "EG",
         "UG"
@@ -74,7 +81,7 @@ const WEBEREI_DATEN = {
       "id": "schopf",
       "name": "Schopf",
       "kurz": "Schopf",
-      "beschreibung": "Unbeheizte Halle für Lager und Einstellzwecke, ebenerdig befahrbar.",
+      "beschreibung": "Unbeheizte Halle für Lager und Einstellzwecke. Sie ist nicht ebenerdig befahrbar, der Zugang führt über die Rampe.",
       "geschosse": [
         "EG"
       ],
@@ -85,11 +92,12 @@ const WEBEREI_DATEN = {
   ],
   "einheiten": [
     {
-      "id": "WEG09",
+      "id": "WEG",
+      "marke": "WEG1 bis 2.8",
       "gebaeude": "websaal",
       "geschoss": "EG",
-      "bezeichnung": "Raum 1 bis 7",
-      "flaeche": 2148.76,
+      "bezeichnung": "Halle mit Nebenräumen",
+      "flaeche": 2149.25,
       "nutzung": "Halle, Produktion, Lager",
       "status": "frei",
       "frei_ab": null,
@@ -97,55 +105,74 @@ const WEBEREI_DATEN = {
       "preis_max": 110,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "Die Sheddachhalle mit ihren Nebenräumen und WC. Die Räume sind auch einzeln zu haben.",
+      "teilbar": false,
+      "hinweis": "Im heutigen Zustand nur als Ganzes zu mieten. Die Halle lässt sich nach Wunsch des Mieters unterteilen.",
       "raeume": [
         {
-          "bez": "Raum 7, Websaal",
-          "qm": 1998.85
+          "id": "WEG2.1",
+          "bez": "Raum 2.1, Halle",
+          "qm": 1999.33,
+          "farbe": "#ffe0e0"
         },
         {
-          "bez": "Raum 6",
-          "qm": 31.28
+          "id": "WEG2.8",
+          "bez": "Raum 2.8",
+          "qm": 31.28,
+          "farbe": "#ffe0e0"
         },
         {
-          "bez": "Raum 2",
-          "qm": 29.77
+          "id": "WEG2.2",
+          "bez": "Raum 2.2",
+          "qm": 29.77,
+          "farbe": "#ffe0e0"
         },
         {
-          "bez": "Raum 3",
-          "qm": 26.81
+          "id": "WEG2.3",
+          "bez": "Raum 2.3",
+          "qm": 26.81,
+          "farbe": "#ffe0e0"
         },
         {
-          "bez": "WC",
-          "qm": 12.68
+          "id": "WEG2.5",
+          "bez": "WC 2.5",
+          "qm": 12.69,
+          "farbe": "#ffe0e0"
         },
         {
+          "id": "WEG1",
           "bez": "Raum 1",
-          "qm": 12.55
+          "qm": 12.55,
+          "farbe": "#ffffe0"
         },
         {
-          "bez": "Raum 4",
-          "qm": 12.35
+          "id": "WEG2.4",
+          "bez": "Raum 2.4",
+          "qm": 12.35,
+          "farbe": "#ffe0e0"
         },
         {
-          "bez": "Raum 5",
-          "qm": 12.34
+          "id": "WEG2.7",
+          "bez": "Raum 2.7",
+          "qm": 12.34,
+          "farbe": "#ffe0e0"
         },
         {
-          "bez": "WC",
-          "qm": 12.13
+          "id": "WEG2.6",
+          "bez": "WC 2.6",
+          "qm": 12.13,
+          "farbe": "#ffe0e0"
         }
       ],
       "farbe": "#ffe0e0"
     },
     {
-      "id": "WUG14",
+      "id": "WUGBereich4",
+      "marke": "WUGBereich4",
       "gebaeude": "websaal",
       "geschoss": "UG",
-      "bezeichnung": "Bereich 4 und 5",
-      "flaeche": 888.55,
-      "nutzung": "Lager",
+      "bezeichnung": "Bereich 4",
+      "flaeche": 889.23,
+      "nutzung": "Lagerfläche",
       "status": "frei",
       "frei_ab": null,
       "preis_min": 55,
@@ -153,272 +180,226 @@ const WEBEREI_DATEN = {
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": true,
-      "hinweis": "",
+      "hinweis": "Lässt sich nach Bedürfnis des Mieters unterteilen.",
       "raeume": [
         {
+          "id": "WUGBereich4",
           "bez": "Bereich 4",
-          "qm": 666.48
-        },
-        {
-          "bez": "Bereich 5",
-          "qm": 222.07
+          "qm": 889.23,
+          "farbe": "#ffe0ff"
         }
       ],
       "farbe": "#ffe0ff"
     },
     {
-      "id": "WUG10",
+      "id": "WUGBereich1",
+      "marke": "WUGBereich1",
       "gebaeude": "websaal",
       "geschoss": "UG",
-      "bezeichnung": "Bereich 1 bis 3",
-      "flaeche": 428.37,
+      "bezeichnung": "Bereich 1",
+      "flaeche": 199.76,
       "nutzung": "Lager, Gewerbe",
       "status": "frei",
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
-      "fixmiete": 1200,
+      "fixmiete": 400,
       "nebenkosten": "inkl.",
       "teilbar": true,
-      "hinweis": "Je Bereich CHF 400.– im Monat, inklusive Nebenkosten.",
+      "hinweis": null,
       "raeume": [
         {
+          "id": "WUGBereich1",
           "bez": "Bereich 1",
-          "qm": 199.76
-        },
-        {
-          "bez": "Bereich 2",
-          "qm": 116.54
-        },
-        {
-          "bez": "Bereich 3",
-          "qm": 112.07
+          "qm": 199.76,
+          "farbe": "#fff0e0"
         }
       ],
       "farbe": "#fff0e0"
     },
     {
-      "id": "WUG13",
+      "id": "WUGBereich2",
+      "marke": "WUGBereich2",
       "gebaeude": "websaal",
       "geschoss": "UG",
-      "bezeichnung": "Schutzraum 1 und 2",
-      "flaeche": 148.26,
-      "nutzung": "Lager, Archiv",
+      "bezeichnung": "Bereich 2",
+      "flaeche": 116.54,
+      "nutzung": "Lager, Gewerbe",
       "status": "frei",
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
-      "fixmiete": 700,
+      "fixmiete": 400,
       "nebenkosten": "inkl.",
       "teilbar": true,
-      "hinweis": "",
+      "hinweis": null,
       "raeume": [
         {
+          "id": "WUGBereich2",
+          "bez": "Bereich 2",
+          "qm": 116.54,
+          "farbe": "#ffffe0"
+        }
+      ],
+      "farbe": "#ffffe0"
+    },
+    {
+      "id": "WUGBereich3",
+      "marke": "WUGBereich3",
+      "gebaeude": "websaal",
+      "geschoss": "UG",
+      "bezeichnung": "Bereich 3",
+      "flaeche": 112.07,
+      "nutzung": "Lager, Gewerbe",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": 400,
+      "nebenkosten": "inkl.",
+      "teilbar": true,
+      "hinweis": null,
+      "raeume": [
+        {
+          "id": "WUGBereich3",
+          "bez": "Bereich 3",
+          "qm": 112.07,
+          "farbe": "#ffffe0"
+        }
+      ],
+      "farbe": "#ffffe0"
+    },
+    {
+      "id": "WUGSchutzraum1",
+      "marke": "WUGSchutzraum1",
+      "gebaeude": "websaal",
+      "geschoss": "UG",
+      "bezeichnung": "Schutzraum 1",
+      "flaeche": 38.37,
+      "nutzung": "Lagerfläche",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": 350,
+      "nebenkosten": "inkl.",
+      "teilbar": true,
+      "hinweis": "Einzeln zu mieten.",
+      "raeume": [
+        {
+          "id": "WUGSchutzraum1",
           "bez": "Schutzraum 1",
-          "qm": 38.37
-        },
-        {
-          "bez": "Schutzraum 2.1",
-          "qm": 37.68
-        },
-        {
-          "bez": "Schutzraum 2.2",
-          "qm": 37.26
-        },
-        {
-          "bez": "Schutzraum 2.3",
-          "qm": 23.18
-        },
-        {
-          "bez": "Nebenraum",
-          "qm": 11.77
+          "qm": 38.37,
+          "farbe": "#e0ffe0"
         }
       ],
       "farbe": "#e0ffe0"
     },
     {
-      "id": "WUG11",
+      "id": "WUGSchutzraum2",
+      "marke": "WUGSchutzraum2.1 bis 2.3",
+      "gebaeude": "websaal",
+      "geschoss": "UG",
+      "bezeichnung": "Schutzraum 2.1 bis 2.3",
+      "flaeche": 109.89,
+      "nutzung": "Lagerfläche",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": 600,
+      "nebenkosten": "inkl.",
+      "teilbar": false,
+      "hinweis": "Nur zusammen zu mieten, Nebenraum inbegriffen.",
+      "raeume": [
+        {
+          "id": "WUGSchutzraum2.1",
+          "bez": "Schutzraum 2.1",
+          "qm": 37.68,
+          "farbe": "#e0f0ff"
+        },
+        {
+          "id": "WUGSchutzraum2.2",
+          "bez": "Schutzraum 2.2",
+          "qm": 37.26,
+          "farbe": "#e0f0ff"
+        },
+        {
+          "id": "WUGSchutzraum2.3",
+          "bez": "Schutzraum 2.3",
+          "qm": 23.18,
+          "farbe": "#e0f0ff"
+        },
+        {
+          "id": null,
+          "bez": "Nebenraum",
+          "qm": 11.77,
+          "farbe": null
+        }
+      ],
+      "farbe": "#e0f0ff"
+    },
+    {
+      "id": "WUGBunker",
+      "marke": "WUGBunker",
       "gebaeude": "websaal",
       "geschoss": "UG",
       "bezeichnung": "Bunker",
       "flaeche": 136.81,
-      "nutzung": "Lager",
+      "nutzung": "Bunker, Lager",
       "status": "vermietet",
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "inkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "teilbar": false,
+      "hinweis": null,
       "raeume": [
         {
+          "id": "WUGBunker",
           "bez": "Bunker",
-          "qm": 130.6
+          "qm": 130.6,
+          "farbe": "#f0e0ff"
         },
         {
+          "id": null,
           "bez": "Nebenraum",
-          "qm": 6.21
+          "qm": 6.21,
+          "farbe": null
         }
       ],
       "farbe": "#f0e0ff"
     },
     {
-      "id": "WUG12",
-      "gebaeude": "websaal",
-      "geschoss": "UG",
-      "bezeichnung": "Archiv",
-      "flaeche": 33.31,
-      "nutzung": "Archiv",
-      "status": "vermietet",
-      "frei_ab": null,
-      "preis_min": null,
-      "preis_max": null,
-      "fixmiete": null,
-      "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "Wird von der Weberei selbst genutzt.",
-      "raeume": [
-        {
-          "bez": "Archiv",
-          "qm": 33.31
-        }
-      ],
-      "farbe": "#e0fff0"
-    },
-    {
-      "id": "29EG01",
+      "id": "29EGHalle",
+      "marke": "29EGHalle",
       "gebaeude": "gebaeude29",
       "geschoss": "EG",
       "bezeichnung": "Haupthalle",
       "flaeche": 2145.59,
-      "nutzung": "Halle, Produktion",
+      "nutzung": "Produktion, Lager",
       "status": "vermietet",
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "teilbar": false,
+      "hinweis": null,
       "raeume": [
         {
+          "id": "29EGHalle",
           "bez": "Haupthalle",
-          "qm": 2145.59
+          "qm": 2145.59,
+          "farbe": "#ffe0e0"
         }
       ],
       "farbe": "#ffe0e0"
     },
     {
-      "id": "29EG05",
-      "gebaeude": "gebaeude29",
-      "geschoss": "EG",
-      "bezeichnung": "Raum 3.1 und 3.2",
-      "flaeche": 126.97,
-      "nutzung": "Büro",
-      "status": "frei",
-      "frei_ab": null,
-      "preis_min": 100,
-      "preis_max": 125,
-      "fixmiete": null,
-      "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "Auf Wunsch zusammen mit Raum 1 oder Raum 2.1.",
-      "raeume": [
-        {
-          "bez": "Raum 3.1",
-          "qm": 116.95
-        },
-        {
-          "bez": "Raum 3.2",
-          "qm": 10.02
-        }
-      ],
-      "farbe": "#e0fff0"
-    },
-    {
-      "id": "29EG04",
-      "gebaeude": "gebaeude29",
-      "geschoss": "EG",
-      "bezeichnung": "Raum 2.2 und 2.3",
-      "flaeche": 121.49,
-      "nutzung": "Büro",
-      "status": "frei",
-      "frei_ab": null,
-      "preis_min": 100,
-      "preis_max": 125,
-      "fixmiete": null,
-      "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "Auf Wunsch zusammen mit Raum 1 oder Raum 2.1.",
-      "raeume": [
-        {
-          "bez": "Raum 2.2",
-          "qm": 97.79
-        },
-        {
-          "bez": "Raum 2.3",
-          "qm": 23.7
-        }
-      ],
-      "farbe": "#e0f0ff"
-    },
-    {
-      "id": "29EG06",
-      "gebaeude": "gebaeude29",
-      "geschoss": "EG",
-      "bezeichnung": "Raum 4.1 bis 4.3",
-      "flaeche": 101.39,
-      "nutzung": "Lager",
-      "status": "frei",
-      "frei_ab": null,
-      "preis_min": 65,
-      "preis_max": 85,
-      "fixmiete": null,
-      "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "Lagerfläche mit Küchenzeile.",
-      "raeume": [
-        {
-          "bez": "Raum 4.1",
-          "qm": 63.88
-        },
-        {
-          "bez": "Raum 4.3",
-          "qm": 26.71
-        },
-        {
-          "bez": "Raum 4.2",
-          "qm": 10.8
-        }
-      ],
-      "farbe": "#fff0e0"
-    },
-    {
-      "id": "29EG03",
-      "gebaeude": "gebaeude29",
-      "geschoss": "EG",
-      "bezeichnung": "Raum 2.1",
-      "flaeche": 28.81,
-      "nutzung": "Büro",
-      "status": "frei",
-      "frei_ab": null,
-      "preis_min": 100,
-      "preis_max": 125,
-      "fixmiete": null,
-      "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "Auf Wunsch zusammen mit Raum 1 und den Räumen 2.2 und 2.3.",
-      "raeume": [
-        {
-          "bez": "Raum 2.1",
-          "qm": 28.81
-        }
-      ],
-      "farbe": "#e0f0ff"
-    },
-    {
-      "id": "29EG02",
+      "id": "29EG1",
+      "marke": "29EG1",
       "gebaeude": "gebaeude29",
       "geschoss": "EG",
       "bezeichnung": "Raum 1",
@@ -431,59 +412,151 @@ const WEBEREI_DATEN = {
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": true,
-      "hinweis": "Auf Wunsch zusammen mit Raum 2.1.",
+      "hinweis": "Einzeln oder zusammen mit Raum 2.1 zu mieten.",
       "raeume": [
         {
+          "id": "29EG1",
           "bez": "Raum 1",
-          "qm": 25.33
+          "qm": 25.33,
+          "farbe": "#e0e0ff"
         }
       ],
       "farbe": "#e0e0ff"
     },
     {
-      "id": "29UG08",
+      "id": "29EG2.1",
+      "marke": "29EG2.1",
       "gebaeude": "gebaeude29",
-      "geschoss": "UG",
-      "bezeichnung": "Raum 2 bis 5",
-      "flaeche": 76.28,
-      "nutzung": "Atelier",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 2.1",
+      "flaeche": 28.81,
+      "nutzung": "Büro",
       "status": "frei",
       "frei_ab": null,
-      "preis_min": null,
-      "preis_max": null,
-      "fixmiete": 850,
-      "nebenkosten": "inkl.",
+      "preis_min": 100,
+      "preis_max": 125,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
       "teilbar": true,
-      "hinweis": "",
+      "hinweis": "Einzeln zu mieten, ebenso zusammen mit Raum 1 oder mit den Räumen 2.2 und 2.3.",
       "raeume": [
         {
-          "bez": "Raum 2",
-          "qm": 26.33
+          "id": "29EG2.1",
+          "bez": "Raum 2.1",
+          "qm": 28.81,
+          "farbe": "#e0f0ff"
+        }
+      ],
+      "farbe": "#e0f0ff"
+    },
+    {
+      "id": "29EG2",
+      "marke": "29EG2.2 bis 2.3",
+      "gebaeude": "gebaeude29",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 2.2 und 2.3",
+      "flaeche": 121.49,
+      "nutzung": "Büro",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 100,
+      "preis_max": 125,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Nur zusammen zu mieten.",
+      "raeume": [
+        {
+          "id": "29EG2.2",
+          "bez": "Raum 2.2",
+          "qm": 97.79,
+          "farbe": "#e0f0ff"
         },
         {
-          "bez": "Raum 4",
-          "qm": 18.8
+          "id": "29EG2.3",
+          "bez": "Raum 2.3",
+          "qm": 23.7,
+          "farbe": "#e0f0ff"
+        }
+      ],
+      "farbe": "#e0f0ff"
+    },
+    {
+      "id": "29EG3",
+      "marke": "29EG3.1 bis 3.2",
+      "gebaeude": "gebaeude29",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 3.1 und 3.2",
+      "flaeche": 126.97,
+      "nutzung": "Büro",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 100,
+      "preis_max": 125,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Nur zusammen zu mieten.",
+      "raeume": [
+        {
+          "id": "29EG3.1",
+          "bez": "Raum 3.1",
+          "qm": 116.95,
+          "farbe": "#e0fff0"
         },
         {
-          "bez": "Raum 3",
-          "qm": 13.7
-        },
-        {
-          "bez": "Raum 5",
-          "qm": 11.02
-        },
-        {
-          "bez": "Nebenraum",
-          "qm": 6.43
+          "id": "29EG3.2",
+          "bez": "Raum 3.2",
+          "qm": 10.02,
+          "farbe": "#e0fff0"
         }
       ],
       "farbe": "#e0fff0"
     },
     {
-      "id": "29UG07",
+      "id": "29EG4",
+      "marke": "29EG4.1 bis 4.3",
+      "gebaeude": "gebaeude29",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 4.1 bis 4.3",
+      "flaeche": 101.39,
+      "nutzung": "Lagerfläche",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 65,
+      "preis_max": 85,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Nur zusammen zu mieten. Lagerfläche mit Küchenzeile.",
+      "raeume": [
+        {
+          "id": "29EG4.1",
+          "bez": "Raum 4.1",
+          "qm": 63.88,
+          "farbe": "#fff0e0"
+        },
+        {
+          "id": "29EG4.3",
+          "bez": "Raum 4.3",
+          "qm": 26.71,
+          "farbe": "#fff0e0"
+        },
+        {
+          "id": "29EG4.2",
+          "bez": "Raum 4.2",
+          "qm": 10.8,
+          "farbe": "#fff0e0"
+        }
+      ],
+      "farbe": "#fff0e0"
+    },
+    {
+      "id": "29UG1",
+      "marke": "29UG1",
       "gebaeude": "gebaeude29",
       "geschoss": "UG",
-      "bezeichnung": "Raum 1",
+      "bezeichnung": "Atelier, Raum 1",
       "flaeche": 66.75,
       "nutzung": "Atelier",
       "status": "frei",
@@ -491,106 +564,77 @@ const WEBEREI_DATEN = {
       "preis_min": null,
       "preis_max": null,
       "fixmiete": 700,
-      "nebenkosten": "inkl.",
+      "nebenkosten": "inkl-ohne-heizung",
       "teilbar": true,
-      "hinweis": "",
+      "hinweis": null,
       "raeume": [
         {
+          "id": "29UG1",
           "bez": "Raum 1",
-          "qm": 66.75
+          "qm": 66.75,
+          "farbe": "#ffffe0"
         }
       ],
       "farbe": "#ffffe0"
     },
     {
-      "id": "27EG19",
-      "gebaeude": "gebaeude27",
-      "geschoss": "EG",
-      "bezeichnung": "Raum 2.1 bis 2.6",
-      "flaeche": 356.44,
-      "nutzung": "Büro, Gewerbe",
-      "status": "vermietet",
+      "id": "29UG2",
+      "marke": "29UG2.1 bis 2.4",
+      "gebaeude": "gebaeude29",
+      "geschoss": "UG",
+      "bezeichnung": "Atelier, Raum 2.1 bis 2.4",
+      "flaeche": 76.28,
+      "nutzung": "Atelier",
+      "status": "frei",
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
-      "fixmiete": null,
-      "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "fixmiete": 850,
+      "nebenkosten": "inkl-ohne-heizung",
+      "teilbar": false,
+      "hinweis": "Nur zusammen zu mieten, Nebenraum inbegriffen.",
       "raeume": [
         {
+          "id": "29UG2.1",
           "bez": "Raum 2.1",
-          "qm": 238.51
+          "qm": 26.33,
+          "farbe": "#e0fff0"
         },
         {
-          "bez": "Raum 2.6",
-          "qm": 42.13
-        },
-        {
-          "bez": "Raum 2.4",
-          "qm": 23.76
-        },
-        {
-          "bez": "Raum 2.2",
-          "qm": 18.77
-        },
-        {
+          "id": "29UG2.3",
           "bez": "Raum 2.3",
-          "qm": 17.1
+          "qm": 18.8,
+          "farbe": "#e0fff0"
         },
         {
-          "bez": "Raum 2.5",
-          "qm": 16.17
+          "id": "29UG2.2",
+          "bez": "Raum 2.2",
+          "qm": 13.7,
+          "farbe": "#e0fff0"
+        },
+        {
+          "id": "29UG2.4",
+          "bez": "Raum 2.4",
+          "qm": 11.02,
+          "farbe": "#e0fff0"
+        },
+        {
+          "id": null,
+          "bez": "Nebenraum",
+          "qm": 6.43,
+          "farbe": null
         }
       ],
-      "farbe": "#fff0e0"
+      "farbe": "#e0fff0"
     },
     {
-      "id": "27EG21",
-      "gebaeude": "gebaeude27",
-      "geschoss": "EG",
-      "bezeichnung": "Raum 5.1 bis 5.5",
-      "flaeche": 101.07,
-      "nutzung": "Büro",
-      "status": "frei",
-      "frei_ab": null,
-      "preis_min": 115,
-      "preis_max": 140,
-      "fixmiete": null,
-      "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "",
-      "raeume": [
-        {
-          "bez": "Raum 5.2",
-          "qm": 31.79
-        },
-        {
-          "bez": "Raum 5.4",
-          "qm": 21.21
-        },
-        {
-          "bez": "Raum 5.5",
-          "qm": 21.05
-        },
-        {
-          "bez": "Raum 5.1",
-          "qm": 16.45
-        },
-        {
-          "bez": "Raum 5.3",
-          "qm": 10.57
-        }
-      ],
-      "farbe": "#f0e0ff"
-    },
-    {
-      "id": "27EG20",
+      "id": "27EG34",
+      "marke": "27EG3 bis 4",
       "gebaeude": "gebaeude27",
       "geschoss": "EG",
       "bezeichnung": "Raum 3 und 4",
       "flaeche": 95.73,
-      "nutzung": "Büro",
+      "nutzung": "Büro, Gewerbe",
       "status": "bald",
       "frei_ab": "2027-02-01",
       "preis_min": 115,
@@ -598,21 +642,76 @@ const WEBEREI_DATEN = {
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": true,
-      "hinweis": "Eine frühere Übernahme ist möglich.",
+      "hinweis": "Einzeln oder zusammen zu mieten.",
       "raeume": [
         {
+          "id": "27EG4",
           "bez": "Raum 4",
-          "qm": 58.57
+          "qm": 58.57,
+          "farbe": "#efffe0"
         },
         {
+          "id": "27EG3",
           "bez": "Raum 3",
-          "qm": 37.16
+          "qm": 37.16,
+          "farbe": "#ffe0e0"
         }
       ],
       "farbe": "#efffe0"
     },
     {
-      "id": "27EG18",
+      "id": "27EG5",
+      "marke": "27EG5.1 bis 5.5",
+      "gebaeude": "gebaeude27",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 5.1 bis 5.5",
+      "flaeche": 101.07,
+      "nutzung": "Büro, Gewerbe",
+      "status": "frei",
+      "frei_ab": null,
+      "preis_min": 115,
+      "preis_max": 140,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": "Nur zusammen zu mieten.",
+      "raeume": [
+        {
+          "id": "27EG5.2",
+          "bez": "Raum 5.2",
+          "qm": 31.79,
+          "farbe": "#f0e0ff"
+        },
+        {
+          "id": "27EG5.4",
+          "bez": "Raum 5.4",
+          "qm": 21.21,
+          "farbe": "#f0e0ff"
+        },
+        {
+          "id": "27EG5.5",
+          "bez": "Raum 5.5",
+          "qm": 21.05,
+          "farbe": "#f0e0ff"
+        },
+        {
+          "id": "27EG5.1",
+          "bez": "Raum 5.1",
+          "qm": 16.45,
+          "farbe": "#f0e0ff"
+        },
+        {
+          "id": "27EG5.3",
+          "bez": "Raum 5.3",
+          "qm": 10.57,
+          "farbe": "#f0e0ff"
+        }
+      ],
+      "farbe": "#f0e0ff"
+    },
+    {
+      "id": "27EG1",
+      "marke": "27EG1.1 bis 1.2",
       "gebaeude": "gebaeude27",
       "geschoss": "EG",
       "bezeichnung": "Raum 1.1 und 1.2",
@@ -624,53 +723,83 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "teilbar": false,
+      "hinweis": null,
       "raeume": [
         {
+          "id": "27EG1.1",
           "bez": "Raum 1.1",
-          "qm": 50.26
+          "qm": 50.26,
+          "farbe": "#e0fff0"
         },
         {
+          "id": "27EG1.2",
           "bez": "Raum 1.2",
-          "qm": 10.04
+          "qm": 10.04,
+          "farbe": "#e0fff0"
         }
       ],
       "farbe": "#e0fff0"
     },
     {
-      "id": "27UG23",
+      "id": "27EG2",
+      "marke": "27EG2.1 bis 2.6",
       "gebaeude": "gebaeude27",
-      "geschoss": "UG",
-      "bezeichnung": "Raum 2.1 bis 2.3",
-      "flaeche": 254.21,
-      "nutzung": "Lager, Gewerbe",
+      "geschoss": "EG",
+      "bezeichnung": "Raum 2.1 bis 2.6",
+      "flaeche": 356.44,
+      "nutzung": "Büro, Gewerbe",
       "status": "vermietet",
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "teilbar": false,
+      "hinweis": null,
       "raeume": [
         {
+          "id": "27EG2.1",
           "bez": "Raum 2.1",
-          "qm": 218.94
+          "qm": 238.51,
+          "farbe": "#fff0e0"
         },
         {
-          "bez": "Raum 2.3",
-          "qm": 18.77
+          "id": "27EG2.6",
+          "bez": "Raum 2.6",
+          "qm": 42.13,
+          "farbe": "#fff0e0"
         },
         {
+          "id": "27EG2.4",
+          "bez": "Raum 2.4",
+          "qm": 23.76,
+          "farbe": "#fff0e0"
+        },
+        {
+          "id": "27EG2.2",
           "bez": "Raum 2.2",
-          "qm": 16.5
+          "qm": 18.77,
+          "farbe": "#fff0e0"
+        },
+        {
+          "id": "27EG2.3",
+          "bez": "Raum 2.3",
+          "qm": 17.1,
+          "farbe": "#fff0e0"
+        },
+        {
+          "id": "27EG2.5",
+          "bez": "Raum 2.5",
+          "qm": 16.17,
+          "farbe": "#fff0e0"
         }
       ],
-      "farbe": "#e0fff0"
+      "farbe": "#fff0e0"
     },
     {
-      "id": "27UG22",
+      "id": "27UG1",
+      "marke": "27UG1.1 bis 1.3",
       "gebaeude": "gebaeude27",
       "geschoss": "UG",
       "bezeichnung": "Raum 1.1 bis 1.3",
@@ -682,26 +811,71 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "teilbar": false,
+      "hinweis": null,
       "raeume": [
         {
+          "id": "27UG1.2",
           "bez": "Raum 1.2",
-          "qm": 152.23
+          "qm": 152.23,
+          "farbe": "#fff0e0"
         },
         {
+          "id": "27UG1.3",
           "bez": "Raum 1.3",
-          "qm": 20.12
+          "qm": 20.12,
+          "farbe": "#fff0e0"
         },
         {
+          "id": "27UG1.1",
           "bez": "Raum 1.1",
-          "qm": 9.17
+          "qm": 9.17,
+          "farbe": "#fff0e0"
         }
       ],
       "farbe": "#fff0e0"
     },
     {
-      "id": "27UG24",
+      "id": "27UG2",
+      "marke": "27UG2.1 bis 2.3",
+      "gebaeude": "gebaeude27",
+      "geschoss": "UG",
+      "bezeichnung": "Raum 2.1 bis 2.3",
+      "flaeche": 254.21,
+      "nutzung": "Lager, Gewerbe",
+      "status": "vermietet",
+      "frei_ab": null,
+      "preis_min": null,
+      "preis_max": null,
+      "fixmiete": null,
+      "nebenkosten": "exkl.",
+      "teilbar": false,
+      "hinweis": null,
+      "raeume": [
+        {
+          "id": "27UG2.1",
+          "bez": "Raum 2.1",
+          "qm": 218.94,
+          "farbe": "#e0fff0"
+        },
+        {
+          "id": "27UG2.3",
+          "bez": "Raum 2.3",
+          "qm": 18.77,
+          "farbe": "#e0fff0"
+        },
+        {
+          "id": "27UG2.2",
+          "bez": "Raum 2.2",
+          "qm": 16.5,
+          "farbe": "#e0fff0"
+        }
+      ],
+      "farbe": "#e0fff0"
+    },
+    {
+      "id": "27UG3",
+      "marke": "27UG3.1 bis 3.3",
       "gebaeude": "gebaeude27",
       "geschoss": "UG",
       "bezeichnung": "Raum 3.1 bis 3.3",
@@ -713,53 +887,65 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "teilbar": false,
+      "hinweis": null,
       "raeume": [
         {
+          "id": "27UG3.2",
           "bez": "Raum 3.2",
-          "qm": 54.24
+          "qm": 54.24,
+          "farbe": "#e0e0ff"
         },
         {
+          "id": "27UG3.1",
           "bez": "Raum 3.1",
-          "qm": 32.25
+          "qm": 32.25,
+          "farbe": "#e0e0ff"
         },
         {
+          "id": "27UG3.3",
           "bez": "Raum 3.3",
-          "qm": 18.47
+          "qm": 18.47,
+          "farbe": "#e0e0ff"
         }
       ],
       "farbe": "#e0e0ff"
     },
     {
-      "id": "ROEG15",
+      "id": "ROEG1",
+      "marke": "ROEG1",
       "gebaeude": "roko",
       "geschoss": "EG",
-      "bezeichnung": "Halle mit WC",
+      "bezeichnung": "ROKO-Halle",
       "flaeche": 630.69,
-      "nutzung": "Halle, Produktion, Lager",
+      "nutzung": "Produktion, Lager",
       "status": "frei",
       "frei_ab": null,
       "preis_min": 95,
       "preis_max": 110,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "teilbar": false,
+      "hinweis": "Die Toilette gehört zur Mietfläche.",
       "raeume": [
         {
-          "bez": "Halle",
-          "qm": 623.4
+          "id": "ROEG1",
+          "bez": "Hauptfläche",
+          "qm": 623.4,
+          "farbe": "#fff0e0"
         },
         {
+          "id": null,
           "bez": "WC",
-          "qm": 7.29
+          "qm": 7.29,
+          "farbe": null
         }
       ],
       "farbe": "#fff0e0"
     },
     {
-      "id": "ROUG17",
+      "id": "ROUG",
+      "marke": "ROUG1 bis 2",
       "gebaeude": "roko",
       "geschoss": "UG",
       "bezeichnung": "Werkstatt",
@@ -771,39 +957,46 @@ const WEBEREI_DATEN = {
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "inkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "teilbar": false,
+      "hinweis": null,
       "raeume": [
         {
-          "bez": "Werkstatt Ost",
-          "qm": 78.07
+          "id": "ROUG2",
+          "bez": "Werkstatt Teil 2",
+          "qm": 78.07,
+          "farbe": "#fff0e0"
         },
         {
-          "bez": "Werkstatt West",
-          "qm": 51.61
+          "id": "ROUG1",
+          "bez": "Werkstatt Teil 1",
+          "qm": 51.61,
+          "farbe": "#fff0e0"
         }
       ],
       "farbe": "#fff0e0"
     },
     {
-      "id": "SCHEG16",
+      "id": "SCHEG1",
+      "marke": "SCHEG1",
       "gebaeude": "schopf",
       "geschoss": "EG",
-      "bezeichnung": "Halle",
+      "bezeichnung": "Schopf, Halle",
       "flaeche": 364.23,
-      "nutzung": "Lager, Einstellhalle",
+      "nutzung": "Lagerfläche",
       "status": "vermietet",
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
       "fixmiete": null,
       "nebenkosten": "exkl.",
-      "teilbar": true,
-      "hinweis": "",
+      "teilbar": false,
+      "hinweis": null,
       "raeume": [
         {
+          "id": "SCHEG1",
           "bez": "Halle",
-          "qm": 364.23
+          "qm": 364.23,
+          "farbe": "#fff0e0"
         }
       ],
       "farbe": "#fff0e0"

@@ -168,7 +168,8 @@ und ohne PHP laufen.
 
 | Feld          | Bedeutung                                                       |
 |---------------|-----------------------------------------------------------------|
-| `id`          | eindeutige Kennung, entspricht der Einheit-Nr. der Raumliste, z.B. `27EG21` |
+| `id`          | eindeutiger Schlüssel der Einheit, z.B. `27EG5`. Darf nicht gleich lauten wie die Nummer eines ihrer Räume |
+| `marke`       | Nummernspanne für das Abzeichen auf der Karte, z.B. `27EG5.1 bis 5.5`. Wird aus den Raumnummern gebildet |
 | `gebaeude`    | `id` eines Eintrags aus `gebaeude`                              |
 | `geschoss`    | `"EG"` oder `"UG"`                                              |
 | `bezeichnung` | wie im Plan angeschrieben, z.B. `Raum 5.1 bis 5.5`              |
@@ -179,11 +180,11 @@ und ohne PHP laufen.
 | `preis_min`   | CHF je m² und Jahr bei Übernahme im heutigen Zustand, oder `null` |
 | `preis_max`   | CHF je m² und Jahr ausgebaut und bezugsbereit, oder `null`      |
 | `fixmiete`    | fester Monatszins in CHF. Gesetzt, gilt er **anstelle** der m²-Preise |
-| `nebenkosten` | `"exkl."` oder `"inkl."`, erscheint hinter dem Mietzins          |
+| `nebenkosten` | `"exkl."`, `"inkl."` oder `"inkl-ohne-heizung"`, erscheint hinter dem Mietzins |
 | `teilbar`     | `true`, wenn die Räume auch einzeln zu haben sind               |
 | `hinweis`     | ein Satz für die Karte, z.B. «Auf Wunsch zusammen mit Raum 1.»  |
 | `farbe`       | Füllfarbe der Fläche im Grundriss als `#rrggbb`, siehe unten     |
-| `raeume`      | Einzelräume der Einheit, je `bez` und `qm`                      |
+| `raeume`      | Einzelräume der Einheit, je `id` (Nummer im Plan), `bez`, `qm` und `farbe` |
 
 **Anzeige des Mietzinses** in dieser Reihenfolge: bei Status `vermietet` gar
 kein Betrag; sonst `fixmiete`, wenn gesetzt; sonst die Spanne `preis_min` bis
@@ -191,20 +192,31 @@ kein Betrag; sonst `fixmiete`, wenn gesetzt; sonst die Spanne `preis_min` bis
 «auf Anfrage».
 
 **Zu `raeume` und `teilbar`:** Die Aufteilung stammt aus der Gebäudeaufnahme und
-wird im Admin nur angezeigt, nicht verändert. **Die Räume jeder Einheit sind
-immer auch einzeln mietbar**, so hat es die Eigentümerschaft bestätigt. `teilbar`
-steht darum überall auf `true` und ist bei neuen Einheiten so anzulegen. Das Feld
-bleibt trotzdem bestehen, falls einmal eine Fläche wirklich nur am Stück zu haben
-ist; im Admin ist es das Häkchen «Räume einzeln mietbar».
+wird im Admin nur angezeigt, nicht verändert. Jeder Raum trägt seine Nummer aus
+dem Grundriss, etwa `27EG5.3`, dazu die Farbe, in der er dort eingezeichnet ist.
+
+`teilbar` entscheidet über die Anfrage:
+
+- `true`: Jede Raumzeile bekommt einen eigenen Knopf «Anfragen». Man fragt genau
+  einen Raum an, nicht die ganze Einheit. Besteht die Einheit aus einem einzigen
+  Raum, steht der Knopf wie bisher unten auf der Karte.
+- `false`: Die Räume stehen als Gruppe beisammen, kenntlich an der Klammer am
+  linken Rand und dem Satz «Diese Räume werden nur zusammen vermietet». Unten auf
+  der Karte steht ein einziger Knopf «Ganze Einheit anfragen».
+
+Die Angaben dazu stammen aus der Rückmeldung vom 23.08.2026. Nur zusammen zu
+haben sind: der Websaal im EG, die Schutzräume 2.1 bis 2.3, in Gebäude 29 EG die
+Räume 2.2/2.3, 3.1/3.2 und 4.1 bis 4.3, in Gebäude 29 UG die Räume 2.1 bis 2.4
+und in Gebäude 27 EG die Räume 5.1 bis 5.5.
 
 Unter der Gesamtfläche nennt die Karte die kleinste einzeln mietbare Fläche,
-etwa «einzeln ab 12.3 m²». Ohne diesen Zusatz wirkt der Websaal wie 2149 m² am
-Stück. WC und Nebenräume bleiben bei dieser Zahl aussen vor, sie gehören zur
-Einheit, mietet aber niemand für sich allein. In der Raumliste stehen sie
-weiterhin.
+etwa «einzeln ab 12.3 m²». WC und Nebenräume bleiben bei dieser Zahl aussen vor,
+sie gehören zur Einheit, mietet aber niemand für sich allein. In der Raumliste
+stehen sie weiterhin.
 
 **Zu `farbe`:** Jede Karte in der Flächenliste ist in der Farbe eingefärbt, die
-ihre Fläche im Grundriss trägt. Damit findet man vom Plan in die Liste, ohne die
+ihre Fläche im Grundriss trägt, und jede Raumzeile trägt einen Farbtupfer in der
+Farbe ihres eigenen Raums. Das hilft bei Einheiten aus mehreren Tönen. Damit findet man vom Plan in die Liste, ohne die
 Nummer lesen zu müssen. Der farbige Streifen oben an der Karte bleibt dem Status
 vorbehalten, grün, gelb oder rot. Vermietete Flächen zeigen dieselbe Planfarbe,
 zur Hälfte in den Papierton gemischt, damit sie zurücktreten.

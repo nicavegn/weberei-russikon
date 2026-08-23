@@ -6,8 +6,8 @@
    1. Die Grundrisse sind Bilder der Originalpläne, nicht anklickbar.
       Die Pillen darüber sind die einzige Bedienung der Seite.
    2. Die Flächenliste steht offen darunter, nicht in einem Dialog. Sie
-      zeigt genau den gewählten Gebäudeteil, gegliedert nach Geschoss.
-      Vermietete Flächen lassen sich über ein Häkchen dazuschalten.
+      zeigt genau das Geschoss, dessen Grundriss oben steht, und wechselt
+      mit ihm. Vermietete Flächen lassen sich über ein Häkchen dazuschalten.
 
    Wer eine Fläche im Plan sieht, findet sie über ihre Nummer in der Liste
    wieder. Plan und Liste tragen dieselben Kennungen.
@@ -16,9 +16,12 @@
    data/flaechen.json durch den Admin-Bereich.
 
    Begriffe:
-   Einheit   was am Stück vermietet wird.
-   Raum      ein einzelner Raum darin. Ob die Räume auch einzeln zu haben
-             sind, sagt das Feld teilbar.
+   Einheit   was am Stück vermietet wird, eine Karte in der Liste.
+   Raum      ein einzelner Raum darin, mit eigener Nummer im Grundriss.
+             Ob die Räume auch einzeln zu haben sind, sagt das Feld teilbar.
+             Ist es gesetzt, trägt jede Raumzeile ihren eigenen
+             Anfrage-Knopf. Ist es das nicht, stehen die Räume als Gruppe
+             beisammen und es gibt einen einzigen Knopf für das Ganze.
    ===================================================================== */
 
 (function () {
@@ -36,6 +39,14 @@
   };
   const STATUS_RANG = { frei: 0, bald: 1, vermietet: 2 };
   const GESCHOSS_TEXT = { EG: "Erdgeschoss", UG: "Untergeschoss" };
+
+  /* Die Ateliers in Gebäude 29 UG sind ein Sonderfall: Nebenkosten sind im
+     festen Monatszins enthalten, die Heizkosten aber nicht. */
+  const NEBENKOSTEN_TEXT = {
+    "inkl.": "inkl. Nebenkosten",
+    "exkl.": "exkl. Nebenkosten",
+    "inkl-ohne-heizung": "inkl. Nebenkosten, exkl. Heizkosten"
+  };
 
   /* --- Hilfsfunktionen ---------------------------------------------- */
 
@@ -57,7 +68,7 @@
      Statusabzeichen sagt bereits, dass nichts zu holen ist. */
   function preisInfo(e) {
     if (e.status === "vermietet") { return null; }
-    const nk = e.nebenkosten === "inkl." ? "inkl. Nebenkosten" : "exkl. Nebenkosten";
+    const nk = NEBENKOSTEN_TEXT[e.nebenkosten] || "exkl. Nebenkosten";
     if (e.fixmiete) {
       return { betrag: "CHF " + zahl(e.fixmiete) + ".–", bezug: "je Monat, " + nk };
     }
@@ -93,6 +104,7 @@
      Nebenräume nur ein Raum bleibt, dann sagt die Gesamtfläche alles. */
   function kleinsterRaumText(e) {
     if (!e.teilbar || !e.raeume || e.raeume.length < 2) { return null; }
+    if (e.status === "vermietet") { return null; }
     const eigene = e.raeume.filter(function (r) { return !istNebenraum(r); });
     if (eigene.length < 2) { return null; }
     const kleinste = Math.min.apply(null, eigene.map(function (r) { return r.qm; }));
@@ -254,7 +266,10 @@
             : "sind " + frei.length + " Flächen") +
           " verfügbar, zusammen " + flaecheText(summe(frei)) + "."
         : "In diesem Geschoss ist derzeit nichts verfügbar.";
-      planInfo.textContent = g.beschreibung + " " + satz;
+      /* Der Websaal ist im EG und im UG grundverschieden, dort steht je
+         Geschoss ein eigener Text. Fehlt einer, gilt der des Gebäudeteils. */
+      const text = (g.beschreibungen || {})[aktuellesGeschoss] || g.beschreibung;
+      planInfo.textContent = text + " " + satz;
     }
 
     document.querySelectorAll("[data-gebaeude]").forEach(function (k) {
@@ -287,9 +302,10 @@
   /* =====================================================================
      Flächenliste
      ---------------------------------------------------------------------
-     Zeigt genau den Gebäudeteil, dessen Grundriss oben steht, gegliedert
-     nach Geschoss. Das Geschoss des gezeigten Blattes steht zuoberst, das
-     andere folgt darunter, damit nichts übersehen wird.
+     Zeigt genau das Geschoss, dessen Grundriss oben steht, und nur dieses.
+     Früher stand das zweite Geschoss darunter, was verwirrte: Wer oben das
+     Erdgeschoss wählte, bekam trotzdem auch die Kellerflächen zu sehen. Ein
+     Wechsel der Geschosspille tauscht jetzt Plan und Liste zugleich.
      ===================================================================== */
 
   const listeInhalt = document.querySelector("[data-liste-inhalt]");
@@ -330,7 +346,7 @@
        auf den Plänen bei jeder Fläche. */
     const kopf = element("header", "fkarte__kopf");
     const titelblock = element("div");
-    titelblock.appendChild(element("span", "fkarte__nr", e.id));
+    titelblock.appendChild(element("span", "fkarte__nr", e.marke || e.id));
     titelblock.appendChild(element("h3", "fkarte__titel", e.bezeichnung));
     kopf.appendChild(titelblock);
     kopf.appendChild(element("span", "status-badge status-badge--" + e.status, statusText(e)));
@@ -365,30 +381,72 @@
       karte.appendChild(element("p", "fkarte__hinweis", e.hinweis));
     }
 
-    /* Räume der Einheit, aufklappbar. Ob sie einzeln zu haben sind,
-       steht im Feld teilbar und wird hier ausdrücklich benannt. */
+    /* Räume der Einheit, aufklappbar.
+
+       Sind sie einzeln zu haben, trägt jede Zeile ihren eigenen Knopf. Man
+       fragt dann genau einen Raum an und nicht die ganze Einheit.
+
+       Sind sie nur zusammen zu haben, stehen sie als Gruppe beisammen,
+       erkennbar an der Klammer am linken Rand, und darunter steht ein
+       einziger Knopf für das Ganze. Ein Knopf je Zeile wäre dort ein
+       falsches Versprechen. */
+    const einzeln = e.teilbar && e.status !== "vermietet";
+
     if (e.raeume && e.raeume.length > 1) {
       const klapp = element("details", "fkarte__raeume");
       const zusatz = e.status === "vermietet"
         ? ""
-        : ", " + (e.teilbar ? "einzeln mietbar" : "nur zusammen mietbar");
+        : ", " + (e.teilbar ? "einzeln anfragbar" : "nur zusammen mietbar");
       klapp.appendChild(element("summary", null, e.raeume.length + " Räume" + zusatz));
-      const liste = element("ul");
+
+      const liste = element("ul", e.teilbar ? null : "fkarte__gruppe");
       e.raeume.forEach(function (r) {
         const li = element("li");
-        li.appendChild(element("span", null, r.bez));
-        li.appendChild(element("span", "fkarte__raumqm", flaecheText(r.qm)));
+
+        const links = element("span", "fkarte__raumname");
+        /* Farbtupfer in der Farbe, die der Raum im Grundriss hat. Bei
+           Einheiten aus mehreren Tönen ist das die einzige Stelle, an der
+           man Raum und Planfläche sicher zusammenbringt. */
+        if (r.farbe) {
+          const tupfer = element("span", "fkarte__tupfer");
+          tupfer.style.backgroundColor = r.farbe;
+          links.appendChild(tupfer);
+        }
+        if (r.id) { links.appendChild(element("span", "fkarte__raumnr", r.id)); }
+        links.appendChild(element("span", null, r.bez));
+        li.appendChild(links);
+
+        const rechts = element("span", "fkarte__raumrechts");
+        rechts.appendChild(element("span", "fkarte__raumqm", flaecheText(r.qm)));
+        if (einzeln) {
+          const knopf = element("button", "btn btn--winzig");
+          knopf.type = "button";
+          knopf.textContent = "Anfragen";
+          knopf.setAttribute("aria-label", "Raum " + (r.id || r.bez) + " anfragen");
+          knopf.addEventListener("click", function () { frageAn(e, r); });
+          rechts.appendChild(knopf);
+        }
+        li.appendChild(rechts);
         liste.appendChild(li);
       });
       klapp.appendChild(liste);
+      if (!e.teilbar && e.status !== "vermietet") {
+        klapp.appendChild(element("p", "fkarte__gruppennote",
+          "Diese Räume werden nur zusammen vermietet."));
+      }
       karte.appendChild(klapp);
     }
 
-    if (e.status !== "vermietet") {
+    /* Ein Knopf für die ganze Einheit steht überall dort, wo es keine
+       Knöpfe je Zeile gibt: bei Einheiten aus einem einzigen Raum und bei
+       solchen, die nur am Stück zu haben sind. */
+    const eigenerKnopf = e.status !== "vermietet"
+      && (!einzeln || !e.raeume || e.raeume.length < 2);
+    if (eigenerKnopf) {
       const fuss = element("div", "fkarte__fuss");
       const knopf = element("button", "btn btn--klein");
       knopf.type = "button";
-      knopf.textContent = "Diese Fläche anfragen";
+      knopf.textContent = e.teilbar ? "Diese Fläche anfragen" : "Ganze Einheit anfragen";
       knopf.addEventListener("click", function () { frageAn(e); });
       fuss.appendChild(knopf);
       karte.appendChild(fuss);
@@ -409,46 +467,41 @@
     const g = gebaeudeVon(aktuellesGebaeude);
     if (!g) { return; }
 
-    /* Das gezeigte Geschoss zuerst, das übrige danach */
-    const geschosse = (g.geschosse || []).slice().sort(function (a, b) {
-      return (a === aktuellesGeschoss ? 0 : 1) - (b === aktuellesGeschoss ? 0 : 1);
-    });
+    const geschossName = GESCHOSS_TEXT[aktuellesGeschoss] || aktuellesGeschoss;
+    const eigene = imGebaeude(aktuellesGebaeude, aktuellesGeschoss)
+      .filter(function (e) { return zeigeVermietete || istVerfuegbar(e); })
+      .sort(nachStatusUndGroesse);
 
     listeInhalt.innerHTML = "";
-    let gezeigt = 0;
-    geschosse.forEach(function (gs) {
-      const eigene = imGebaeude(aktuellesGebaeude, gs)
-        .filter(function (e) { return zeigeVermietete || istVerfuegbar(e); })
-        .sort(nachStatusUndGroesse);
-      if (!eigene.length) { return; }
-
+    if (eigene.length) {
       const titel = element("h3", "liste-geschoss");
-      titel.appendChild(element("span", "liste-geschoss__name", GESCHOSS_TEXT[gs] || gs));
+      titel.appendChild(element("span", "liste-geschoss__name", geschossName));
       titel.appendChild(element("span", "liste-geschoss__zahl",
         eigene.length + (eigene.length === 1 ? " Fläche" : " Flächen")));
       listeInhalt.appendChild(titel);
-
       eigene.forEach(function (e) { listeInhalt.appendChild(baueKarte(e)); });
-      gezeigt += eigene.length;
-    });
-
-    if (!gezeigt) {
+    } else {
       listeInhalt.appendChild(element("p", "liste-leer",
-        "In diesem Gebäudeteil ist derzeit nichts verfügbar. Schalten Sie die "
+        "In diesem Geschoss ist derzeit nichts verfügbar. Schalten Sie die "
         + "vermieteten Flächen dazu, um den Bestand zu sehen."));
     }
 
-    if (listeTitel) { listeTitel.textContent = "Flächen, " + g.name; }
+    if (listeTitel) {
+      listeTitel.textContent = "Flächen, " + g.name + ", " + geschossName;
+    }
     if (listeUnter) {
-      const alle = imGebaeude(aktuellesGebaeude);
+      const alle = imGebaeude(aktuellesGebaeude, aktuellesGeschoss);
       const frei = alle.filter(istVerfuegbar);
       listeUnter.textContent = frei.length
         ? (frei.length === 1 ? "Eine Fläche" : frei.length + " Flächen")
           + " verfügbar, zusammen " + flaecheText(summe(frei))
-          + ". Der Gebäudeteil umfasst " + alle.length + " Mieteinheiten mit "
+          + ". Dieses Geschoss umfasst " + alle.length
+          + (alle.length === 1 ? " Mieteinheit mit " : " Mieteinheiten mit ")
           + flaecheText(summe(alle)) + "."
-        : "In diesem Gebäudeteil ist derzeit nichts verfügbar, er umfasst "
-          + alle.length + " Mieteinheiten mit " + flaecheText(summe(alle)) + ".";
+        : "In diesem Geschoss ist derzeit nichts verfügbar, es umfasst "
+          + alle.length
+          + (alle.length === 1 ? " Mieteinheit mit " : " Mieteinheiten mit ")
+          + flaecheText(summe(alle)) + ".";
     }
   }
 
@@ -480,6 +533,17 @@
   const auswahl = document.querySelector("[data-formular-flaeche]");
   const meldung = document.querySelector("[data-meldung]");
 
+  /* Das Auswahlfeld führt jede Einheit und, wo die Räume einzeln zu haben
+     sind, zusätzlich jeden Raum. Der Wert bleibt in beiden Fällen die
+     Kennung der Einheit, der Raum reist im verborgenen Feld daneben mit. So
+     bleibt die Prüfung auf der Serverseite einfach, und wer das Feld von
+     Hand bedient, wählt genau dasselbe wie über den Knopf an der Karte. */
+  const raumFeld = document.querySelector("[data-formular-raum]");
+
+  function schluessel(einheit, raum) {
+    return einheit.id + (raum && raum.id ? "|" + raum.id : "");
+  }
+
   if (auswahl) {
     GEBAEUDE.forEach(function (g) {
       const passende = VERFUEGBAR.filter(function (e) { return e.gebaeude === g.id; });
@@ -487,25 +551,64 @@
       const gruppe = document.createElement("optgroup");
       gruppe.label = g.name;
       passende.forEach(function (e) {
+        const ort = GESCHOSS_TEXT[e.geschoss] || e.geschoss;
         const opt = document.createElement("option");
         opt.value = e.id;
-        opt.textContent = e.bezeichnung + ", " + (GESCHOSS_TEXT[e.geschoss] || e.geschoss) +
-                          ", " + flaecheText(e.flaeche);
+        opt.setAttribute("data-schluessel", schluessel(e));
+        opt.textContent = e.bezeichnung + ", " + ort + ", " + flaecheText(e.flaeche);
         gruppe.appendChild(opt);
+
+        if (e.teilbar && e.raeume && e.raeume.length > 1) {
+          e.raeume.forEach(function (r) {
+            if (!r.id) { return; }
+            const unter = document.createElement("option");
+            unter.value = e.id;
+            unter.setAttribute("data-raum", r.id);
+            unter.setAttribute("data-schluessel", schluessel(e, r));
+            unter.textContent = "   " + r.bez + " (" + r.id + "), "
+                                + flaecheText(r.qm);
+            gruppe.appendChild(unter);
+          });
+        }
       });
       auswahl.appendChild(gruppe);
     });
+
+    auswahl.addEventListener("change", raumFeldNachfuehren);
   }
 
-  function frageAn(einheit) {
-    if (auswahl) { auswahl.value = einheit.id; }
+  function raumFeldNachfuehren() {
+    if (!raumFeld || !auswahl) { return; }
+    const gewaehlt = auswahl.options[auswahl.selectedIndex];
+    raumFeld.value = gewaehlt ? (gewaehlt.getAttribute("data-raum") || "") : "";
+  }
+
+  /* Anfrage vorbereiten. Ohne zweites Argument geht es um die ganze
+     Einheit, mit einem Raum genau um diesen einen. */
+  function frageAn(einheit, raum) {
+    if (auswahl) {
+      const ziel = schluessel(einheit, raum);
+      for (let i = 0; i < auswahl.options.length; i++) {
+        if (auswahl.options[i].getAttribute("data-schluessel") === ziel) {
+          auswahl.selectedIndex = i;
+          break;
+        }
+      }
+      raumFeldNachfuehren();
+    }
+
+    const ort = gebaeudeName(einheit.gebaeude) + ", "
+              + (GESCHOSS_TEXT[einheit.geschoss] || einheit.geschoss);
+    const gegenstand = raum
+      ? raum.bez + " (" + (raum.id || einheit.marke) + ", " + ort + ", "
+        + flaecheText(raum.qm) + ")"
+      : einheit.bezeichnung + " (" + (einheit.marke || einheit.id) + ", " + ort
+        + ", " + flaecheText(einheit.flaeche) + ")";
+
     const text = document.getElementById("f-text");
     if (text && !text.value.trim()) {
-      text.value = "Guten Tag\n\nIch interessiere mich für die Fläche " +
-        einheit.bezeichnung + " (" + gebaeudeName(einheit.gebaeude) + ", " +
-        (GESCHOSS_TEXT[einheit.geschoss] || einheit.geschoss) + ", " +
-        flaecheText(einheit.flaeche) + ") und bitte um weitere Angaben.\n\n" +
-        "Freundliche Grüsse\n";
+      text.value = "Guten Tag\n\nIch interessiere mich für " + gegenstand
+        + " und bitte um weitere Angaben.\n\nFreundliche Grüsse\n";
     }
     scrolleZu(document.getElementById("anfrage"));
     const name = document.getElementById("f-name");

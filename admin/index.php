@@ -129,9 +129,9 @@ function anmeldeseite(?string $meldung, string $art): void
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Anmeldung | Alte Weberei Russikon</title>
-  <link rel="stylesheet" href="../css/fonts.css?v=5">
-  <link rel="stylesheet" href="../css/style.css?v=5">
-  <link rel="stylesheet" href="admin.css?v=5">
+  <link rel="stylesheet" href="../css/fonts.css?v=6">
+  <link rel="stylesheet" href="../css/style.css?v=6">
+  <link rel="stylesheet" href="admin.css?v=6">
 </head>
 <body class="admin-body">
   <main class="admin-schmal admin-anmeldung">
@@ -168,9 +168,9 @@ function anmeldeseite(?string $meldung, string $art): void
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Flächenverwaltung | Alte Weberei Russikon</title>
-  <link rel="stylesheet" href="../css/fonts.css?v=5">
-  <link rel="stylesheet" href="../css/style.css?v=5">
-  <link rel="stylesheet" href="admin.css?v=5">
+  <link rel="stylesheet" href="../css/fonts.css?v=6">
+  <link rel="stylesheet" href="../css/style.css?v=6">
+  <link rel="stylesheet" href="admin.css?v=6">
 </head>
 <body class="admin-body">
 
@@ -313,6 +313,7 @@ function anmeldeseite(?string $meldung, string $art): void
               <select name="einheiten[<?= $i ?>][nebenkosten]">
                 <option value="exkl." <?= ($e['nebenkosten'] ?? 'exkl.') === 'exkl.' ? 'selected' : '' ?>>exklusive</option>
                 <option value="inkl." <?= ($e['nebenkosten'] ?? '') === 'inkl.' ? 'selected' : '' ?>>inklusive</option>
+                <option value="inkl-ohne-heizung" <?= ($e['nebenkosten'] ?? '') === 'inkl-ohne-heizung' ? 'selected' : '' ?>>inklusive, ohne Heizkosten</option>
               </select>
             </div>
             <div class="feld">
@@ -347,6 +348,6 @@ function anmeldeseite(?string $meldung, string $art): void
     </form>
   </main>
 
-  <script src="admin.js?v=5"></script>
+  <script src="admin.js?v=6"></script>
 </body>
 </html>

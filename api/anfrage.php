@@ -79,6 +79,7 @@ $email     = trim((string)($_POST['email'] ?? ''));
 $telefon   = trim((string)($_POST['telefon'] ?? ''));
 $nachricht = trim((string)($_POST['nachricht'] ?? ''));
 $flaeche   = trim((string)($_POST['flaeche'] ?? ''));
+$raum      = trim((string)($_POST['raum'] ?? ''));
 
 if ($name === '' || mb_strlen($name) > 100) {
     antwort(false, 'Bitte geben Sie Ihren Namen an.', 422);
@@ -98,12 +99,20 @@ foreach ([$name, $firma, $email, $telefon] as $wert) {
         antwort(false, 'Ungültige Eingabe.', 422);
     }
 }
-/* Die Kennung der Fläche landet im Betreff, auch dann, wenn sie zu keiner
-   Einheit passt. Sie muss deshalb genauso streng geprüft werden wie die
-   Kennungen in data/flaechen.json, sonst liessen sich über dieses Feld
-   eigene Kopfzeilen einschleusen. */
-if ($flaeche !== '' && !preg_match('/^[A-Za-z0-9\-]{1,24}$/', $flaeche)) {
+/* Die Kennungen von Fläche und Raum landen im Betreff, auch dann, wenn sie zu
+   nichts passen. Sie müssen deshalb genauso streng geprüft werden wie die
+   Kennungen in data/flaechen.json, sonst liessen sich über diese Felder eigene
+   Kopfzeilen einschleusen.
+
+   Der Punkt gehört seit dem 21.08.2026 dazu: Die Räume heissen jetzt 27EG5.3
+   statt 27EG20. Für Kopfzeilen ist er ungefährlich, gefährlich wären allein
+   Zeilenumbrüche, und die schliesst das Muster aus. */
+$muster_kennung = '/^[A-Za-z0-9.\-]{1,26}$/';
+if ($flaeche !== '' && !preg_match($muster_kennung, $flaeche)) {
     antwort(false, 'Die gewählte Fläche ist unbekannt.', 422);
+}
+if ($raum !== '' && !preg_match($muster_kennung, $raum)) {
+    antwort(false, 'Der gewählte Raum ist unbekannt.', 422);
 }
 
 /* --- Fläche auflösen ------------------------------------------------
@@ -121,9 +130,44 @@ if ($flaeche !== '') {
             if (($e['id'] ?? '') !== $flaeche) {
                 continue;
             }
+            $ort = sprintf(
+                '%s, %s',
+                $gebaeude_namen[$e['gebaeude'] ?? ''] ?? ($e['gebaeude'] ?? ''),
+                ($e['geschoss'] ?? '') === 'EG' ? 'Erdgeschoss' : 'Untergeschoss'
+            );
+
+            /* Gilt die Anfrage einem einzelnen Raum, steht dieser vorn und die
+               Einheit nur noch als Herkunft dahinter. Sonst ginge im Betreff
+               unter, worum es tatsächlich geht. */
+            $treffer = null;
+            if ($raum !== '') {
+                foreach ($e['raeume'] ?? [] as $r) {
+                    if (($r['id'] ?? '') === $raum) {
+                        $treffer = $r;
+                        break;
+                    }
+                }
+            }
+            if ($treffer !== null) {
+                $flaeche_text = sprintf(
+                    '%s, %s (%s, %s m², aus der Einheit %s)',
+                    $treffer['bez'] ?? $raum,
+                    $ort,
+                    $raum,
+                    zahl_kurz((float)($treffer['qm'] ?? 0)),
+                    $e['bezeichnung'] ?? ($e['id'] ?? '')
+                );
+                break;
+            }
+
             $teile = [];
             foreach ($e['raeume'] ?? [] as $r) {
-                $teile[] = sprintf('%s (%s m²)', $r['bez'] ?? '?', zahl_kurz((float)($r['qm'] ?? 0)));
+                $teile[] = sprintf(
+                    '%s%s (%s m²)',
+                    !empty($r['id']) ? $r['id'] . ' ' : '',
+                    $r['bez'] ?? '?',
+                    zahl_kurz((float)($r['qm'] ?? 0))
+                );
             }
             $zusatz = '';
             if (count($teile) > 1) {
@@ -134,11 +178,10 @@ if ($flaeche !== '') {
                 );
             }
             $flaeche_text = sprintf(
-                '%s, %s, %s (%s, %s m²)%s',
+                '%s, %s (%s, %s m²)%s',
                 $e['bezeichnung'] ?? $flaeche,
-                $gebaeude_namen[$e['gebaeude'] ?? ''] ?? ($e['gebaeude'] ?? ''),
-                ($e['geschoss'] ?? '') === 'EG' ? 'Erdgeschoss' : 'Untergeschoss',
-                $e['id'],
+                $ort,
+                $e['marke'] ?? $e['id'],
                 zahl_kurz((float)$e['flaeche']),
                 $zusatz
             );

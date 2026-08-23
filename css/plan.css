@@ -301,13 +301,81 @@
 }
 .fkarte__raeume li {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.25rem 0;
+  gap: 0.6rem;
+  padding: 0.3rem 0;
   border-bottom: 1px dotted var(--color-line);
   color: var(--color-ink-soft);
 }
+.fkarte__raumname {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  min-width: 0;
+}
+.fkarte__raumrechts {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap;
+}
 .fkarte__raumqm { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Farbtupfer in der Farbe, die der Raum im Grundriss trägt. Er macht die
+   Zuordnung auch dort möglich, wo eine Einheit aus mehreren Farben besteht.
+   Der Rahmen ist nötig, weil die hellsten Töne sonst auf der eingefärbten
+   Karte verschwinden. */
+.fkarte__tupfer {
+  flex: none;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 2px;
+  border: 1px solid rgba(32, 48, 63, 0.35);
+}
+/* Die Raumnummer wie im Plan. Bewusst zurückhaltend gesetzt: Sie ist ein
+   Anhaltspunkt, nicht die Hauptsache der Zeile. */
+.fkarte__raumnr {
+  flex: none;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-ink);
+  opacity: 0.75;
+}
+
+/* Räume, die nur zusammen zu haben sind: eine Klammer am linken Rand fasst
+   sie sichtbar zusammen, darunter steht der Grund. Den Anfrage-Knopf trägt
+   dann die Karte, nicht die einzelne Zeile. */
+.fkarte__gruppe {
+  border-left: 2px solid var(--color-brick);
+  padding-left: 0.7em;
+  margin-left: 0.1em;
+}
+.fkarte__gruppennote {
+  margin: 0.45rem 0 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--color-ink-soft);
+}
+
+/* Knopf in der Raumzeile. Kleiner als der Knopf der Karte, damit die Zeile
+   eine Zeile bleibt und der Hauptknopf seinen Vorrang behält. */
+.btn--winzig {
+  flex: none;
+  font-size: 0.72rem;
+  padding: 0.25em 0.7em;
+  background-color: transparent;
+  color: var(--color-brick);
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.btn--winzig:hover { background-color: var(--color-brick); color: var(--color-paper); }
+.btn--winzig:focus-visible { outline: 2px solid var(--color-brick); outline-offset: 2px; }
 
 .fkarte__fuss { margin-top: auto; padding-top: 0.2rem; }
 .fkarte__fuss .btn { width: 100%; justify-content: center; }
@@ -380,7 +448,14 @@
 
 .anfrage-form { display: grid; gap: 0.9rem; }
 .feld-paar { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
-.feld { display: flex; flex-direction: column; }
+/* min-width: 0 ist hier nicht kosmetisch: Ohne die Angabe zieht sich das
+   Auswahlfeld auf die Breite seines laengsten Eintrags auf, und weil in der
+   Liste ganze Bezeichnungen stehen, sprengte das Formular auf schmalen
+   Bildschirmen die Seite. */
+.feld { display: flex; flex-direction: column; min-width: 0; }
+.feld input,
+.feld select,
+.feld textarea { max-width: 100%; }
 .feld label {
   font-size: 0.78rem;
   font-weight: 600;
@@ -435,3 +510,52 @@
   .flaechen-raster { grid-template-columns: 1fr; }
   .fkarte__kopf { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
 }
+
+/* =====================================================================
+   Vermieter-Seite
+   ---------------------------------------------------------------------
+   Zwei einfache Raster: die Leistungen als Textkacheln, darunter die
+   Kontaktangaben je Niederlassung. Bewusst ohne eigene Bildsprache, die
+   Seite stellt die Verwaltung vor und tritt hinter das Areal zurück.
+   ===================================================================== */
+
+.leistungen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+.leistung {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-top: 3px solid var(--color-brick);
+  padding: clamp(1.1rem, 2.2vw, 1.5rem);
+}
+.leistung h3 {
+  font-size: 1.05rem;
+  margin: 0 0 0.4rem;
+}
+.leistung p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-ink-soft);
+}
+
+.kontakt-karten {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+.kontakt-karte {
+  background-color: var(--color-paper-2);
+  border: 1px solid var(--color-line);
+  padding: clamp(1.1rem, 2.2vw, 1.5rem);
+}
+.kontakt-karte h3 { margin: 0; font-size: 1.1rem; }
+.kontakt-karte__rolle {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+}
+.kontakt-karte .kontakt-liste { margin-top: 1rem; }
+.kontakt-karte a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.kontakt-karte a:hover { color: var(--color-brick); }
