@@ -101,8 +101,8 @@ const WEBEREI_DATEN = {
       "nutzung": "Halle, Produktion, Lager",
       "status": "frei",
       "frei_ab": null,
-      "preis_min": 70,
-      "preis_max": 110,
+      "preis_min": 48,
+      "preis_max": 95,
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": false,
@@ -112,54 +112,63 @@ const WEBEREI_DATEN = {
           "id": "WEG2.1",
           "bez": "Raum 2.1, Halle",
           "qm": 1999.33,
+          "preis": 48,
           "farbe": "#ffe0e0"
         },
         {
           "id": "WEG2.8",
           "bez": "Raum 2.8",
           "qm": 31.28,
+          "preis": 48,
           "farbe": "#ffe0e0"
         },
         {
           "id": "WEG2.2",
           "bez": "Raum 2.2",
           "qm": 29.77,
+          "preis": 48,
           "farbe": "#ffe0e0"
         },
         {
           "id": "WEG2.3",
           "bez": "Raum 2.3",
           "qm": 26.81,
+          "preis": 48,
           "farbe": "#ffe0e0"
         },
         {
           "id": "WEG2.5",
           "bez": "WC 2.5",
           "qm": 12.69,
+          "preis": 48,
           "farbe": "#ffe0e0"
         },
         {
           "id": "WEG1",
           "bez": "Raum 1",
           "qm": 12.55,
+          "preis": 95,
           "farbe": "#ffffe0"
         },
         {
           "id": "WEG2.4",
           "bez": "Raum 2.4",
           "qm": 12.35,
+          "preis": 48,
           "farbe": "#ffe0e0"
         },
         {
           "id": "WEG2.7",
           "bez": "Raum 2.7",
           "qm": 12.34,
+          "preis": 48,
           "farbe": "#ffe0e0"
         },
         {
           "id": "WEG2.6",
           "bez": "WC 2.6",
           "qm": 12.13,
+          "preis": 48,
           "farbe": "#ffe0e0"
         }
       ],
@@ -175,8 +184,8 @@ const WEBEREI_DATEN = {
       "nutzung": "Lagerfläche",
       "status": "frei",
       "frei_ab": null,
-      "preis_min": 55,
-      "preis_max": 75,
+      "preis_min": 65,
+      "preis_max": 65,
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": true,
@@ -186,6 +195,7 @@ const WEBEREI_DATEN = {
           "id": "WUGBereich4",
           "bez": "Bereich 4",
           "qm": 889.23,
+          "preis": 65,
           "farbe": "#ffe0ff"
         }
       ],
@@ -212,6 +222,7 @@ const WEBEREI_DATEN = {
           "id": "WUGBereich1",
           "bez": "Bereich 1",
           "qm": 199.76,
+          "preis": null,
           "farbe": "#fff0e0"
         }
       ],
@@ -238,6 +249,7 @@ const WEBEREI_DATEN = {
           "id": "WUGBereich2",
           "bez": "Bereich 2",
           "qm": 116.54,
+          "preis": null,
           "farbe": "#ffffe0"
         }
       ],
@@ -264,6 +276,7 @@ const WEBEREI_DATEN = {
           "id": "WUGBereich3",
           "bez": "Bereich 3",
           "qm": 112.07,
+          "preis": null,
           "farbe": "#ffffe0"
         }
       ],
@@ -281,7 +294,7 @@ const WEBEREI_DATEN = {
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
-      "fixmiete": 350,
+      "fixmiete": 300,
       "nebenkosten": "inkl.",
       "teilbar": true,
       "hinweis": "Einzeln zu mieten.",
@@ -290,6 +303,7 @@ const WEBEREI_DATEN = {
           "id": "WUGSchutzraum1",
           "bez": "Schutzraum 1",
           "qm": 38.37,
+          "preis": null,
           "farbe": "#e0ffe0"
         }
       ],
@@ -316,24 +330,28 @@ const WEBEREI_DATEN = {
           "id": "WUGSchutzraum2.1",
           "bez": "Schutzraum 2.1",
           "qm": 37.68,
+          "preis": null,
           "farbe": "#e0f0ff"
         },
         {
           "id": "WUGSchutzraum2.2",
           "bez": "Schutzraum 2.2",
           "qm": 37.26,
+          "preis": null,
           "farbe": "#e0f0ff"
         },
         {
           "id": "WUGSchutzraum2.3",
           "bez": "Schutzraum 2.3",
           "qm": 23.18,
+          "preis": null,
           "farbe": "#e0f0ff"
         },
         {
           "id": null,
           "bez": "Nebenraum",
           "qm": 11.77,
+          "preis": null,
           "farbe": null
         }
       ],
@@ -360,12 +378,14 @@ const WEBEREI_DATEN = {
           "id": "WUGBunker",
           "bez": "Bunker",
           "qm": 130.6,
+          "preis": null,
           "farbe": "#f0e0ff"
         },
         {
           "id": null,
           "bez": "Nebenraum",
           "qm": 6.21,
+          "preis": null,
           "farbe": null
         }
       ],
@@ -392,6 +412,7 @@ const WEBEREI_DATEN = {
           "id": "29EGHalle",
           "bez": "Haupthalle",
           "qm": 2145.59,
+          "preis": null,
           "farbe": "#ffe0e0"
         }
       ],
@@ -407,7 +428,7 @@ const WEBEREI_DATEN = {
       "nutzung": "Büro",
       "status": "frei",
       "frei_ab": null,
-      "preis_min": 100,
+      "preis_min": 125,
       "preis_max": 125,
       "fixmiete": null,
       "nebenkosten": "exkl.",
@@ -418,6 +439,7 @@ const WEBEREI_DATEN = {
           "id": "29EG1",
           "bez": "Raum 1",
           "qm": 25.33,
+          "preis": 125,
           "farbe": "#e0e0ff"
         }
       ],
@@ -433,8 +455,8 @@ const WEBEREI_DATEN = {
       "nutzung": "Büro",
       "status": "frei",
       "frei_ab": null,
-      "preis_min": 100,
-      "preis_max": 125,
+      "preis_min": 95,
+      "preis_max": 95,
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": true,
@@ -444,6 +466,7 @@ const WEBEREI_DATEN = {
           "id": "29EG2.1",
           "bez": "Raum 2.1",
           "qm": 28.81,
+          "preis": 95,
           "farbe": "#e0f0ff"
         }
       ],
@@ -459,8 +482,8 @@ const WEBEREI_DATEN = {
       "nutzung": "Büro",
       "status": "frei",
       "frei_ab": null,
-      "preis_min": 100,
-      "preis_max": 125,
+      "preis_min": 95,
+      "preis_max": 95,
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": false,
@@ -470,12 +493,14 @@ const WEBEREI_DATEN = {
           "id": "29EG2.2",
           "bez": "Raum 2.2",
           "qm": 97.79,
+          "preis": 95,
           "farbe": "#e0f0ff"
         },
         {
           "id": "29EG2.3",
           "bez": "Raum 2.3",
           "qm": 23.7,
+          "preis": 95,
           "farbe": "#e0f0ff"
         }
       ],
@@ -491,8 +516,8 @@ const WEBEREI_DATEN = {
       "nutzung": "Büro",
       "status": "frei",
       "frei_ab": null,
-      "preis_min": 100,
-      "preis_max": 125,
+      "preis_min": 95,
+      "preis_max": 95,
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": false,
@@ -502,12 +527,14 @@ const WEBEREI_DATEN = {
           "id": "29EG3.1",
           "bez": "Raum 3.1",
           "qm": 116.95,
+          "preis": 95,
           "farbe": "#e0fff0"
         },
         {
           "id": "29EG3.2",
           "bez": "Raum 3.2",
           "qm": 10.02,
+          "preis": 95,
           "farbe": "#e0fff0"
         }
       ],
@@ -523,8 +550,8 @@ const WEBEREI_DATEN = {
       "nutzung": "Lagerfläche",
       "status": "frei",
       "frei_ab": null,
-      "preis_min": 65,
-      "preis_max": 85,
+      "preis_min": 45,
+      "preis_max": 60,
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": false,
@@ -534,18 +561,21 @@ const WEBEREI_DATEN = {
           "id": "29EG4.1",
           "bez": "Raum 4.1",
           "qm": 63.88,
+          "preis": 60,
           "farbe": "#fff0e0"
         },
         {
           "id": "29EG4.3",
           "bez": "Raum 4.3",
           "qm": 26.71,
+          "preis": 60,
           "farbe": "#fff0e0"
         },
         {
           "id": "29EG4.2",
           "bez": "Raum 4.2",
           "qm": 10.8,
+          "preis": 45,
           "farbe": "#fff0e0"
         }
       ],
@@ -563,7 +593,7 @@ const WEBEREI_DATEN = {
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
-      "fixmiete": 700,
+      "fixmiete": 750,
       "nebenkosten": "inkl-ohne-heizung",
       "teilbar": true,
       "hinweis": null,
@@ -572,6 +602,7 @@ const WEBEREI_DATEN = {
           "id": "29UG1",
           "bez": "Raum 1",
           "qm": 66.75,
+          "preis": null,
           "farbe": "#ffffe0"
         }
       ],
@@ -589,7 +620,7 @@ const WEBEREI_DATEN = {
       "frei_ab": null,
       "preis_min": null,
       "preis_max": null,
-      "fixmiete": 850,
+      "fixmiete": 950,
       "nebenkosten": "inkl-ohne-heizung",
       "teilbar": false,
       "hinweis": "Nur zusammen zu mieten, Nebenraum inbegriffen.",
@@ -598,30 +629,35 @@ const WEBEREI_DATEN = {
           "id": "29UG2.1",
           "bez": "Raum 2.1",
           "qm": 26.33,
+          "preis": null,
           "farbe": "#e0fff0"
         },
         {
           "id": "29UG2.3",
           "bez": "Raum 2.3",
           "qm": 18.8,
+          "preis": null,
           "farbe": "#e0fff0"
         },
         {
           "id": "29UG2.2",
           "bez": "Raum 2.2",
           "qm": 13.7,
+          "preis": null,
           "farbe": "#e0fff0"
         },
         {
           "id": "29UG2.4",
           "bez": "Raum 2.4",
           "qm": 11.02,
+          "preis": null,
           "farbe": "#e0fff0"
         },
         {
           "id": null,
           "bez": "Nebenraum",
           "qm": 6.43,
+          "preis": null,
           "farbe": null
         }
       ],
@@ -637,8 +673,8 @@ const WEBEREI_DATEN = {
       "nutzung": "Büro, Gewerbe",
       "status": "bald",
       "frei_ab": "2027-02-01",
-      "preis_min": 115,
-      "preis_max": 140,
+      "preis_min": 95,
+      "preis_max": 95,
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": true,
@@ -648,12 +684,14 @@ const WEBEREI_DATEN = {
           "id": "27EG4",
           "bez": "Raum 4",
           "qm": 58.57,
+          "preis": 95,
           "farbe": "#efffe0"
         },
         {
           "id": "27EG3",
           "bez": "Raum 3",
           "qm": 37.16,
+          "preis": 95,
           "farbe": "#ffe0e0"
         }
       ],
@@ -669,8 +707,8 @@ const WEBEREI_DATEN = {
       "nutzung": "Büro, Gewerbe",
       "status": "frei",
       "frei_ab": null,
-      "preis_min": 115,
-      "preis_max": 140,
+      "preis_min": 110,
+      "preis_max": 110,
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": false,
@@ -680,30 +718,35 @@ const WEBEREI_DATEN = {
           "id": "27EG5.2",
           "bez": "Raum 5.2",
           "qm": 31.79,
+          "preis": 110,
           "farbe": "#f0e0ff"
         },
         {
           "id": "27EG5.4",
           "bez": "Raum 5.4",
           "qm": 21.21,
+          "preis": 110,
           "farbe": "#f0e0ff"
         },
         {
           "id": "27EG5.5",
           "bez": "Raum 5.5",
           "qm": 21.05,
+          "preis": 110,
           "farbe": "#f0e0ff"
         },
         {
           "id": "27EG5.1",
           "bez": "Raum 5.1",
           "qm": 16.45,
+          "preis": 110,
           "farbe": "#f0e0ff"
         },
         {
           "id": "27EG5.3",
           "bez": "Raum 5.3",
           "qm": 10.57,
+          "preis": 110,
           "farbe": "#f0e0ff"
         }
       ],
@@ -730,12 +773,14 @@ const WEBEREI_DATEN = {
           "id": "27EG1.1",
           "bez": "Raum 1.1",
           "qm": 50.26,
+          "preis": null,
           "farbe": "#e0fff0"
         },
         {
           "id": "27EG1.2",
           "bez": "Raum 1.2",
           "qm": 10.04,
+          "preis": null,
           "farbe": "#e0fff0"
         }
       ],
@@ -762,36 +807,42 @@ const WEBEREI_DATEN = {
           "id": "27EG2.1",
           "bez": "Raum 2.1",
           "qm": 238.51,
+          "preis": null,
           "farbe": "#fff0e0"
         },
         {
           "id": "27EG2.6",
           "bez": "Raum 2.6",
           "qm": 42.13,
+          "preis": null,
           "farbe": "#fff0e0"
         },
         {
           "id": "27EG2.4",
           "bez": "Raum 2.4",
           "qm": 23.76,
+          "preis": null,
           "farbe": "#fff0e0"
         },
         {
           "id": "27EG2.2",
           "bez": "Raum 2.2",
           "qm": 18.77,
+          "preis": null,
           "farbe": "#fff0e0"
         },
         {
           "id": "27EG2.3",
           "bez": "Raum 2.3",
           "qm": 17.1,
+          "preis": null,
           "farbe": "#fff0e0"
         },
         {
           "id": "27EG2.5",
           "bez": "Raum 2.5",
           "qm": 16.17,
+          "preis": null,
           "farbe": "#fff0e0"
         }
       ],
@@ -818,18 +869,21 @@ const WEBEREI_DATEN = {
           "id": "27UG1.2",
           "bez": "Raum 1.2",
           "qm": 152.23,
+          "preis": null,
           "farbe": "#fff0e0"
         },
         {
           "id": "27UG1.3",
           "bez": "Raum 1.3",
           "qm": 20.12,
+          "preis": null,
           "farbe": "#fff0e0"
         },
         {
           "id": "27UG1.1",
           "bez": "Raum 1.1",
           "qm": 9.17,
+          "preis": null,
           "farbe": "#fff0e0"
         }
       ],
@@ -856,18 +910,21 @@ const WEBEREI_DATEN = {
           "id": "27UG2.1",
           "bez": "Raum 2.1",
           "qm": 218.94,
+          "preis": null,
           "farbe": "#e0fff0"
         },
         {
           "id": "27UG2.3",
           "bez": "Raum 2.3",
           "qm": 18.77,
+          "preis": null,
           "farbe": "#e0fff0"
         },
         {
           "id": "27UG2.2",
           "bez": "Raum 2.2",
           "qm": 16.5,
+          "preis": null,
           "farbe": "#e0fff0"
         }
       ],
@@ -894,18 +951,21 @@ const WEBEREI_DATEN = {
           "id": "27UG3.2",
           "bez": "Raum 3.2",
           "qm": 54.24,
+          "preis": null,
           "farbe": "#e0e0ff"
         },
         {
           "id": "27UG3.1",
           "bez": "Raum 3.1",
           "qm": 32.25,
+          "preis": null,
           "farbe": "#e0e0ff"
         },
         {
           "id": "27UG3.3",
           "bez": "Raum 3.3",
           "qm": 18.47,
+          "preis": null,
           "farbe": "#e0e0ff"
         }
       ],
@@ -922,7 +982,7 @@ const WEBEREI_DATEN = {
       "status": "frei",
       "frei_ab": null,
       "preis_min": 95,
-      "preis_max": 110,
+      "preis_max": 95,
       "fixmiete": null,
       "nebenkosten": "exkl.",
       "teilbar": false,
@@ -932,12 +992,14 @@ const WEBEREI_DATEN = {
           "id": "ROEG1",
           "bez": "Hauptfläche",
           "qm": 623.4,
+          "preis": 95,
           "farbe": "#fff0e0"
         },
         {
           "id": null,
           "bez": "WC",
           "qm": 7.29,
+          "preis": null,
           "farbe": null
         }
       ],
@@ -964,12 +1026,14 @@ const WEBEREI_DATEN = {
           "id": "ROUG2",
           "bez": "Werkstatt Teil 2",
           "qm": 78.07,
+          "preis": null,
           "farbe": "#fff0e0"
         },
         {
           "id": "ROUG1",
           "bez": "Werkstatt Teil 1",
           "qm": 51.61,
+          "preis": null,
           "farbe": "#fff0e0"
         }
       ],
@@ -996,6 +1060,7 @@ const WEBEREI_DATEN = {
           "id": "SCHEG1",
           "bez": "Halle",
           "qm": 364.23,
+          "preis": null,
           "farbe": "#fff0e0"
         }
       ],

@@ -559,3 +559,56 @@
 .kontakt-karte .kontakt-liste { margin-top: 1rem; }
 .kontakt-karte a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .kontakt-karte a:hover { color: var(--color-brick); }
+
+/* Preis in der Raumzeile. Steht nur dort, wo die Räume einer Einheit
+   verschieden teuer sind, sonst wäre es die Zahl von der Karte in Serie. */
+.fkarte__raumpreis {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* --- Ansätze für die Nebenkosten -------------------------------------- */
+/* Steht unter der Flächenliste, gleich neben den Hinweisen zum Mietzins.
+   Wer Kosten vergleicht, findet damit beides an derselben Stelle. */
+.nebenkosten {
+  margin-top: 1.4rem;
+  padding: clamp(1rem, 2.2vw, 1.4rem);
+  background-color: var(--color-paper-2);
+  border: 1px solid var(--color-line);
+  border-left: 3px solid var(--color-brick);
+}
+.nebenkosten__titel {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.nebenkosten__saetze {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.9rem 1.2rem;
+}
+.nebenkosten__saetze dt {
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+}
+.nebenkosten__saetze dd {
+  margin: 0.1rem 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.nebenkosten__fuss {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+  max-width: 80ch;
+}

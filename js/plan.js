@@ -62,10 +62,15 @@
   }
 
   /* Mietzins in zwei Zeilen: der Betrag, darunter die Bezugsgrösse.
-     Drei Fälle: fester Monatszins, Preisspanne je m² und Jahr, oder
-     nichts Hinterlegtes. Bei vermieteten Flächen gibt es null, dann
-     entfällt die Zeile ganz. Ihre Mietzinse sind vertraulich, und das
-     Statusabzeichen sagt bereits, dass nichts zu holen ist. */
+     Drei Fälle: fester Monatszins, Quadratmeterpreis, oder nichts
+     Hinterlegtes. Bei vermieteten Flächen gibt es null, dann entfällt die
+     Zeile ganz. Ihre Mietzinse sind vertraulich, und das Statusabzeichen
+     sagt bereits, dass nichts zu holen ist.
+
+     Eine Spanne bedeutet seit dem 23.08.2026 etwas anderes als vorher: Sie
+     sagt nicht mehr «im heutigen Zustand bis ausgebaut», sondern dass die
+     Räume dieser Einheit verschieden teuer sind. Welcher Raum was kostet,
+     steht dann in der aufgeklappten Raumliste. */
   function preisInfo(e) {
     if (e.status === "vermietet") { return null; }
     const nk = NEBENKOSTEN_TEXT[e.nebenkosten] || "exkl. Nebenkosten";
@@ -391,6 +396,8 @@
        einziger Knopf für das Ganze. Ein Knopf je Zeile wäre dort ein
        falsches Versprechen. */
     const einzeln = e.teilbar && e.status !== "vermietet";
+    const gemischt = e.status !== "vermietet"
+      && e.preis_min && e.preis_max && e.preis_max > e.preis_min;
 
     if (e.raeume && e.raeume.length > 1) {
       const klapp = element("details", "fkarte__raeume");
@@ -418,6 +425,12 @@
 
         const rechts = element("span", "fkarte__raumrechts");
         rechts.appendChild(element("span", "fkarte__raumqm", flaecheText(r.qm)));
+        /* Der Preis steht nur dort, wo die Räume der Einheit verschieden
+           teuer sind. Sonst wiederholte jede Zeile die Zahl von der Karte. */
+        if (gemischt && r.preis) {
+          rechts.appendChild(element("span", "fkarte__raumpreis",
+            "CHF " + zahl(r.preis) + ".–"));
+        }
         if (einzeln) {
           const knopf = element("button", "btn btn--winzig");
           knopf.type = "button";

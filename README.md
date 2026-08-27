@@ -177,19 +177,31 @@ und ohne PHP laufen.
 | `nutzung`     | Nutzungsart, z.B. «Büro, Gewerbe»                               |
 | `status`      | `"frei"` (grün), `"bald"` (gelb) oder `"vermietet"` (rot)        |
 | `frei_ab`     | Datum als `JJJJ-MM-TT`, nur bei Status `bald`                   |
-| `preis_min`   | CHF je m² und Jahr bei Übernahme im heutigen Zustand, oder `null` |
-| `preis_max`   | CHF je m² und Jahr ausgebaut und bezugsbereit, oder `null`      |
+| `preis_min`   | tiefster Quadratmeterpreis der Räume dieser Einheit, oder `null` |
+| `preis_max`   | höchster Quadratmeterpreis der Räume dieser Einheit, oder `null` |
 | `fixmiete`    | fester Monatszins in CHF. Gesetzt, gilt er **anstelle** der m²-Preise |
 | `nebenkosten` | `"exkl."`, `"inkl."` oder `"inkl-ohne-heizung"`, erscheint hinter dem Mietzins |
 | `teilbar`     | `true`, wenn die Räume auch einzeln zu haben sind               |
 | `hinweis`     | ein Satz für die Karte, z.B. «Auf Wunsch zusammen mit Raum 1.»  |
 | `farbe`       | Füllfarbe der Fläche im Grundriss als `#rrggbb`, siehe unten     |
-| `raeume`      | Einzelräume der Einheit, je `id` (Nummer im Plan), `bez`, `qm` und `farbe` |
+| `raeume`      | Einzelräume der Einheit, je `id` (Nummer im Plan), `bez`, `qm`, `farbe` und `preis` |
 
 **Anzeige des Mietzinses** in dieser Reihenfolge: bei Status `vermietet` gar
 kein Betrag; sonst `fixmiete`, wenn gesetzt; sonst die Spanne `preis_min` bis
 `preis_max`; sind beide gleich oder nur einer gesetzt, nur dieser Wert; sonst
 «auf Anfrage».
+
+**Achtung, die Spanne bedeutet seit dem 23.08.2026 etwas anderes.** Früher stand
+sie für «im heutigen Zustand bis ausgebaut». Die Mietzinsliste kennt seither nur
+noch eine Zahl je Raum. Eine Spanne auf der Karte heisst jetzt: Die Räume dieser
+Einheit sind verschieden teuer. In der aufgeklappten Raumliste steht dann bei
+jedem Raum sein eigener Preis. Betroffen sind zwei Einheiten, der Websaal EG
+(Raum 1 zu 95, alles übrige zu 48) und Gebäude 29 EG Raum 4 (60, 45, 60).
+
+**Nebenkosten:** Unter der Flächenliste stehen die vier Ansätze der Verwaltung,
+je m² und Jahr: Heizkosten-Akonto 8.50, Strom 6.50, Wasser 1.15, übrige
+Nebenkosten 1.25. Sie stehen fest im HTML von `vermietung.html`, nicht in den
+Daten, weil sie für das ganze Areal gelten und nicht je Fläche.
 
 **Zu `raeume` und `teilbar`:** Die Aufteilung stammt aus der Gebäudeaufnahme und
 wird im Admin nur angezeigt, nicht verändert. Jeder Raum trägt seine Nummer aus
