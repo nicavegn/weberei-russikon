@@ -381,7 +381,10 @@ p { margin: 0 0 1rem; }
    Er nimmt die Farbe der Ueberschriften weiter unten auf, muss aber heller
    bleiben als diese: Auf dem Foto steht die Schrift auf mitteldunklem
    Grund, auf Papier dagegen auf hellem. */
-.hero .eyebrow { color: #d0927b; }
+/* Groesser als die uebrigen Vorspaenne der Seite (0.78rem). Er steht hier
+   allein ueber dem Titel und traegt den Namen des Areals, da wirkte der
+   kleine Grad verloren. Die Sperrung bleibt, sie macht die Zeile ruhig. */
+.hero .eyebrow { color: #d0927b; font-size: 0.95rem; }
 .hero__inner p { color: rgba(241, 235, 221, 0.92); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
 /* Ghost-Button auf dem dunklen Hero hell statt dunkel, damit er sichtbar ist */
