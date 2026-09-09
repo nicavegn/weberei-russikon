@@ -341,18 +341,33 @@ p { margin: 0 0 1rem; }
 .hero__media img { width: 100%; height: 100%; object-fit: cover; }
 .hero__media::after {
   /* Tusche-Verlauf fuer Lesbarkeit der Schrift.
-     Der Textblock sitzt im oberen Drittel, genau dort ist das Foto am
-     hellsten (Sheddach-Fenster). Deshalb ist der Verlauf im Textband
-     kraeftig und wird erst ganz oben wieder duenn, damit das Foto atmet. */
+
+     Seit dem 09.09.2026 steht oben die Aussenansicht von der Strasse. Der
+     Vorspann sitzt dort auf blauem Himmel, gemessen rgb(115,157,211). Ein
+     Verlauf allein von unten nach oben muesste ueber 80 Prozent stark sein,
+     um den kleinen Backsteinton lesbar zu halten, und wuerde das Foto
+     zudecken.
+
+     Darum zwei Verlaeufe uebereinander: einer von links, der genau die
+     Textspalte abdunkelt und nach rechts ausblendet, und ein schwaecherer
+     von unten. Zusammen ergeben sie im Textband rund 80 Prozent, rechts vom
+     Text dagegen nur etwa 50, dort bleibt das Gebaeude hell. Der erste
+     Verlauf liegt oben, beide zusammen decken 1-(1-a1)(1-a2) ab. */
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(20, 30, 40, 0.88) 0%,
-    rgba(20, 30, 40, 0.72) 50%,
-    rgba(20, 30, 40, 0.66) 84%,
-    rgba(20, 30, 40, 0.28) 100%);
+  background:
+    linear-gradient(
+      to right,
+      rgba(20, 30, 40, 0.68) 0%,
+      rgba(20, 30, 40, 0.62) 48%,
+      rgba(20, 30, 40, 0) 80%),
+    linear-gradient(
+      to top,
+      rgba(20, 30, 40, 0.72) 0%,
+      rgba(20, 30, 40, 0.52) 50%,
+      rgba(20, 30, 40, 0.45) 85%,
+      rgba(20, 30, 40, 0.22) 100%);
 }
 .hero__inner {
   position: relative;
@@ -576,6 +591,24 @@ p { margin: 0 0 1rem; }
    Responsive
    ===================================================================== */
 @media (max-width: 880px) {
+  /* Schmal fuellt der Hero-Text die ganze Breite. Der seitliche Verlauf darf
+     darum nicht schon bei 80 Prozent auslaufen, sonst steht das Ende der
+     Zeilen wieder auf hellem Himmel. Gemessen unter den Buchstaben sank der
+     Vorspann dort auf 3.0 zu 1. */
+  .hero__media::after {
+    background:
+      linear-gradient(
+        to right,
+        rgba(20, 30, 40, 0.68) 0%,
+        rgba(20, 30, 40, 0.64) 60%,
+        rgba(20, 30, 40, 0.60) 100%),
+      linear-gradient(
+        to top,
+        rgba(20, 30, 40, 0.72) 0%,
+        rgba(20, 30, 40, 0.52) 50%,
+        rgba(20, 30, 40, 0.45) 85%,
+        rgba(20, 30, 40, 0.22) 100%);
+  }
   .nav__toggle { display: flex; }
   .nav__links {
     position: absolute;
