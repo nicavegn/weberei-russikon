@@ -69,7 +69,7 @@ webseite/
 ├── vermietung.html       Grundrisse, Flächenliste, Anfrageformular
 ├── README.md             dieses Dokument
 ├── HOSTING.md            Inbetriebnahme auf einem Schweizer Hoster
-├── robots.txt            Disallow all, solange die Seite nicht öffentlich ist
+├── robots.txt            sperrt nur /admin/ und /api/
 ├── admin/
 │   ├── index.php         Anmeldung und Flächenverwaltung
 │   ├── einrichten.php    einmalige Ersteinrichtung, sperrt sich danach selbst

@@ -166,22 +166,27 @@ immer an einer `.htaccess`. Dann diese Datei kurz umbenennen und melden, welche.
 
 ## 8. Sichtbarkeit für Suchmaschinen
 
-Solange die Seite nicht öffentlich sein soll, bleibt alles wie bisher:
-
-- `robots.txt` enthält `Disallow: /`
-- alle vier Seiten tragen `<meta name="robots" content="noindex, nofollow">`
-
-**Zum Freischalten** entfernen Sie diese `meta`-Zeile aus `index.html`,
-`geschichte.html`, `vermietung.html` und `verwalter.html` und ändern
-`robots.txt` auf:
+**Die Seite ist seit dem 01.10.2026 freigegeben.** Dafür wurde die Zeile
+`<meta name="robots" content="noindex, nofollow">` aus `index.html`,
+`geschichte.html`, `vermietung.html` und `verwalter.html` entfernt und
+`robots.txt` geöffnet:
 
 ```
 User-agent: *
-Allow: /
+Disallow: /admin/
+Disallow: /api/
 ```
 
-Der Admin-Bereich behält seine `noindex`-Angabe in jedem Fall. Danach neu
-hochladen, wie in Abschnitt 9.
+- **Der Admin-Bereich behält seine `noindex`-Angabe** in jedem Fall.
+- **`/data/`, `/css/` und `/js/` dürfen nie gesperrt werden.** Die Flächenliste
+  entsteht erst im Browser aus `data/flaechen.js`. Ohne diese Datei sieht Google
+  leere Karten.
+- Jede Seite trägt ein `rel="canonical"` auf die Adresse ohne `www`. Beide
+  Adressen liefern denselben Inhalt, so zählt Google ihn nur einmal.
+
+**Zum Wiedersperren** (etwa bei einer grösseren Überarbeitung) die
+`meta`-Zeile mit `noindex, nofollow` wieder in die vier Seiten setzen und in
+`robots.txt` `Disallow: /` eintragen. Danach neu hochladen, wie in Abschnitt 9.
 
 ## 9. Updates aufspielen
 
