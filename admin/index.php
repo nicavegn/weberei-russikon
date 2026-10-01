@@ -129,9 +129,9 @@ function anmeldeseite(?string $meldung, string $art): void
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Anmeldung | Alte Weberei Russikon</title>
-  <link rel="stylesheet" href="../css/fonts.css?v=11">
-  <link rel="stylesheet" href="../css/style.css?v=11">
-  <link rel="stylesheet" href="admin.css?v=11">
+  <link rel="stylesheet" href="../css/fonts.css?v=12">
+  <link rel="stylesheet" href="../css/style.css?v=12">
+  <link rel="stylesheet" href="admin.css?v=12">
 </head>
 <body class="admin-body">
   <main class="admin-schmal admin-anmeldung">
@@ -168,9 +168,9 @@ function anmeldeseite(?string $meldung, string $art): void
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Flächenverwaltung | Alte Weberei Russikon</title>
-  <link rel="stylesheet" href="../css/fonts.css?v=11">
-  <link rel="stylesheet" href="../css/style.css?v=11">
-  <link rel="stylesheet" href="admin.css?v=11">
+  <link rel="stylesheet" href="../css/fonts.css?v=12">
+  <link rel="stylesheet" href="../css/style.css?v=12">
+  <link rel="stylesheet" href="admin.css?v=12">
 </head>
 <body class="admin-body">
 
@@ -351,6 +351,6 @@ function anmeldeseite(?string $meldung, string $art): void
     </form>
   </main>
 
-  <script src="admin.js?v=11"></script>
+  <script src="admin.js?v=12"></script>
 </body>
 </html>
