@@ -191,14 +191,25 @@ hochladen, wie in Abschnitt 9.
 py unterlagen/werkzeuge/hochladen_vorbereiten.py --update
 ```
 
-Der Modus `--update` lässt `data/flaechen.json` und `data/flaechen.js` weg.
-Das ist wichtig: Diese beiden Dateien schreibt der Admin-Bereich auf dem
-Server. Wer die lokalen Fassungen darüber lädt, macht alle Änderungen rückgängig,
-die dort inzwischen gemacht wurden. Der Upload-Ordner enthält sie dann gar
-nicht erst, ein Überschreiben ist nicht möglich.
+Der Modus `--update` lässt `data/flaechen.json`, `data/flaechen.js` und
+`admin/einrichten.php` weg.
+
+- Die beiden Datendateien schreibt der Admin-Bereich auf dem Server. Wer die
+  lokalen Fassungen darüber lädt, macht alle Änderungen rückgängig, die dort
+  inzwischen gemacht wurden.
+- `einrichten.php` wurde nach der Einrichtung bewusst vom Server gelöscht und
+  soll dort nicht wieder auftauchen.
+
+Der Upload-Ordner enthält diese Dateien dann gar nicht erst, ein Überschreiben
+ist nicht möglich.
 
 Danach den Inhalt von `hochladen/` wie in Abschnitt 4 hochladen. WinSCP fragt
 bei vorhandenen Dateien nach, *Alle überschreiben* genügt.
+
+**Gelöschtes bleibt auf dem Server liegen.** Das Hochladen fügt hinzu und
+überschreibt, es räumt nicht auf. Wurde lokal ein Bild oder eine Seite entfernt,
+muss die Datei auf dem Server in WinSCP von Hand gelöscht werden, sonst bleibt
+sie unter ihrer Adresse erreichbar.
 
 Wer Änderungen an `css/` oder `js/` aufspielt, zählt vorher die Versionsnummer
 hoch, siehe `README.md`, Abschnitt «Zwischenspeicher der Browser».
