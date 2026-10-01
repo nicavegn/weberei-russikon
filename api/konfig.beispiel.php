@@ -20,11 +20,11 @@ return [
     'admin_hash'     => '',   // Ergebnis von password_hash(), nie das Passwort selbst
 
     // Wohin die Anfragen aus dem Formular gehen
-    'empfaenger'     => 'vermietung@weberei-russikon.ch',
+    'empfaenger'     => 'vermietung@alte-weberei-russikon.ch',
 
     // Absenderadresse. Muss zur Domain gehören, sonst stufen Mailserver
     // die Nachricht als Fälschung ein und sortieren sie aus.
-    'absender'       => 'website@weberei-russikon.ch',
+    'absender'       => 'website@alte-weberei-russikon.ch',
     'absender_name'  => 'Alte Weberei Russikon',
 
     // Betreffzeile der Anfragemails

@@ -211,9 +211,12 @@ function anmeldeseite(?string $meldung, string $art): void
         </li>
         <li>
           <strong>Mietzins von, bis</strong>
-          Franken je m² und Jahr. «von» gilt für die Übernahme im heutigen
-          Zustand, «bis» für die ausgebaute Fläche. Wird nur ein Wert erfasst,
-          zeigt die Website diesen. Bleiben beide leer, steht «auf Anfrage».
+          Franken je m² und Jahr. Sind alle Räume der Einheit gleich teuer, nur
+          «von» ausfüllen, dann zeigt die Website diesen einen Preis. Sind sie
+          verschieden teuer, steht links der tiefste und rechts der höchste Preis,
+          und die Website zeigt eine Spanne. Bleiben beide leer, steht «auf
+          Anfrage». Die Preise der einzelnen Räume stammen aus der Mietzinsliste
+          und werden hier nicht geändert.
         </li>
         <li>
           <strong>Fixmiete</strong>

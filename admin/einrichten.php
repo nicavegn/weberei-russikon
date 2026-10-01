@@ -138,7 +138,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                  value="<?= htmlspecialchars((string)($_POST['absender'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
           <p class="feld-hinweis">
             Muss zur eigenen Domain gehören, zum Beispiel
-            website@weberei-russikon.ch. Fremde Adressen werden von
+            website@alte-weberei-russikon.ch. Fremde Adressen werden von
             Mailservern als Fälschung aussortiert.
           </p>
         </div>
